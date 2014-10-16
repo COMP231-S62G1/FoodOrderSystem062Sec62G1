@@ -1,0 +1,26 @@
+
+<LinearLayout 
+	xmlns:android ="http://schemas.android.com/apk/res/android"
+	android:background="@drawable/catebg"
+	android:orientation = "vertical" 
+	android:layout_width = "fill_parent"
+	android:layout_height = "fill_parent" >
+	<LinearLayout
+		android:orientation = "horizontal" 
+		android:layout_width = "fill_parent"
+		android:layout_height = "wrap_content" 
+		android:gravity="center_horizontal">
+	</LinearLayout>
+        
+    <ListView   
+	     	android:dividerHeight="1dip" 
+	     	android:id="@+id/rest_listview" 
+	     	android:divider="#e0e0e0" 
+	     	android:layout_width="fill_parent" 
+	     	android:layout_height="wrap_content" 
+	     	android:cacheColorHint="#00000000" 
+	     	android:background="@drawable/itembg" 
+	     	>
+	     </ListView> 
+    
+</LinearLayout>
