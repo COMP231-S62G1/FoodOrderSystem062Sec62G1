@@ -8,7 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.BaseAdapter;import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,7 +27,27 @@ public class RestListActivity extends Activity {
 		setTitle("Restaurants");
 		getRestList();
 		listView=(ListView)findViewById(R.id.rest_listview);
+		myBaseAdapter=new MyBaseAdapter();
+		listView.setAdapter(myBaseAdapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if(restList==null){
+					return;
+				}
+				Rest cateItem = restList.get(position);
+				restId = Integer.parseInt(cateItem.getIdrest());
+				Object obj=(Object)restList.get(position);
+				// Victor_Todo; implement something to get data from server
+				if(obj instanceof String){
+					return;
+				}
+			}
+		});
+		
 	}
+	
 	@SuppressWarnings("unchecked")
 	private void getRestList()
 	{
