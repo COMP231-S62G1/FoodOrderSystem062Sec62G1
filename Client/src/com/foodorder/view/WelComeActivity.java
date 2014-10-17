@@ -27,6 +27,7 @@ import com.foodorder.beans.Rest;
 public class WelComeActivity extends Activity {
 
 	private ArrayList<Rest> restList;
+	private DialogActivity dialog;
 
 	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -107,6 +108,11 @@ public class WelComeActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
+			if (mType == 0) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
 			super.onPreExecute();
 		}
 
@@ -133,6 +139,9 @@ public class WelComeActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
+			if (null != dialog && dialog.isShowing()) {
+				dialog.dismiss();
+			}
 
 			if (result == null || result.equals("")) {
 				handler.sendEmptyMessage(3);
