@@ -2,7 +2,10 @@ package com.foodorder.view;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,10 +17,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.foodorder.beans.Rest;
+import com.foodorder.beans.FoodListsViewImage;
+
 public class RestListActivity extends Activity {
 	
 	private DialogActivity dialog;
 	private ArrayList<Rest> restList;
+	private MyBaseAdapter myBaseAdapter;
 	private int restId;
 	private ListView listView;
 	@Override
@@ -40,6 +47,8 @@ public class RestListActivity extends Activity {
 				restId = Integer.parseInt(cateItem.getIdrest());
 				Object obj=(Object)restList.get(position);
 				// Victor_Todo; implement something to get data from server
+				//GetData dataGet = new GetData(RestListActivity.this,0);
+				//dataGet.execute("");
 				if(obj instanceof String){
 					return;
 				}
@@ -141,4 +150,28 @@ public class RestListActivity extends Activity {
 			return view;
 		}
 	}
+
+	private class GetData extends AsyncTask<String, String, String> {
+		private Context mContext;
+		private int mType;
+
+		private GetData(Context context, int type) {
+			this.mContext = context;
+			this.mType = type;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+		}
 }
