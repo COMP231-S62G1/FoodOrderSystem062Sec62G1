@@ -1,13 +1,14 @@
 package com.foodorder.view;
 
 import java.util.ArrayList;
+
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -16,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.foodorder.client.R;
 
 import com.foodorder.beans.Rest;
 import com.foodorder.beans.FoodListsViewImage;
@@ -174,4 +176,5 @@ public class RestListActivity extends Activity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 		}
+	}
 }
