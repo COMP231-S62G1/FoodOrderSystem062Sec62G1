@@ -56,7 +56,7 @@
             android:label="@string/title_activity_menu_list" >
         </activity>
         <activity
-            android:name="com.foodorder.view.ShoppingCart"
+            android:name="com.foodorder.view.ShoppingCartActivity"
             android:label="@string/title_activity_shopping_cart" >
         </activity>
         <activity

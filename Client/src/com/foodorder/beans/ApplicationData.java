@@ -28,18 +28,18 @@ public class ApplicationData extends Application{
 	static ArrayList<Object> listdata = new ArrayList<Object>();
 	
 //	static StoreUserInfo userinfo = new StoreUserInfo();
-//	static ArrayList<CategoryItem> cateItem = new ArrayList<CategoryItem>();
+	static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
 //	
-//	public static ArrayList<CategoryItem> getCategoryList()
-//	{
-//		return cateItem;
-//	}
-//	
-//	public static void SetCategoryList(ArrayList<CategoryItem> listCategory)
-//	{
-//		cateItem = listCategory;
-//	}
-//	
+	public static ArrayList<MenuModel> getCartList()
+	{
+		return cartList;
+	}
+	
+	public static void setCartList(ArrayList<MenuModel> listCart)
+	{
+		cartList = listCart;
+	}
+	
 //	public static StoreUserInfo GetUserInforamtion()
 //	{
 //		return userinfo;

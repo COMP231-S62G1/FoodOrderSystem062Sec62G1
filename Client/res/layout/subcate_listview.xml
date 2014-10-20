@@ -27,12 +27,13 @@
         android:layout_toRightOf="@+id/img"
         android:text="info" />
 
-    <ImageView
-        android:id="@+id/favImg"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/heart" />
+        android:layout_alignTop="@+id/info"
+        android:layout_marginRight="16dp"
+        android:text="@string/btnAddCart" />
 
 </RelativeLayout>

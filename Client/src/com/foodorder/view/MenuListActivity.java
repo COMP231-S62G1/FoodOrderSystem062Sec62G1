@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 
 import com.foodorder.beans.AppConstants;
+import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.Rest;
@@ -68,12 +69,26 @@ public class MenuListActivity extends Activity {
 	private MenuModel nextPageNote;
 	private int noteId;
 	private ListView listView;
-
+	private Button btnviewCart;
+	private Intent intentViewCart;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu_list);
 		setTitle("Menu List");
+		
+		this.btnviewCart = (Button) findViewById(R.id.btnViewCart1);	
+		this.btnviewCart.setOnClickListener(new OnClickListener() {
+		public void onClick(View v) {  						
+			intentViewCart = new Intent(MenuListActivity.this,ShoppingCartActivity.class);
+			//intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intentViewCart.putExtra("ViewCart","View Cart Successful");
+			startActivity(intentViewCart);		
+		}
+
+	});
+		
 		getMenuList();
 		listView = (ListView) findViewById(R.id.rest_listview);
 		myBaseAdapter = new MyBaseAdapter();
@@ -142,7 +157,24 @@ public class MenuListActivity extends Activity {
 			Object obj = menuList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
-			ImageView right_flag = (ImageView) view.findViewById(R.id.favImg);
+			Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
+			cartAdd.setTag(0);
+			
+			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
+				public void onClick(View v) {  
+								
+					int position = (Integer)v.getTag();
+					Toast.makeText(getApplicationContext(), "Array position number " + position, Toast.LENGTH_LONG).show();
+
+					ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+					MenuModel aMenu = menuList.get(position);
+					listMenuApp.add(aMenu);
+					ApplicationData.setCartList(listMenuApp);					
+				
+				}
+			});
+			
+			//ImageView right_flag = (ImageView) view.findViewById(R.id.favImg);
 			if (obj instanceof MenuModel) {
 				final MenuModel aMenuItem = (MenuModel) obj;
 				menu_item_title.setText("Name: " + aMenuItem.getName() + "\n"
