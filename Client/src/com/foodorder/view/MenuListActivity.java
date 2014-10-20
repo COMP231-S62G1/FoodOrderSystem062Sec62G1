@@ -146,7 +146,7 @@ public class MenuListActivity extends Activity {
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
 			Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
-			final TextView txtQuanty = (TextView) view.findViewById(R.id.txtQty);
+			final EditText txtQuanty = (EditText) view.findViewById(R.id.txtQty);
 			cartAdd.setTag(0);
 			
 			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
