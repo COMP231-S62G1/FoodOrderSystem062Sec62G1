@@ -26,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import android.content.Context;
@@ -34,6 +35,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,11 +48,24 @@ public class MenuListActivity extends Activity {
 	private ArrayList<MenuModel> menuList;
 	private MyBaseAdapter myBaseAdapter;
 	static String path = AppConstants.path;
-	private MenuModel nextPageNote;
-	private int noteId;
+	private int menuId;
 	private ListView listView;
 	private Button btnviewCart;
 	private Intent intentViewCart;
+	
+	
+	//txtQty
+
+	protected void generateOrderlineList()
+	{
+		View v;
+	    EditText et;
+	    for (int i = 0; i < listView.getCount(); i++) {
+	        v = listView.getAdapter().getView(i, null, null);
+	        et = (EditText) v.findViewById(i);
+	      //  if(et.getText().toString() )
+	    }
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +96,8 @@ public class MenuListActivity extends Activity {
 					return;
 				}
 				MenuModel menuItem = menuList.get(position);
-				noteId = Integer.parseInt(menuItem.getMenuid());
-				Object obj = (Object) menuList.get(position);
-				nextPageNote = new MenuModel();
-				nextPageNote = (MenuModel) obj;
-				// ShowMyDialog(1, null);
-			//	handler.sendEmptyMessage(0);
-				if (obj instanceof String) {
-					return;
-				}
+				menuId = Integer.parseInt(menuItem.getMenuid());
+				
 			}
 		});
 	}
@@ -138,6 +146,7 @@ public class MenuListActivity extends Activity {
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
 			Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
+			final TextView txtQuanty = (TextView) view.findViewById(R.id.txtQty);
 			cartAdd.setTag(0);
 			
 			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
@@ -149,8 +158,14 @@ public class MenuListActivity extends Activity {
 					ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
 					MenuModel aMenu = menuList.get(position);
 					listMenuApp.add(aMenu);
-					ApplicationData.setCartList(listMenuApp);					
-				
+					ApplicationData.setCartList(listMenuApp);
+					
+					ArrayList<HashMap<String, String>> currentOrderline =  ApplicationData.getOrderLine();
+					HashMap<String, String> aNewOrderLine = new HashMap<String,String>();
+					aNewOrderLine.put(aMenu.getMenuid(),txtQuanty.getText().toString());
+					currentOrderline.add(aNewOrderLine);
+					ApplicationData.setOrderLineList(currentOrderline);
+					
 				}
 			});
 			

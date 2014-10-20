@@ -59,9 +59,6 @@ public class ApplicationData extends Application{
 		this.listdata = listdata;
 	}
 	
-	
-	
-
 	public static final String TAB_WOCHACHA = "TAB_WOCHACHA";
 	public static final String TAB_SHOPPING = "TAB_SHOPPING";
 	public static final String TAB_SOCIAL_SECURITY = "TAB_SOCIALSECURITY";

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,7 +29,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-
 
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
@@ -60,16 +60,19 @@ public class ShoppingCartActivity extends Activity {
 		b.get("ViewCart");         
 
 		
-		/*this.btnOrderConfirm = (Button) findViewById(R.id.btnOrderConfirm);	
+		this.btnOrderConfirm = (Button) findViewById(R.id.btnOrderConfirm);	
 		this.btnOrderConfirm.setOnClickListener(new OnClickListener() {
-		public void onClick(View v) {  						
+		public void onClick(View v) {  		
+			
+			
+			
 			intentConfirmPage = new Intent(ShoppingCartActivity.this,OrderConfirmActivity.class);
 			intentConfirmPage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentConfirmPage.putExtra("OrderConfirm","Confirm order page loaded successfully");
 			startActivity(intentConfirmPage);		
 		}
 
-	});*/
+	});
 	
 		listView = (ListView) findViewById(R.id.listView1);
 		menuList = ApplicationData.getCartList();
