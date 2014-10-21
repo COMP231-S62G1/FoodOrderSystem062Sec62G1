@@ -1,11 +1,21 @@
 package com.foodorder.view;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,16 +27,26 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.Rest;
+import com.foodorder.client.R;
+import com.foodorder.net.Parse;
+import com.foodorder.beans.MenuModel;
+import com.foodorder.net.FoodOrderRequest;
+import com.google.gson.JsonSyntaxException;
+import com.foodorder.view.MenuListActivity;
 import com.foodorder.beans.FoodListsViewImage;
 
 public class RestListActivity extends Activity {
 	
 	private DialogActivity dialog;
 	private ArrayList<Rest> restList;
+	private ArrayList<MenuModel> menuList;
 	private MyBaseAdapter myBaseAdapter;
+	static String path=AppConstants.path;
 	private int restId;
 	private ListView listView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,9 +66,7 @@ public class RestListActivity extends Activity {
 				Rest cateItem = restList.get(position);
 				restId = Integer.parseInt(cateItem.getIdrest());
 				Object obj=(Object)restList.get(position);
-				// Victor_Todo; implement something to get data from server
-				//GetData dataGet = new GetData(RestListActivity.this,0);
-				//dataGet.execute("");
+				new GetData(RestListActivity.this,0).execute("");
 				if(obj instanceof String){
 					return;
 				}
@@ -150,6 +168,30 @@ public class RestListActivity extends Activity {
 			return view;
 		}
 	}
+	
+ 	public static Bitmap getPicByPath(String picName){
+ 			picName=picName.substring(picName.lastIndexOf("/")+1);
+ 			String filePath=path+picName;
+ 			Bitmap bitmap=BitmapFactory.decodeFile(filePath);
+ 			return bitmap;
+ 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			Intent myIntent = new Intent();  
+            //myIntent = new Intent(RestListActivity.this, SelectRoleActivity.class);  
+            startActivity(myIntent);  
+            this.finish();  
+
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 
 	private class GetData extends AsyncTask<String, String, String> {
 		private Context mContext;
@@ -163,15 +205,73 @@ public class RestListActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
+			if (mType == 0) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
 			super.onPreExecute();
 		}
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			return null;
+			String result = null;
+			FoodOrderRequest request = new FoodOrderRequest(RestListActivity.this);
+			
+			try {
+				result = request.getMenuByRestId(String.format("%d",restId));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return result;
 		}
+
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
+			if (null != dialog && dialog.isShowing()) {
+				dialog.dismiss();
+			}
+			
+			if (result == null || result.equals("")) {
+				handler.sendEmptyMessage(3);
+			} else {
+
+				menuList = new ArrayList<MenuModel>();
+				try {
+					menuList = new Parse().GetMenuByRestId(result);
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+				if (menuList != null) {
+					Intent intent = new Intent(RestListActivity.this,MenuListActivity.class);
+					intent.putExtra("menuList", (Serializable)menuList);
+					startActivity(intent);
+					finish();
+				} else {
+					handler.sendEmptyMessage(1);
+				}
 		}
+	}
+
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 0:
+				new GetData(RestListActivity.this, 1).execute("");
+				break;
+			default:
+				break;
+			}
+		}
+	};
+	}
 }
