@@ -31,5 +31,9 @@
     <string name="title_activity_user_info">UserInfoActivity</string>
     <string name="title_activity_add_balance">AddBalanceActivity</string>
     <string name="title_activity_edit_user">EditUserActivity</string>
-
+	<string name="btnCheckout">Checkout</string>
+    <string name="txtCart">Your Cart</string>
+    <string name="btnAddCart">Add to Cart</string>
+    <string name="btnViewCart">Go to Cart</string>
+    <string name="btnRemove">Remove</string>
 </resources>

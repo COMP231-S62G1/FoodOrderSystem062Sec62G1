@@ -26,29 +26,30 @@ import android.telephony.TelephonyManager;
 public class ApplicationData extends Application{
 	
 	static ArrayList<Object> listdata = new ArrayList<Object>();
+	static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
+	public static ArrayList<MenuModel> getCartList()
+	{
+		return cartList;
+	}
 	
-//	static StoreUserInfo userinfo = new StoreUserInfo();
-//	static ArrayList<CategoryItem> cateItem = new ArrayList<CategoryItem>();
-//	
-//	public static ArrayList<CategoryItem> getCategoryList()
-//	{
-//		return cateItem;
-//	}
-//	
-//	public static void SetCategoryList(ArrayList<CategoryItem> listCategory)
-//	{
-//		cateItem = listCategory;
-//	}
-//	
-//	public static StoreUserInfo GetUserInforamtion()
-//	{
-//		return userinfo;
-//	}
-//	
-//	public static void SetUserInfor(StoreUserInfo userinfor )
-//	{
-//		userinfo = userinfor;
-//	}
+	public static void setCartList(ArrayList<MenuModel> listCart)
+	{
+		cartList = listCart;
+	}
+	
+	static ArrayList<HashMap<String, String>> orderLineList = new ArrayList<HashMap<String, String>>();
+	
+
+	public static void setOrderLineList(ArrayList<HashMap<String, String>> orderline)
+	{
+		orderLineList = orderline;
+	}
+	
+	public static ArrayList<HashMap<String, String>> getOrderLine()
+	{
+		return orderLineList;
+	}
+	
 	public static HashMap<String, Boolean> newsReadFlag=new HashMap<String, Boolean>();
 	
 	public ArrayList<Object> getListdata() {
@@ -58,9 +59,6 @@ public class ApplicationData extends Application{
 		this.listdata = listdata;
 	}
 	
-	
-	
-
 	public static final String TAB_WOCHACHA = "TAB_WOCHACHA";
 	public static final String TAB_SHOPPING = "TAB_SHOPPING";
 	public static final String TAB_SOCIAL_SECURITY = "TAB_SOCIALSECURITY";

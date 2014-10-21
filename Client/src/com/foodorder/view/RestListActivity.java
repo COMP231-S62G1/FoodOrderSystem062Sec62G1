@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.os.Message;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -26,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.foodorder.client.R;
 
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.Rest;
@@ -258,6 +257,7 @@ public class RestListActivity extends Activity {
 				}
 		}
 	}
+
 
 	private Handler handler = new Handler() {
 		@Override

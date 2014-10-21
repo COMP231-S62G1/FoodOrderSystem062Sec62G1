@@ -5,21 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupMenu;
 
 import com.foodorder.beans.AppConstants;
+import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.Rest;
@@ -33,28 +26,18 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Note;
-import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,15 +48,42 @@ public class MenuListActivity extends Activity {
 	private ArrayList<MenuModel> menuList;
 	private MyBaseAdapter myBaseAdapter;
 	static String path = AppConstants.path;
-	private MenuModel nextPageNote;
-	private int noteId;
+	private int menuId;
 	private ListView listView;
+	private Button btnviewCart;
+	private Intent intentViewCart;
+	
+	
+	//txtQty
 
+	protected void generateOrderlineList()
+	{
+		View v;
+	    EditText et;
+	    for (int i = 0; i < listView.getCount(); i++) {
+	        v = listView.getAdapter().getView(i, null, null);
+	        et = (EditText) v.findViewById(i);
+	      //  if(et.getText().toString() )
+	    }
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu_list);
 		setTitle("Menu List");
+		
+		this.btnviewCart = (Button) findViewById(R.id.btnViewCart1);	
+		this.btnviewCart.setOnClickListener(new OnClickListener() {
+		public void onClick(View v) {  						
+			intentViewCart = new Intent(MenuListActivity.this,ShoppingCartActivity.class);
+			//intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intentViewCart.putExtra("ViewCart","View Cart Successful");
+			startActivity(intentViewCart);		
+		}
+
+	});
+		
 		getMenuList();
 		listView = (ListView) findViewById(R.id.rest_listview);
 		myBaseAdapter = new MyBaseAdapter();
@@ -86,15 +96,8 @@ public class MenuListActivity extends Activity {
 					return;
 				}
 				MenuModel menuItem = menuList.get(position);
-				noteId = Integer.parseInt(menuItem.getMenuid());
-				Object obj = (Object) menuList.get(position);
-				nextPageNote = new MenuModel();
-				nextPageNote = (MenuModel) obj;
-				// ShowMyDialog(1, null);
-			//	handler.sendEmptyMessage(0);
-				if (obj instanceof String) {
-					return;
-				}
+				menuId = Integer.parseInt(menuItem.getMenuid());
+				
 			}
 		});
 	}
@@ -142,7 +145,31 @@ public class MenuListActivity extends Activity {
 			Object obj = menuList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
-			ImageView right_flag = (ImageView) view.findViewById(R.id.favImg);
+			Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
+			final EditText txtQuanty = (EditText) view.findViewById(R.id.txtQty);
+			cartAdd.setTag(0);
+			
+			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
+				public void onClick(View v) {  
+								
+					int position = (Integer)v.getTag();
+					Toast.makeText(getApplicationContext(), "Array position number " + position, Toast.LENGTH_LONG).show();
+
+					ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+					MenuModel aMenu = menuList.get(position);
+					listMenuApp.add(aMenu);
+					ApplicationData.setCartList(listMenuApp);
+					
+					ArrayList<HashMap<String, String>> currentOrderline =  ApplicationData.getOrderLine();
+					HashMap<String, String> aNewOrderLine = new HashMap<String,String>();
+					aNewOrderLine.put(aMenu.getMenuid(),txtQuanty.getText().toString());
+					currentOrderline.add(aNewOrderLine);
+					ApplicationData.setOrderLineList(currentOrderline);
+					
+				}
+			});
+			
+			//ImageView right_flag = (ImageView) view.findViewById(R.id.favImg);
 			if (obj instanceof MenuModel) {
 				final MenuModel aMenuItem = (MenuModel) obj;
 				menu_item_title.setText("Name: " + aMenuItem.getName() + "\n"

@@ -48,6 +48,9 @@ public class FoodOrderRequest {
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetMenuByRest.php", ""));
 	}
 	
+	//HashMap<String, String>
+	//		itemId
+	//				item Quantity
 	public String createOrder(String username,String userid, ArrayList<HashMap<String, String>> orderline)
 			throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();

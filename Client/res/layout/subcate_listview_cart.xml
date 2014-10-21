@@ -27,20 +27,13 @@
         android:text="info" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/info"
-        android:layout_marginRight="30dp"
-        android:text="@string/btnAddCart" />
-    
-    <EditText
-        android:id="@+id/txtQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/info"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        android:text="@string/btnRemove" />
 
 </RelativeLayout>
+
