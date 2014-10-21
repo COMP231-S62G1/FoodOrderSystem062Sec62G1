@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img"
         android:layout_alignTop="@+id/img"
-        android:layout_toLeftOf="@+id/heartImg"
         android:layout_toRightOf="@+id/img"
         android:text="info" />
 
