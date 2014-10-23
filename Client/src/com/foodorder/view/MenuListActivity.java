@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.Menu;
 import android.view.View;
@@ -68,21 +69,37 @@ public class MenuListActivity extends Activity {
 	}
 	
 	@Override
+	protected void onResume(){
+		super.onResume();
+		Log.e("MenuList", "onResume()");
+		//Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		Log.e("MenuList", "onDestroy");
+		//Toast.makeText(this, "onDestory()", Toast.LENGTH_SHORT).show();
+	}
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu_list);
 		setTitle("Menu List");
 		
+		Log.e("MenuList", "onCreate()");
+		
 		this.btnviewCart = (Button) findViewById(R.id.btnViewCart1);	
 		this.btnviewCart.setOnClickListener(new OnClickListener() {
 		public void onClick(View v) {  						
-			intentViewCart = new Intent(MenuListActivity.this,ShoppingCartActivity.class);
-			//intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intentViewCart.putExtra("ViewCart","View Cart Successful");
-			startActivity(intentViewCart);		
-		}
-
-	});
+				intentViewCart = new Intent(MenuListActivity.this,ShoppingCartActivity.class);
+				//intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				intentViewCart.putExtra("ViewCart","View Cart Successful");
+				startActivity(intentViewCart);		
+			}
+	
+		});
 		
 		getMenuList();
 		listView = (ListView) findViewById(R.id.rest_listview);

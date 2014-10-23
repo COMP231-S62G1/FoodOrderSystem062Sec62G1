@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,8 +28,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.foodorder.client.R;
 
+import com.foodorder.client.R;
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.Rest;
 import com.foodorder.client.R;
@@ -179,10 +183,11 @@ public class RestListActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			Intent myIntent = new Intent();  
+			//Intent myIntent = new Intent();  
             //myIntent = new Intent(RestListActivity.this, SelectRoleActivity.class);  
-            startActivity(myIntent);  
-            this.finish();  
+            //startActivity(myIntent);  
+            //this.finish();  
+			openConfirmDialog();
 
 			break;
 		default:
@@ -191,6 +196,33 @@ public class RestListActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 	
+	private void openConfirmDialog() {
+		final Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.quit);
+		builder.setIcon(R.drawable.ic_launcher);
+		builder.setMessage(R.string.exit);
+
+		builder.setNeutralButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						builder.create().dismiss();
+						//startActivity(new Intent(RestListActivity.this,
+						//		RestListActivity.class));
+						//RestListActivity.this.finish();
+					}
+				});
+
+		builder.setPositiveButton(R.string.confirm,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						builder.create().dismiss();
+						RestListActivity.this.finish();
+					}
+				});
+		builder.show();
+	}
 
 	private class GetData extends AsyncTask<String, String, String> {
 		private Context mContext;
@@ -251,7 +283,7 @@ public class RestListActivity extends Activity {
 					Intent intent = new Intent(RestListActivity.this,MenuListActivity.class);
 					intent.putExtra("menuList", (Serializable)menuList);
 					startActivity(intent);
-					finish();
+					//finish();
 				} else {
 					handler.sendEmptyMessage(1);
 				}
