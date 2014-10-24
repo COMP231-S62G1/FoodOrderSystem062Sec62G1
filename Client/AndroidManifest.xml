@@ -67,7 +67,7 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.foodorder.view.ConfirmActivity"
+            android:name="com.foodorder.view.OrderConfirmActivity"
             android:label="@string/title_activity_confirm" >
         </activity>
         <activity
