@@ -1,6 +1,7 @@
 package com.foodorder.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,7 +55,8 @@ public class MenuListActivity extends Activity {
 	private ListView listView;
 	private Button btnviewCart;
 	private Intent intentViewCart;
-	
+	private Intent intentBack;
+	private Bundle b;
 	
 	//txtQty
 
@@ -67,6 +70,7 @@ public class MenuListActivity extends Activity {
 	      //  if(et.getText().toString() )
 	    }
 	}
+	
 	
 	@Override
 	protected void onResume(){
@@ -89,6 +93,10 @@ public class MenuListActivity extends Activity {
 		setTitle("Menu List");
 		
 		Log.e("MenuList", "onCreate()");
+		
+		//intentBack = getIntent();
+		//b = intentBack.getExtras();
+		//b.get("menuList");
 		
 		this.btnviewCart = (Button) findViewById(R.id.btnViewCart1);	
 		this.btnviewCart.setOnClickListener(new OnClickListener() {
@@ -168,21 +176,36 @@ public class MenuListActivity extends Activity {
 			
 			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {  
-								
-					int position = (Integer)v.getTag();
-					Toast.makeText(getApplicationContext(), "Array position number " + position, Toast.LENGTH_LONG).show();
-
-					ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
-					MenuModel aMenu = menuList.get(position);
-					listMenuApp.add(aMenu);
-					ApplicationData.setCartList(listMenuApp);
+							
+					if (txtQuanty.getText().toString().matches(""))
+					{
+						int position = (Integer)v.getTag();						
+						 AlertDialog.Builder adb=new AlertDialog.Builder(MenuListActivity.this);
+					        adb.setTitle("Quantity Error");
+					        adb.setMessage("Please enter a quantity.");					        
+					        adb.setPositiveButton("Ok", null);   
+					        adb.show();				
 					
-					ArrayList<HashMap<String, String>> currentOrderline =  ApplicationData.getOrderLine();
-					HashMap<String, String> aNewOrderLine = new HashMap<String,String>();
-					aNewOrderLine.put(aMenu.getMenuid(),txtQuanty.getText().toString());
-					currentOrderline.add(aNewOrderLine);
-					ApplicationData.setOrderLineList(currentOrderline);
+					}
+					else
+					{
 					
+						int position = (Integer)v.getTag();
+						//Toast.makeText(getApplicationContext(), "Array position number " + position, Toast.LENGTH_LONG).show();
+	
+						ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+						MenuModel aMenu = menuList.get(position);
+						listMenuApp.add(aMenu);
+						ApplicationData.setCartList(listMenuApp);
+						
+						ArrayList<HashMap<String, String>> currentOrderline =  ApplicationData.getOrderLine();
+						HashMap<String, String> aNewOrderLine = new HashMap<String,String>();
+						aNewOrderLine.put(aMenu.getMenuid(),txtQuanty.getText().toString());
+						currentOrderline.add(aNewOrderLine);
+						ApplicationData.setOrderLineList(currentOrderline);
+						txtQuanty.setText("");
+					
+					}
 				}
 			});
 			

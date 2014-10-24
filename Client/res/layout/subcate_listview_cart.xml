@@ -34,6 +34,16 @@
         android:layout_alignTop="@+id/info"
         android:layout_marginRight="16dp"
         android:text="@string/btnRemove" />
+    
+     <EditText
+        android:id="@+id/txtQty1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below ="@+id/btnRemove"
+        android:inputType="numberDecimal"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
 
