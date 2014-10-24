@@ -1,7 +1,9 @@
 package com.foodorder.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -46,8 +49,13 @@ public class ShoppingCartActivity extends Activity {
 	static String path = AppConstants.path;
 	private Intent intentViewCart;
 	private Intent intentConfirmPage;
+	private Intent intentBack;
 	private Bundle b;
 	private Button btnOrderConfirm;
+	private Button btnBack;
+	private Button btnUpdate;
+	private ArrayList<HashMap<String, String>> currentOrderline;
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +71,29 @@ public class ShoppingCartActivity extends Activity {
 		this.btnOrderConfirm = (Button) findViewById(R.id.btnOrderConfirm);	
 		this.btnOrderConfirm.setOnClickListener(new OnClickListener() {
 		public void onClick(View v) {  		
-			
-			
-			
 			intentConfirmPage = new Intent(ShoppingCartActivity.this,OrderConfirmActivity.class);
 			intentConfirmPage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentConfirmPage.putExtra("OrderConfirm","Confirm order page loaded successfully");
-			startActivity(intentConfirmPage);		
+			startActivity(intentConfirmPage);	
+
 		}
 
 	});
-	
+		
+
 		listView = (ListView) findViewById(R.id.listView1);
-		menuList = ApplicationData.getCartList();
+		menuList = ApplicationData.getCartList();	
+		currentOrderline = ApplicationData.getOrderLine();
 		myBaseAdapter = new MyBaseAdapter();
-		listView.setAdapter(myBaseAdapter);
+		listView.setAdapter(myBaseAdapter);	
+		
+
+		//this.btnUpdate = (Button) findViewById(R.id.btnUpdate);	
+		//this.btnUpdate.setOnClickListener(new OnClickListener() {
+		//public void onClick(View v) {			
+		//}
+		//});
+		
     }
 	
 	@Override
@@ -117,6 +133,21 @@ public class ShoppingCartActivity extends Activity {
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
 			Button right_flag = (Button) view.findViewById(R.id.btnRemove);
+			final EditText txtQuantity = (EditText) view.findViewById(R.id.txtQty1);
+			if ( txtQuantity != null )
+		     {								
+				HashMap<String, String> orderObject = currentOrderline.get(position);
+				Set<String> keys = orderObject.keySet();
+				String itemId = null;
+				for(String key: keys){
+				itemId= key;
+				}
+				txtQuantity.setText(orderObject.get(itemId));	
+				
+		     }
+			
+				
+			
 			right_flag.setTag(0);
 			
 			right_flag.setOnClickListener(new AdapterView.OnClickListener() {
@@ -136,6 +167,12 @@ public class ShoppingCartActivity extends Activity {
 								MenuModel aMenu = menuList.get(positionToRemove);
 								listMenuApp.remove(aMenu);
 								ApplicationData.setCartList(listMenuApp);
+								
+								ArrayList<HashMap<String, String>> currentOrderline = ApplicationData.getOrderLine();
+								HashMap<String, String> orderObject = currentOrderline.get(positionToRemove);
+								currentOrderline.remove(orderObject);
+								ApplicationData.setOrderLineList(currentOrderline);	
+								
 				                notifyDataSetChanged();
 				            }});
 				        adb.show();

@@ -57,8 +57,7 @@ public class MenuListActivity extends Activity {
 	private Intent intentViewCart;
 	private Intent intentBack;
 	private Bundle b;
-	
-	//txtQty
+	private MenuModel aMenu; 
 
 	protected void generateOrderlineList()
 	{
@@ -94,10 +93,6 @@ public class MenuListActivity extends Activity {
 		
 		Log.e("MenuList", "onCreate()");
 		
-		//intentBack = getIntent();
-		//b = intentBack.getExtras();
-		//b.get("menuList");
-		
 		this.btnviewCart = (Button) findViewById(R.id.btnViewCart1);	
 		this.btnviewCart.setOnClickListener(new OnClickListener() {
 		public void onClick(View v) {  						
@@ -125,6 +120,7 @@ public class MenuListActivity extends Activity {
 				
 			}
 		});
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -176,8 +172,9 @@ public class MenuListActivity extends Activity {
 			
 			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {  
-							
-					if (txtQuanty.getText().toString().matches(""))
+					
+					//validate 000000
+					if (txtQuanty.getText().toString().matches("") || txtQuanty.getText().toString().matches("0"))
 					{
 						int position = (Integer)v.getTag();						
 						 AlertDialog.Builder adb=new AlertDialog.Builder(MenuListActivity.this);
@@ -187,6 +184,11 @@ public class MenuListActivity extends Activity {
 					        adb.show();				
 					
 					}
+					/*else if (aMenu.getMenuid() == )
+					{						
+						//if item exists in the cart, throw an error						
+						
+					}*/
 					else
 					{
 					

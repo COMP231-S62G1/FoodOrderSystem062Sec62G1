@@ -2,18 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip" >
+    android:padding="3dip" >
 
     <ImageView
         android:id="@+id/img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:maxHeight="80dp"
         android:maxWidth="100dp"
-        android:src="@drawable/note2" 
+        android:src="@drawable/note2"
         android:contentDescription="noteImage"
         />
 
@@ -24,26 +25,43 @@
         android:layout_alignBottom="@+id/img"
         android:layout_alignTop="@+id/img"
         android:layout_toRightOf="@+id/img"
+        android:textSize="12dp"
         android:text="info" />
 
     <Button
         android:id="@+id/btnRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/txtQty1"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/info"
         android:layout_marginRight="16dp"
-        android:text="@string/btnRemove" />
-    
-     <EditText
-        android:id="@+id/txtQty1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below ="@+id/btnRemove"
-        android:inputType="numberDecimal"
-        android:layout_marginRight="10dp" />
+        android:text="@string/btnRemove"
+        android:textSize="10dp" />
 
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/txtQty1"
+            android:layout_toLeftOf="@+id/btnRemove"
+            android:gravity="left"
+            android:text="Update Cart"
+            android:textSize="10dp" />
+
+        <EditText
+            android:id="@+id/txtQty1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/info"
+            android:layout_alignParentEnd="true"
+            android:layout_alignRight="@+id/btnRemove"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:textSize="10dp" >
+
+            <requestFocus />
+        </EditText>
+     
 </RelativeLayout>
 
