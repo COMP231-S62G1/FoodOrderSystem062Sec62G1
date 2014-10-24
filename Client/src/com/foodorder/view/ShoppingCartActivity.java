@@ -54,7 +54,7 @@ public class ShoppingCartActivity extends Activity {
 	private Button btnOrderConfirm;
 	private Button btnBack;
 	private Button btnUpdate;
-	private ArrayList<HashMap<String, String>> currentOrderline;
+	private HashMap<String, String> currentOrderline;
 	
 	
 	@Override
@@ -128,38 +128,61 @@ public class ShoppingCartActivity extends Activity {
 			if (menuList == null) {
 				return convertView;
 			}
+			final int pos = position;
 			final View view = convertView.inflate(ShoppingCartActivity.this, R.layout.subcate_listview_cart, null);
 			Object obj = menuList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
 			Button right_flag = (Button) view.findViewById(R.id.btnRemove);
+			Button updateBtn = (Button) view.findViewById(R.id.btnUpdate);
+
 			final EditText txtQuantity = (EditText) view.findViewById(R.id.txtQty1);
 			if ( txtQuantity != null )
 		     {								
-				HashMap<String, String> orderObject = currentOrderline.get(position);
-				Set<String> keys = orderObject.keySet();
+				Set<String> keys = currentOrderline.keySet();
 				String itemId = null;
+				MenuModel aModel = menuList.get(position);
+
 				for(String key: keys){
-				itemId= key;
+				if(aModel.getMenuid()== key)
+					itemId=key;
 				}
-				txtQuantity.setText(orderObject.get(itemId));	
-				
+				txtQuantity.setText(currentOrderline.get(itemId));	
 		     }
 			
-				
+
+			//update a new quantity
+			updateBtn.setOnClickListener(new AdapterView.OnClickListener() {
+				public void onClick(View v) {  
+//					int position = (Integer)v.getTag();
+					MenuModel aMenu = menuList.get(pos);
+					HashMap<String, String> currentOrderline = ApplicationData.getOrderLine();
+					if (!currentOrderline.isEmpty()) {
+						if (currentOrderline.get(aMenu.getMenuid()) != null
+								|| !currentOrderline.get(aMenu.getMenuid())
+										.equals("")) {
+							currentOrderline.remove(aMenu.getMenuid());
+						}
+					}
+					currentOrderline.put(aMenu.getMenuid(), txtQuantity
+							.getText().toString());
+					ApplicationData.setOrderLineList(currentOrderline);	
+	                notifyDataSetChanged();
+				}
+			});
 			
 			right_flag.setTag(0);
 			
 			right_flag.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {  
 								
-					int position = (Integer)v.getTag();
-					Toast.makeText(getApplicationContext(), "Array position number " + position, Toast.LENGTH_LONG).show();		
+					//int position = (Integer)v.getTag();
+					Toast.makeText(getApplicationContext(), "Array position number " + pos, Toast.LENGTH_LONG).show();		
 					
 					 AlertDialog.Builder adb=new AlertDialog.Builder(ShoppingCartActivity.this);
 				        adb.setTitle("Delete?");
 				        adb.setMessage("Are you sure you want to delete this item?");
-				        final int positionToRemove = position;
+				        final int positionToRemove = pos;
 				        adb.setNegativeButton("Cancel", null);
 				        adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
 				            public void onClick(DialogInterface dialog, int which) {
@@ -168,9 +191,8 @@ public class ShoppingCartActivity extends Activity {
 								listMenuApp.remove(aMenu);
 								ApplicationData.setCartList(listMenuApp);
 								
-								ArrayList<HashMap<String, String>> currentOrderline = ApplicationData.getOrderLine();
-								HashMap<String, String> orderObject = currentOrderline.get(positionToRemove);
-								currentOrderline.remove(orderObject);
+								HashMap<String, String> currentOrderline = ApplicationData.getOrderLine();
+								currentOrderline.remove(aMenu.getMenuid());
 								ApplicationData.setOrderLineList(currentOrderline);	
 								
 				                notifyDataSetChanged();

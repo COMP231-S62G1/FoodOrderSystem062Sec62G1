@@ -37,15 +37,15 @@ public class ApplicationData extends Application{
 		cartList = listCart;
 	}
 	
-	static ArrayList<HashMap<String, String>> orderLineList = new ArrayList<HashMap<String, String>>();
+	static HashMap<String, String> orderLineList = new HashMap<String, String>();
 	
 
-	public static void setOrderLineList(ArrayList<HashMap<String, String>> orderline)
+	public static void setOrderLineList(HashMap<String, String> orderline)
 	{
 		orderLineList = orderline;
 	}
 	
-	public static ArrayList<HashMap<String, String>> getOrderLine()
+	public static HashMap<String, String> getOrderLine()
 	{
 		return orderLineList;
 	}

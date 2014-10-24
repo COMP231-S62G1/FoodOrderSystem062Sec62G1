@@ -44,10 +44,9 @@ public class OrderConfirmActivity extends Activity {
 
 	private DialogActivity dialog;
 	private ArrayList<MenuModel> menuList;
-	private ArrayList<HashMap<String, String>> orderLineList;
+	private HashMap<String, String> orderLineList;
 	private MyBaseAdapter myBaseAdapter;
 	static String pathString = AppConstants.path;
-	//private int orderId;
 	private ListView orderListView;
 	private Intent intentViewOrder;
 	private Button btnCancel;
@@ -134,14 +133,17 @@ public class OrderConfirmActivity extends Activity {
 			else {
 			}
 			
-			HashMap<String, String> orderObject = orderLineList.get(position);
-			Set<String> keys = orderObject.keySet();
+			Set<String> keys = orderLineList.keySet();
 			String itemId = null;
+			MenuModel aModel = menuList.get(position);
+
 			for(String key: keys){
-				itemId= key;
+			if(aModel.getMenuid()== key)
+				itemId=key;
 			}
+			if(itemId!=null)
 			//String quantityString = orderObject.get(itemId);
-			order_item_qty.setText("Qty: " +orderObject.get(itemId));		
+			order_item_qty.setText("Qty: " +orderLineList.get(itemId));		
 			
 			return view;
 		}
@@ -220,8 +222,6 @@ public class OrderConfirmActivity extends Activity {
 				Intent intent = new Intent(OrderConfirmActivity.this,MenuListActivity.class);
 				intent.putExtra("menuList", (Serializable)menuList);
 				startActivity(intent);
-				
-				
 			}
 		}
 		

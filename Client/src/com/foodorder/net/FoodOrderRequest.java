@@ -50,8 +50,8 @@ public class FoodOrderRequest {
 	
 	//HashMap<String, String>
 	//		itemId
-	//				item Quantity
-	public String createOrder(String username,String userid, ArrayList<HashMap<String, String>> orderline)
+	//		item Quantity
+	public String createOrder(String username,String userid, HashMap<String, String> orderline)
 			throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
 		if (!TextUtils.isEmpty(username)) {
@@ -60,15 +60,19 @@ public class FoodOrderRequest {
 		if (!TextUtils.isEmpty(userid)) {
 			strParams.add(new BasicNameValuePair("userid", userid));
 		}
-		if (!orderline.isEmpty()) {
-			for (HashMap<String, String> map : orderline)
-			{
-			     for (Entry<String, String> entry : map.entrySet())
-			     {
-			    	 strParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-			     }
-			}
+		
+		if(!orderline.isEmpty())
+		{
+		     for (Entry<String, String> entry : orderline.entrySet())
+		     {
+		    	 strParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+		     }
 		}
+//		if (!orderline.isEmpty()) {
+//			for (HashMap<String, String> map : orderline)
+//			{
+//			}
+//		}
 		
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("CreateOrder.php", ""));
 	}
