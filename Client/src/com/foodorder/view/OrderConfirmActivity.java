@@ -1,6 +1,7 @@
 package com.foodorder.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +36,9 @@ import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.OrderLine;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
+import com.foodorder.net.Parse;
 import com.foodorder.view.MenuListActivity.MyBaseAdapter;
+import com.google.gson.JsonSyntaxException;
 
 public class OrderConfirmActivity extends Activity {
 
@@ -143,28 +149,96 @@ public class OrderConfirmActivity extends Activity {
 
 
 	public void cancelOrder(View view) {
-		Intent returnMain = new Intent(this, ShoppingCartActivity.class);
-		returnMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(returnMain);
+		//Intent returnMain = new Intent(this, ShoppingCartActivity.class);
+		//returnMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		//startActivity(returnMain);
+		
+		Intent returnMain = new Intent(OrderConfirmActivity.this,ShoppingCartActivity.class);
+		//intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		returnMain.putExtra("ViewCart","View Cart Successful");
+		startActivity(returnMain);	
 	}
 
 	public void submitOrder(View view) {
+		
+		new SendData(OrderConfirmActivity.this,0).execute("");
 
-		String result = null;
+	}
 
-		FoodOrderRequest request = new FoodOrderRequest(
-				OrderConfirmActivity.this);
+	
+	private class SendData extends AsyncTask<String, String, String>{
+		private Context mContext;
+		private int mType;
 
-		try {
-			result = request.createOrder("Alex","0001",orderLineList);
-
-		} catch (IOException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} catch (TimeoutException e) {
-			e.printStackTrace();
+		private SendData(Context context, int type) {
+			this.mContext = context;
+			this.mType = type;
 		}
-
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			if (mType == 0) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String result = null;
+			FoodOrderRequest request = new FoodOrderRequest(OrderConfirmActivity.this);
+			
+			try {
+				result = request.createOrder("Alex","0001",orderLineList);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			if (null != dialog && dialog.isShowing()) {
+				dialog.dismiss();
+			}
+			
+			if (result == null || result.equals("")) {
+				handler.sendEmptyMessage(3);
+			} else {
+				
+				Toast.makeText(OrderConfirmActivity.this, "Order has been sent", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(OrderConfirmActivity.this,MenuListActivity.class);
+				intent.putExtra("menuList", (Serializable)menuList);
+				startActivity(intent);
+				
+				
+			}
+		}
+		
+		private Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				// TODO Auto-generated method stub
+				super.handleMessage(msg);
+				switch (msg.what) {
+				case 0:
+					new SendData(OrderConfirmActivity.this, 1).execute("");
+					break;
+				default:
+					break;
+				}
+			}
+		};
 	}
 
 }
