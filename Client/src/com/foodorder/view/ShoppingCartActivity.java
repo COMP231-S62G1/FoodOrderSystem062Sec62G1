@@ -150,7 +150,6 @@ public class ShoppingCartActivity extends Activity {
 				txtQuantity.setText(currentOrderline.get(itemId));	
 		     }
 			
-
 			//update a new quantity
 			updateBtn.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {  
@@ -158,9 +157,7 @@ public class ShoppingCartActivity extends Activity {
 					MenuModel aMenu = menuList.get(pos);
 					HashMap<String, String> currentOrderline = ApplicationData.getOrderLine();
 					if (!currentOrderline.isEmpty()) {
-						if (currentOrderline.get(aMenu.getMenuid()) != null
-								|| !currentOrderline.get(aMenu.getMenuid())
-										.equals("")) {
+						if (currentOrderline.containsKey(aMenu.getMenuid())) {
 							currentOrderline.remove(aMenu.getMenuid());
 						}
 					}

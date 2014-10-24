@@ -169,14 +169,16 @@ public class MenuListActivity extends Activity {
 			Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
 			final EditText txtQuanty = (EditText) view
 					.findViewById(R.id.txtQty);
-			cartAdd.setTag(0);
+			final int pos = position;
+			cartAdd.setTag(position);
 
 			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {
 
 					// validate 000000
 					if (txtQuanty.getText().toString().matches("")
-							|| txtQuanty.getText().toString().matches("0")) {
+							|| txtQuanty.getText().toString().matches("0") ||
+							Integer.parseInt(txtQuanty.getText().toString()) == 0) {
 						int position = (Integer) v.getTag();
 						AlertDialog.Builder adb = new AlertDialog.Builder(
 								MenuListActivity.this);
@@ -186,22 +188,12 @@ public class MenuListActivity extends Activity {
 						adb.show();
 
 					}
-					/*
-					 * else if (aMenu.getMenuid() == ) { //if item exists in the
-					 * cart, throw an error
-					 * 
-					 * }
-					 */
-					else {
 
-						int position = (Integer) v.getTag();
-						// Toast.makeText(getApplicationContext(),
-						// "Array position number " + position,
-						// Toast.LENGTH_LONG).show();
+					else {
 
 						ArrayList<MenuModel> listMenuApp = ApplicationData
 								.getCartList();
-						MenuModel aMenu = menuList.get(position);
+						MenuModel aMenu = menuList.get(pos);
 						boolean isExistInList = false;
 						for (MenuModel m : listMenuApp) {
 							if (m.getMenuid().equals(aMenu.getMenuid()))
@@ -214,14 +206,12 @@ public class MenuListActivity extends Activity {
 						HashMap<String, String> currentOrderline = ApplicationData
 								.getOrderLine();
 						if (!currentOrderline.isEmpty()) {
-							if (currentOrderline.get(aMenu.getMenuid()) != null
-									|| !currentOrderline.get(aMenu.getMenuid())
-											.equals("")) {
+							if (currentOrderline.containsKey(aMenu.getMenuid())) {
 								currentOrderline.remove(aMenu.getMenuid());
 							}
 						}
-						currentOrderline.put(aMenu.getMenuid(), txtQuanty
-								.getText().toString());
+						currentOrderline.put(aMenu.getMenuid(), String.valueOf(Integer.parseInt(txtQuanty
+								.getText().toString())));
 						ApplicationData.setOrderLineList(currentOrderline);
 						txtQuanty.setText("");
 					}
