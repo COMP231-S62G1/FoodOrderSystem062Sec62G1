@@ -218,10 +218,33 @@ public class OrderConfirmActivity extends Activity {
 				handler.sendEmptyMessage(3);
 			} else {
 				
-				Toast.makeText(OrderConfirmActivity.this, "Order has been sent", Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(OrderConfirmActivity.this,MenuListActivity.class);
-				intent.putExtra("menuList", (Serializable)menuList);
-				startActivity(intent);
+				AlertDialog alertDialog1=new AlertDialog.Builder(OrderConfirmActivity.this).create();
+				
+				//Setting Dialog Title
+				alertDialog1.setTitle("Order Submition");
+				
+				//Setting Dialog Message
+				alertDialog1.setMessage("Your order has been submitted.");
+				
+				//Setting Icon to Dialog
+				alertDialog1.setIcon(R.drawable.ic_launcher);
+				
+				//Setting OK Button
+				alertDialog1.setButton("OK", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						
+						//Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(OrderConfirmActivity.this,MenuListActivity.class);
+						intent.putExtra("menuList", (Serializable)menuList);
+						startActivity(intent);			
+					}
+				}); 
+					
+				//Showing Alert Message
+				alertDialog1.show();
 			}
 		}
 		
