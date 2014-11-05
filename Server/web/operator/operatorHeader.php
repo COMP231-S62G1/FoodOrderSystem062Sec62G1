@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="refresh" content="10" />
     <title>Centennial College Food Order</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
@@ -18,21 +17,7 @@
         margin-left: 0px;
     }
     </style>
-       <script type="text/javascript">
-        function ChangeColor(tableRow, highLight){
-            if (highLight){
-                tableRow.style.backgroundColor = '#dcfac9';
-            }else{
-                tableRow.style.backgroundColor = 'white';
-            }
-        }
-
-        function DoNav(orderId){
-            var url = "./orderdetail.php?orderid=";
-            var finalUrl = url.concat(orderId);
-            window.location = finalUrl;
-        }
-    </script> 
+    
 
 </head>
 <body>
