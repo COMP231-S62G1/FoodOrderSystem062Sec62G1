@@ -83,7 +83,7 @@
 <?php include './orderDetailRight.php';?>
         
 <!-- data view table -->
-<?php include './operatorLeftMenu.php';?>
+<?php //include './operatorLeftMenu.php';?>
         
     
     <!--div main ends -->

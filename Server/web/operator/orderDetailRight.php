@@ -1,5 +1,5 @@
 <!-- div right start -->
-<div id="right">
+
     <h3>Order Operation</h3><br />
         <h4>Order Details: order#<?php echo "$orderId" ?></h4>
     <p>&nbsp;</p>
@@ -89,5 +89,5 @@
 
 
 <!-- div right end -->
-</div>
+
 
