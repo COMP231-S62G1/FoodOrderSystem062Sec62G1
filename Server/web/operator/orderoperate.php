@@ -111,10 +111,12 @@
         function addParameters(url){
             var paramUrl = url.concat("?type=");
             var typeAll = document.getElementById("typeAll").checked;
+            var typeActive = document.getElementById('typeActive').checked;
+            var typeInactive = document.getElementById('typeInactive').checked
             if(typeAll) {
                 //show all radio button is checked
                 paramUrl = paramUrl.concat("all");
-            }else if(document.getElementById('typeActive').checked) {
+            }else if(typeActive) {
                 //show active radio button is checked
                 paramUrl = paramUrl.concat("active");
                 var newOrder = document.getElementById('activeNew').checked;
@@ -140,6 +142,31 @@
                 }
             }
             return paramUrl;
+        }
+    
+        function resetChkBox(){
+            var typeAll = document.getElementById("typeAll").checked;
+            var typeActive = document.getElementById('typeActive').checked;
+            var typeInactive = document.getElementById('typeInactive').checked
+            if(typeAll) {
+                //show all radio button is checked
+                document.getElementById('activeNew').checked = false;
+                document.getElementById('activeConfirmed').checked = false;
+                document.getElementById('inactiveCompleted').checked = false;
+                document.getElementById('inactiveRejected').checked = false;
+            }else if(typeActive) {
+                //show active radio button is checked
+                document.getElementById('activeNew').checked = true;
+                document.getElementById('activeConfirmed').checked = true;
+                document.getElementById('inactiveCompleted').checked = false;
+                document.getElementById('inactiveRejected').checked = false;
+            }else{
+                //show inactive radio button is checked
+                document.getElementById('activeNew').checked = false;
+                document.getElementById('activeConfirmed').checked = false;
+                document.getElementById('inactiveCompleted').checked = true;
+                document.getElementById('inactiveRejected').checked = true;
+            }
         }
         
         function reLocate(){

@@ -1,14 +1,14 @@
 	<div id="left">
 		<h3>Options</h3>
 		<p class="auto-style2">
-		<input name="listType" type="radio" value="all" id="typeAll"
+		<input name="listType" type="radio" value="all" id="typeAll" onclick="resetChkBox()"
 <?php 
     if($rdoType == "all")
         echo " checked";
 ?>
                /> Show all orders</p>
         <p class="auto-style2">
-		<input name="listType" type="radio" value="active" id="typeActive" 
+		<input name="listType" type="radio" value="active" id="typeActive" onclick="resetChkBox()"
 <?php 
     if($rdoType == "active")
         echo " checked";
@@ -33,7 +33,7 @@
 ?>
                                            /> Under processing orders</p>
         <p class="auto-style2">
-		<input name="listType" type="radio" value="inactive" id="typeInactive"
+		<input name="listType" type="radio" value="inactive" id="typeInactive" onclick="resetChkBox()"
 <?php 
     if($rdoType == "inactive")
         echo " checked";
@@ -57,11 +57,10 @@
     }
 ?>
                                            /> Rejected orders</p>
-		<p class="auto-style3">
-		<button name="btnSearch" onclick="reLocate()">
-		<div >	Search </div>
+		<p class="auto-style3">    
+		<button name="btnSearch" style='font-size:10px; margin:15px; padding: 10px;' onclick="reLocate()">
+		<H2>Apply Now</H2>
 		</button>
-		&nbsp;
 		</p>
 		<br />
 	</div>
