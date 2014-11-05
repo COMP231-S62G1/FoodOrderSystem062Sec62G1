@@ -1,13 +1,22 @@
+<!-- include db connector -->
+<?php include '../../dbConnector.php';?>
+
 <?php
-$table = 'order';
+
+$table = 'orders';
 $orderId = $user_input['orderId'];
 
-//connect to database
-mysql_connect("localhost", "root", "wechao") or
-  die("Could not connect: " . mysql_error());
-//select a database
-mysql_select_db("foodorder");
-$sql = "update orders set status = 1 where orderid=$orderId';
+//echo "order id is $orderId<br>";
+
+$sql = "update $table set status = 1 where idorder=$orderId";
 $result = mysql_query($sql);
 
+echo $sql."<br/>";
+echo $result."result";
+
 ?>
+
+
+<script type="text/javascript"> 
+    location.replace('../../operator/orderdetail.php?orderid=<?php echo "$orderId"; ?>'); 
+</script> 
