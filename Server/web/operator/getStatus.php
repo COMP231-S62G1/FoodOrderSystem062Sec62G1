@@ -10,8 +10,11 @@
                 $retString = "Confirmed";
                 break;
             case 2:
-            default:
                 $retString = "Done";
+                break;
+            case 3:
+            default :
+                $retString = "Rejected";
                 break;
         }
         return $retString;

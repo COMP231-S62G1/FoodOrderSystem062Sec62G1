@@ -8,6 +8,9 @@
     echo "<form action='../Interface/DataLogic/AcceptOrder.php' method='post' id='acceptForm'>";
     echo "<input type='hidden' name='orderId' value='$orderId'>";
     echo "</form>";
+    echo "<form action='../Interface/DataLogic/RejectOrder.php' method='post' id='rejectForm'>";
+    echo "<input type='hidden' name='orderId' value='$orderId'>";
+    echo "</form>";
     echo "<form action='./orderoperate.php' method='post' id='returnBack'>";
     echo "<input type='hidden' name='orderId' value='$orderId'>";
     echo "</form>";
@@ -59,12 +62,24 @@
 	}
     echo "<tr><td colspan='6'> &nbsp; </td></tr>";
     echo "<tr><td colspan='3' align='center'>";
-    echo "<button type='submit' form='returnBack' value='Back to the List' style='font-size:10px; margin:15px; padding: 10px;'><H2>Back to the List</H2></button>";
+    if($status == 0){        
+        echo "<button type='submit' form='rejectForm' value='Reject the order' style='font-size:10px; margin:15px; padding: 10px;'>";
+        echo "<H2>Reject the order</H2>";
+        echo "</button>";
+    }
     echo "</td><td colspan='3' align='center'>";
     if($status == 0){        
-        echo "<button type='submit' form='acceptForm' value='Confirm the order' style='font-size:10px; margin:15px; padding: 10px;'><H2>Confirm the order</H2></button>";
+        echo "<button type='submit' form='acceptForm' value='Confirm the order' style='font-size:10px; margin:15px; padding: 10px;'>";
+        echo "<H2>Confirm the order</H2>";
+        echo "</button>";
     }
     echo "</td></tr>";
+    echo "<tr><td colspan='6' align='center'>";
+    echo "<button type='submit' form='returnBack' value='Back to the List' style='font-size:10px; margin:15px; padding: 10px;'>";
+    echo "<H2>Back to the List</H2>";
+    echo "</button>";
+    echo "</td></tr>";
+
     echo "</table>";
 
 ?>
