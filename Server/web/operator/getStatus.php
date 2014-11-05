@@ -10,7 +10,7 @@
                 $retString = "Confirmed";
                 break;
             case 2:
-                $retString = "Done";
+                $retString = "Completed";
                 break;
             case 3:
             default :
