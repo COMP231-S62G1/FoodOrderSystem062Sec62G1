@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="wait">Wait...</string>
+    <string name="dataload">Loading...</string>
+    <string name="quit">Quit</string>
+    <string name="confirm">Confirm</string>
+    <string name="exit">Exit</string>
+    <string name="tips">tips</string>
+    <string name="sure">sure</string>
+    <string name="loading">loading</string>
+    <string name="network_failure">network_failure</string>
+    <string name="cancel">Cancel</string>
+    <string name="app_name">FoodOrder</string>
+    <string name="btn1">Select your favor Pizza Store</string>
+    <string name="btn2">Select your favor Pizza Store2</string>
+    <string name="mnuPizza">Pizza Pizza</string>
+    <string name="mnuHot">Pizza Hot</string>
+    <string name="mnuNova">Pizza Nova</string>
+    <string name="p">p</string>
+    <string name="n">n</string>
+    <string name="h">h</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_rest_list">RestListActivity</string>
+    <string name="title_activity_menu_list">MenuListActivity</string>
+    <string name="title_activity_shopping_cart">ShoppingCart</string>
+    <string name="title_activity_confirm">ConfirmActivity</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_add_balance">AddBalanceActivity</string>
+    <string name="title_activity_edit_user">EditUserActivity</string>
+	<string name="btnCheckout">Checkout</string>
+    <string name="txtCart">Your Cart</string>
+    <string name="btnAddCart">Add to Cart</string>
+    <string name="btnViewCart">Go to Cart</string>
+    <string name="btnRemove">Remove</string>
+</resources>
