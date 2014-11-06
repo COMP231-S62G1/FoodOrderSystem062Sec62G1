@@ -18,7 +18,22 @@
         margin-left: 0px;
     }
     </style>
-   
+       <script type="text/javascript">
+        function ChangeColor(tableRow, highLight){
+            if (highLight){
+                tableRow.style.backgroundColor = '#dcfac9';
+            }else{
+                tableRow.style.backgroundColor = 'white';
+            }
+        }
+
+        function DoNav(orderId){
+            var url = "./orderdetail.php?orderid=";
+            var finalUrl = url.concat(orderId);
+            window.location = finalUrl;
+        }
+    </script> 
+
 </head>
 <body>
 
