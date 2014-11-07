@@ -33,7 +33,7 @@
 			<li><a href="" title="">Home</a></li>
 			<li><a href=""  title="">View Order</a></li>
 			<li><a href="" title="">Log Out</a></li>
-			<li><a href="" title="">Contact</a></li>
+			<!-- <li><a href="" title="">Contact</a></li> -->
 		</ul>
 	</div>
 	<div id="logo">

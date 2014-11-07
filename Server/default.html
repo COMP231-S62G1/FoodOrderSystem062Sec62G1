@@ -25,7 +25,7 @@
 			<li><a href="" title="">Home</a></li>
 			<li><a href=""  title="">Sign in</a></li>
 			<li><a href="" title="">Register</a></li>
-			<li><a href="" title="">Contact</a></li>
+		<!--	<li><a href="" title="">Contact</a></li> -->
 		</ul>
 	</div>
 	<div id="logo">
@@ -81,8 +81,16 @@
 		</tr>
 		<tr>
 			<td colspan="4" class="auto-style1">
-			<button name="btnLogin">Login</button>
+			<button onClick="redirect()" name="btnLogin">Login</button>
 			</td>
+			<script type="text/javascript">
+    function redirect()
+    {
+    var url = "http://www.(url).com";
+    window.location(url);
+    }
+    </script>
+
 		</tr>
 
 		</table>
