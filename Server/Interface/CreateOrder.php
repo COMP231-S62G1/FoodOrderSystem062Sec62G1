@@ -2,7 +2,16 @@
 
 $user_input = empty($_POST)?$_GET:$_POST;
 $table = 'order';
-$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+if($_POST){
+        $kv = array();
+        foreach($_POST as $key => $value){
+                $kv[] = "$key=$value";
+        }
+        $queryString = join ("&", $kv);
+}
+
+$url = "http://$_SERVER[HTTP_HOST]?".$queryString;
 $query_str = parse_url($url, PHP_URL_QUERY);
 parse_str($query_str, $query_params);
 //print_r($query_params);

@@ -58,7 +58,7 @@
     // fill menu's own data
     $table = "menu";
     $arrLines = array();
-    if($nItemCount > 1){
+    if($nItemCount >= 1){
         foreach ($arrOrders as $item) {
             $result = mysql_query("SELECT * FROM $table where menuid={$item["menuid"]}");
             $row = mysql_fetch_array($result);
