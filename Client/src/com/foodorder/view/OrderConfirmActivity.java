@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +32,14 @@ import android.widget.Toast;
 
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
+import com.foodorder.beans.CommonModel;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.OrderLine;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
+import com.foodorder.services.UpdateOrderStatus;
 import com.foodorder.view.MenuListActivity.MyBaseAdapter;
 import com.google.gson.JsonSyntaxException;
 
@@ -196,6 +199,7 @@ public class OrderConfirmActivity extends Activity {
 			
 			try {
 				result = request.createOrder("Alex","0001",orderLineList);
+				Log.e("OrderConfirmActivity", "request result is "+ result);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -217,6 +221,17 @@ public class OrderConfirmActivity extends Activity {
 			if (result == null || result.equals("")) {
 				handler.sendEmptyMessage(3);
 			} else {
+				Log.e("OrderConfirmActivity", "result is "+ result);
+				CommonModel commonResult = new Parse().CommonPares(result);
+				String orderId = commonResult.getResult();
+				
+				// Start service to check order status update
+				
+				Intent myIntent = new Intent(OrderConfirmActivity.this,UpdateOrderStatus.class);
+				Log.e("OrderConfirmActivity", "order id is "+orderId);
+				myIntent.putExtra("NEW_MENU", orderId);
+				startService(myIntent);			
+				
 				
 				AlertDialog alertDialog1=new AlertDialog.Builder(OrderConfirmActivity.this).create();
 				
@@ -234,7 +249,8 @@ public class OrderConfirmActivity extends Activity {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
+						
+						//Start service to check order status
 						
 						//Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(OrderConfirmActivity.this,MenuListActivity.class);
