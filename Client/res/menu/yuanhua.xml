@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.assign2.yuanhua.YuanhuaActivity" >
+
+    <group android:id="@+id/group1">
+        <item android:id="@+id/mnuPizza" android:alphabeticShortcut="@string/p" android:title="@string/mnuPizza"></item>
+        <item android:id="@+id/mnuHot" android:alphabeticShortcut="@string/h" android:title="@string/mnuHot"></item>
+        <item android:id="@+id/mnuNova" android:alphabeticShortcut="@string/n" android:title="@string/mnuNova"></item>
+        
+    </group>
+    
+</menu>
