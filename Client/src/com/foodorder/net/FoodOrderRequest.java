@@ -11,7 +11,11 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.foodorder.beans.*;
+import com.foodorder.view.OrderConfirmActivity;
 
 public class FoodOrderRequest {
 	
@@ -73,7 +77,18 @@ public class FoodOrderRequest {
 //			{
 //			}
 //		}
-		
+		Log.e("strParams", ":" + strParams.toString());
+		//Toast.makeText(mContext , strParams.toString(),  Toast.LENGTH_SHORT).show();
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("CreateOrder.php", ""));
+	}
+	
+	public String checkStatus(String orderid) throws IOException, TimeoutException {
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if (!TextUtils.isEmpty(orderid)) {
+			strParams.add(new BasicNameValuePair("orderid", orderid));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrderStatus.php", ""));
 	}
 }
