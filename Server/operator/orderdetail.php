@@ -31,7 +31,7 @@
                     "restid" => '',
                     "name"=> '',
                     "pic"=> '',              
-                    "price" => 5.7
+                    "price" => ''
                 );
     //output all query
     $arrOrders = array();
@@ -65,7 +65,7 @@
             $item['restid'] = $row['restid'];
             $item['name'] = $row['name'];
             $item['pic'] = $row['pic'];
-            //$item['des'] = $row['des'];
+            $item['price'] = $row['price'];
             array_push($arrLines, $item);
         }
 

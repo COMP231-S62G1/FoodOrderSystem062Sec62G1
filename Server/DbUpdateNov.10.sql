@@ -68,7 +68,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,1,'menu1','http://www4.timhortons.com/ca/images/general/tim-hortons-takeout-cup.jpg','coffee',0.999),(2,1,'guu','http://travel.openrice.com/UserPhoto/photo/0/1N/000BRG976B894A7371DDABl.jpg','guu food',0.999);
+INSERT INTO `menu` VALUES (1,1,'menu1','http://www4.timhortons.com/ca/images/general/tim-hortons-takeout-cup.jpg','coffee',0.99),(2,1,'guu','http://travel.openrice.com/UserPhoto/photo/0/1N/000BRG976B894A7371DDABl.jpg','guu food',1.49);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
