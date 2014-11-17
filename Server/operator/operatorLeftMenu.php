@@ -5,6 +5,8 @@
 <?php
     if($dateon != null)
         echo "value=\"$dateon\"";
+    else
+        echo "value=\"".date("Y-m-d")."\"";
 ?>/>
         </p>
 		<p class="auto-style2">
