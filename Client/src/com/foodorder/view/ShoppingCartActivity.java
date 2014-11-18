@@ -102,6 +102,24 @@ public class ShoppingCartActivity extends Activity {
 		getMenuInflater().inflate(R.menu.shopping_cart, menu);
 		return true;
 	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}else if (id == R.id.action_order){
+			Intent intentViewOrder = new Intent(ShoppingCartActivity.this,
+					OrderDetail.class);
+			if(ApplicationData.arrOrderId.size()>0){
+				intentViewOrder.putExtra("orderId", Integer.parseInt(ApplicationData.arrOrderId.get(0)));
+			}
+			startActivity(intentViewOrder);
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 	class MyBaseAdapter extends BaseAdapter {
 

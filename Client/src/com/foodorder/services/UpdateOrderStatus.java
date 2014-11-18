@@ -5,15 +5,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeoutException;
 
+import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.CommonModel;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
+import com.foodorder.view.OrderDetail;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,13 +46,14 @@ public class UpdateOrderStatus extends Service {
 	
 	private NotificationManager notificationManager;
 	private Notification.Builder foodNotiBuilder;
-	private int NOTIFICATION_ID = 1;
+	private int NOTIFICATION_ID;
 	
 
 	@Override
 	public void onCreate() {
 		Log.e("UpdateOrderStatus", "onCreate()");
 		updateTimer = new Timer("orderstatus");
+		
 		notificationManager 
 	      = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		
@@ -58,7 +63,6 @@ public class UpdateOrderStatus extends Service {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO 서비스 바인딩 구현으로 대체한다.
 		Log.e("UpdateOrderStatus", "onBind()");
 		return null;
 	}
@@ -75,7 +79,6 @@ public class UpdateOrderStatus extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO: 처리를 수행할 백그라운드 스레드를 띄운다.
 		
 		Bundle extras = intent.getExtras(); 
 		if(extras == null)
@@ -102,13 +105,17 @@ public class UpdateOrderStatus extends Service {
 				}
 			}
 			orderId = getInt;
+			if(!ApplicationData.arrOrderId.contains(Integer.toString(orderId))){
+				ApplicationData.arrOrderId.add(Integer.toString(orderId));
+			}
+			NOTIFICATION_ID = ApplicationData.NOTIFICATION_ID++;
 		}
 		
 		
 		Log.e("UpdateOrderStatus Service", "onStartCommand() startId is "+startId + ", orderId is "+orderId+" flag is "+flags);
-		
+
 		//if ((flags & START_FLAG_RETRY) == 0) {
-			// TODO: 재시작 된경우에 원하는 작업을 수행한다.
+			
 		//}
 		//else 
 		{
@@ -162,6 +169,9 @@ public class UpdateOrderStatus extends Service {
 						}else if (orderStatus == 3){
 							notiMsg = "Your order was rejected";
 							updateTimer.cancel();
+							int idx = ApplicationData.arrOrderId.indexOf(Integer.toString(orderId));
+							Log.e("remove order", "      ID: "+orderId+", index: " + idx);
+							ApplicationData.arrOrderId.remove(idx);
 							stopSelf();
 						}else{
 							return;
@@ -172,6 +182,9 @@ public class UpdateOrderStatus extends Service {
 							// notify order was completed
 							notiMsg = "Your order was completed. Please pick it up";
 							updateTimer.cancel();
+							int idx = ApplicationData.arrOrderId.indexOf(Integer.toString(orderId));
+							Log.e("remove order", "      ID: "+orderId+", index: " + idx);
+							ApplicationData.arrOrderId.remove(idx);
 							stopSelf();
 						}else{
 							return;
@@ -183,6 +196,27 @@ public class UpdateOrderStatus extends Service {
 			         .setContentText(notiMsg)
 			         .setSmallIcon(R.drawable.ic_launcher);
 					
+					// Creates an explicit intent for an Activity in your app
+					Intent resultIntent = new Intent(getApplicationContext(), OrderDetail.class);
+					resultIntent.putExtra("orderId", orderId);
+					resultIntent.putExtra("orderStatus", orderStatus);
+					resultIntent.putExtra("notiId", NOTIFICATION_ID);
+					
+					
+					//This ensures that navigating backward from the Activity leads out of the app to Home page
+					TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+					
+					// Adds the back stack for the Intent
+					stackBuilder.addParentStack(OrderDetail.class);
+					
+					// Adds the Intent that starts the Activity to the top of the stack
+					stackBuilder.addNextIntent(resultIntent);
+					PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+							0, PendingIntent.FLAG_ONE_SHOT //can only be used once
+							);
+					// start the activity when the user clicks the notification text
+					foodNotiBuilder.setContentIntent(resultPendingIntent);
+
 					if (android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.JELLY_BEAN) {
 						// call something for API Level 16+
 						notificationManager.notify(NOTIFICATION_ID,

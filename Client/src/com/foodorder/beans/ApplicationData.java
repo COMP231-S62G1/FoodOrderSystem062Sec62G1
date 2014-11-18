@@ -90,6 +90,9 @@ public class ApplicationData extends Application{
 	public static Double longitude;
 	public static Double dimension;
 	public static boolean isCancel = true;
+	
+	public static int NOTIFICATION_ID = 1;
+	public static ArrayList<String> arrOrderId = new ArrayList<String>();
 
 	@Override
 	public void onCreate() {

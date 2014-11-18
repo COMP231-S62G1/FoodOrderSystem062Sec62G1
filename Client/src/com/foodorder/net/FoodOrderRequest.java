@@ -19,7 +19,7 @@ import com.foodorder.view.OrderConfirmActivity;
 
 public class FoodOrderRequest {
 	
-	private final String url = "http://54.213.167.5/COMP/";
+	private final String url = "http://husion.ca/comp231/Interface/";
 
 	protected Context mContext;
 
@@ -90,5 +90,17 @@ public class FoodOrderRequest {
 			return null;
 		}
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrderStatus.php", ""));
+	}
+	
+	public String getOrderDetail(String orderid) throws IOException, TimeoutException {
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if (!TextUtils.isEmpty(orderid)) {
+			strParams.add(new BasicNameValuePair("orderid", orderid));
+		}else{
+			return null;
+		}
+		Log.e("getOrderDetial", "param: " + strParams);
+		Log.e("getOrderDetial", "url: " + getUrl("GetOrderDetail.php", ""));
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrderDetail.php", ""));
 	}
 }

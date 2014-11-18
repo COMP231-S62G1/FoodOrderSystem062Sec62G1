@@ -3,8 +3,9 @@ package com.foodorder.net;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import com.foodorder.beans.*;
-import com.foodorder.beans.CommonModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -61,6 +62,19 @@ public class Parse {
 	    ArrayList<UserInfo> lcs = new ArrayList<UserInfo>(); 
 	    for(JsonElement obj : Jarray ){ 
 	    	UserInfo cse = gson.fromJson( obj , UserInfo.class); 
+	        lcs.add(cse);
+	    }
+		return lcs;
+	}
+	
+	public ArrayList<OrderLine> GetOrderLine(String str) throws JsonSyntaxException{
+		Gson gson = new Gson(); 
+	    JsonParser parser = new JsonParser(); 
+	    JsonArray Jarray = parser.parse(str).getAsJsonArray(); 
+	    ArrayList<OrderLine> lcs = new ArrayList<OrderLine>(); 
+	    for(JsonElement obj : Jarray ){ 
+	    	OrderLine cse = gson.fromJson( obj , OrderLine.class); 
+	    	Log.w("GetOrderLine Parse:", cse.toString());
 	        lcs.add(cse);
 	    }
 		return lcs;

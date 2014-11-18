@@ -20,6 +20,7 @@ import android.os.Message;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 import com.foodorder.client.R;
 import com.foodorder.beans.AppConstants;
+import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.Rest;
 import com.foodorder.client.R;
 import com.foodorder.net.Parse;
@@ -90,7 +92,7 @@ public class RestListActivity extends Activity {
 		getMenuInflater().inflate(R.menu.rest_list, menu);
 		return true;
 	}
-/*
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -99,10 +101,22 @@ public class RestListActivity extends Activity {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
+		}else if(id == R.id.action_cart){
+			Intent intentViewCart = new Intent(RestListActivity.this,
+					ShoppingCartActivity.class);
+			intentViewCart.putExtra("ViewCart", "View Cart Successful");
+			startActivity(intentViewCart);
+		}else if (id == R.id.action_order){
+			Intent intentViewOrder = new Intent(RestListActivity.this,
+					OrderDetail.class);
+			if(ApplicationData.arrOrderId.size()>0){
+				intentViewOrder.putExtra("orderId", Integer.parseInt(ApplicationData.arrOrderId.get(0)));
+			}
+			startActivity(intentViewOrder);
 		}
 		return super.onOptionsItemSelected(item);
 	}
-*/
+
 
 	class MyBaseAdapter extends BaseAdapter{
 
