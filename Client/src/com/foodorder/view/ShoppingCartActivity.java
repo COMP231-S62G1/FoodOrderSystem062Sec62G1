@@ -156,7 +156,7 @@ public class ShoppingCartActivity extends Activity {
 
 			final EditText txtQuantity = (EditText) view.findViewById(R.id.txtQty1);
 			if ( txtQuantity != null )
-		     {								
+		     {						 
 				Set<String> keys = currentOrderline.keySet();
 				String itemId = null;
 				MenuModel aModel = menuList.get(position);
@@ -201,7 +201,9 @@ public class ShoppingCartActivity extends Activity {
 				        adb.setNegativeButton("Cancel", null);
 				        adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
 				            public void onClick(DialogInterface dialog, int which) {
-				            	ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+				            	
+								ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+								
 								MenuModel aMenu = menuList.get(positionToRemove);
 								listMenuApp.remove(aMenu);
 								ApplicationData.setCartList(listMenuApp);
