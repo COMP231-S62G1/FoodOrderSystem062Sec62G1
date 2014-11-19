@@ -8,8 +8,8 @@
     echo "<form action='../Interface/DataLogic/AcceptOrder.php' method='post' id='acceptForm'>";
     echo "<input type='hidden' name='orderId' value='$orderId'>";
     echo "</form>";
-    echo "<form action='../Interface/DataLogic/RejectOrder.php' method='post' id='rejectForm'>";
-    echo "<input type='hidden' name='orderId' value='$orderId'>";
+    echo "<form action='./rejectOrder.php' method='post' id='rejectForm'>";
+    echo "<input type='hidden' name='orderid' value='$orderId'>";
     echo "</form>";
     echo "<form action='./orderoperate.php' method='post' id='returnBack'>";
     echo "<input type='hidden' name='orderId' value='$orderId'>";
