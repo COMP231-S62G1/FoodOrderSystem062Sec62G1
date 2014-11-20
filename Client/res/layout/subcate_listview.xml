@@ -27,14 +27,14 @@
         android:layout_toRightOf="@+id/img"
         android:text="info" />
 
-    <Button
+     <Button
         android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="78sp"
+        android:layout_height="30sp"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/info"
         android:text="@string/btnAddCart"
-        android:textSize="14sp" />
+        android:textSize="10sp" />
     
     <EditText
         android:id="@+id/txtQty"

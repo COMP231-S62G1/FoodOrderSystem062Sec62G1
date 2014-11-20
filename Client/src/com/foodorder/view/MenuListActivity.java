@@ -251,7 +251,7 @@ public class MenuListActivity extends Activity {
 			if (obj instanceof MenuModel) {
 				final MenuModel aMenuItem = (MenuModel) obj;
 				menu_item_title.setText("Name: " + aMenuItem.getName() + "\n"
-						+ "Description: " + aMenuItem.getDes());
+						+ "Description: " + aMenuItem.getDes() + "\n" + "Price: " + aMenuItem.getPrice());
 
 				menu_item_image.setTag(aMenuItem.getPic());
 				if (menuList.get(position).getPic() != null
