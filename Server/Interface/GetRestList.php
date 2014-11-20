@@ -1,14 +1,8 @@
 <?php
 
-$user_input = empty($_POST)?$_GET:$_POST;
+include '../dbConnector.php';
+
 $table = 'rest';
-
-//connect to database
-mysql_connect("localhost", "comp231", "comp231") or
-  die("Could not connect: " . mysql_error());
-
-//select a database
-mysql_select_db("foodorder");
 
 //select all category
 $result = mysql_query("SELECT * FROM $table ORDER BY idrest");

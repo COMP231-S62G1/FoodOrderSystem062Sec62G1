@@ -1,6 +1,7 @@
 <?php
 
-$user_input = empty($_POST)?$_GET:$_POST;
+include '../dbConnector.php';
+
 $table = 'order';
 
 if($_POST){
@@ -19,12 +20,7 @@ parse_str($query_str, $query_params);
 $userid = $user_input['userid'];
 $username = $user_input['username'];
 
-//connect to database
-mysql_connect("localhost", "comp231", "comp231") or
-  die("Could not connect: " . mysql_error());
 
-//select a database
-mysql_select_db("foodorder");
 $sql = "insert into orders(userid,ordertime,username,status)
 values('$userid',Now(),'$username',0)";
 $result = mysql_query($sql);
