@@ -14,6 +14,8 @@
     $rdoType = $_GET['type'];
     $chkOption = $_GET['check'];
     $dateon = $_GET['date'];
+    if($dateon == null)
+        $dateon = date("Y-m-d");
 ?>
 
 <!-- load data from database server -->

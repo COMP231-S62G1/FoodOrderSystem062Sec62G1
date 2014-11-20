@@ -6,7 +6,7 @@ $cid = $user_input['restid'];
 
 
 //connect to database
-mysql_connect("localhost", "root", "wechao") or
+mysql_connect("localhost", "comp231", "comp231") or
   die("Could not connect: " . mysql_error());
 
 //select a database

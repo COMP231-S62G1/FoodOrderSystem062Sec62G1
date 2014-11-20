@@ -4,7 +4,7 @@ $user_input = empty($_POST)?$_GET:$_POST;
 $table = 'rest';
 
 //connect to database
-mysql_connect("localhost", "root", "wechao") or
+mysql_connect("localhost", "comp231", "comp231") or
   die("Could not connect: " . mysql_error());
 
 //select a database

@@ -5,14 +5,11 @@
     <p>&nbsp;</p>
 
 <?php
-    echo "<form action='../Interface/DataLogic/AcceptOrder.php' method='post' id='acceptForm'>";
+    echo "<form action='../Interface/DataLogic/RejectOrder.php' method='get' id='rejectForm'>";
     echo "<input type='hidden' name='orderId' value='$orderId'>";
-    echo "</form>";
-    echo "<form action='./rejectOrder.php' method='post' id='rejectForm'>";
-    echo "<input type='hidden' name='orderid' value='$orderId'>";
     echo "</form>";
     echo "<form action='./orderoperate.php' method='post' id='returnBack'>";
-    echo "<input type='hidden' name='orderId' value='$orderId'>";
+//    echo "<input type='hidden' name='orderId' value='$orderId'>";
     echo "</form>";
 
     include './getStatus.php';
@@ -71,16 +68,18 @@
     $finalAmount = $subTotal + $taxAmount;
     echo "<tr><td colspan='2'></td><td colspan='2' align='right'><h2>Final Total</h2></td><td></td><td align='left'><h2>$finalAmount</h2></td></tr>";
     echo "<tr><td colspan='6'> <hr> </td></tr>";
-    echo "<tr><td colspan='3' align='center'>";
+    echo "<tr><td colspan='2'></td><td colspan='2' align='left'>";
+    if($status == 0){
+        echo "<br/><H2> Select reason to reject</H2><br/>";
+        echo "<H4><input type='radio' form='rejectForm' name='reason' value='Out of food stuff' checked>  Out of food stuff</H4><br/>";
+        echo "<H4><input type='radio' form='rejectForm' name='reason' value='Out of Business hour'>  Out of Business hour </H4><br/>";
+        echo "<H4><input type='radio' form='rejectForm' name='reason' value='Broken down cooking machine'>  Broken down cooking machine</H4><br/>";
+        echo "<H4><input type='radio' form='rejectForm' name='reason' value='Others'>  Others </H4><br/>";
+    }
+    echo "</td><td colspan='2' align='center'>";
     if($status == 0){        
         echo "<button type='submit' form='rejectForm' value='Reject the order' style='font-size:10px; margin:15px; padding: 10px;'>";
-        echo "<H2>Reject the order</H2>";
-        echo "</button>";
-    }
-    echo "</td><td colspan='3' align='center'>";
-    if($status == 0){        
-        echo "<button type='submit' form='acceptForm' value='Confirm the order' style='font-size:10px; margin:15px; padding: 10px;'>";
-        echo "<H2>Confirm the order</H2>";
+        echo "<H2>Reject it</H2>";
         echo "</button>";
     }
     echo "</td></tr>";
