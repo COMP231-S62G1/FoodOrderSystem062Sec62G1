@@ -190,13 +190,11 @@ public class UpdateOrderStatus extends Service {
 							return;
 						}
 					}
-					//Notification Bar
 					foodNotiBuilder
 					 .setTicker(tickerMsg)
 			         .setContentTitle("Food Order")
 			         .setContentText(notiMsg)
 			         .setSmallIcon(R.drawable.ic_launcher);
-					
 					
 					// Creates an explicit intent for an Activity in your app
 					Intent resultIntent = new Intent(getApplicationContext(), OrderDetail.class);

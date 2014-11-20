@@ -20,7 +20,7 @@ $userid = $user_input['userid'];
 $username = $user_input['username'];
 
 //connect to database
-mysql_connect("localhost", "comp231", "comp231") or
+mysql_connect("localhost", "root", "wechao") or
   die("Could not connect: " . mysql_error());
 
 //select a database

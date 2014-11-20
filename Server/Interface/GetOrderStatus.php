@@ -6,7 +6,7 @@ $cid = $user_input['orderid'];
 
 
 //connect to database
-mysql_connect("localhost", "comp231", "comp231") or
+mysql_connect("localhost", "root", "wechao") or
   die("Could not connect: " . mysql_error());
 
 //select a database
