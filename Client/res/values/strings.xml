@@ -39,5 +39,9 @@
     <string name="btnRemove">Remove</string>
     <string name="title_activity_order_detail">OrderDetail</string>
     <string name="prompt">Quantity</string>
+    <string name="net">Net price:</string>
+    <string name="hst">HST amount:</string>
+    <string name="gross">Total amount:</string>
+    <string name="plzconfirm">Please confirm your order:</string>
 
 </resources>

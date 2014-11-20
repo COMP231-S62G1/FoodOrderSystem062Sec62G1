@@ -40,6 +40,7 @@ import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.foodorder.services.UpdateOrderStatus;
+import com.foodorder.utils.AmountCalculator;
 import com.foodorder.view.MenuListActivity.MyBaseAdapter;
 import com.google.gson.JsonSyntaxException;
 
@@ -63,17 +64,35 @@ public class OrderConfirmActivity extends Activity {
 		setContentView(R.layout.activity_confirm);
 		setTitle("Order Confirmation");
 
-		 intentViewOrder = getIntent();
-			b = intentViewOrder.getExtras();
-			b.get("OrderConfirm");         
+		intentViewOrder = getIntent();
+		b = intentViewOrder.getExtras();
+		b.get("OrderConfirm");         
 
 		orderListView = (ListView) findViewById(R.id.orderlist);
 		menuList = ApplicationData.getCartList();
 		orderLineList=ApplicationData.getOrderLine();
 		myBaseAdapter = new MyBaseAdapter();
 		orderListView.setAdapter(myBaseAdapter);
+		
+		TextView txtNet = (TextView) findViewById(R.id.txtNetAmt);
+		TextView txtHst = (TextView) findViewById(R.id.txtHstAmt);
+		TextView txtTotal = (TextView) findViewById(R.id.txtTotalAmt);
+		
+		double fNet=0;
+		double fHst=0;
+		double fGross=0;
+		
+		fNet = AmountCalculator.getNetAmount(menuList, orderLineList);
+		fHst = AmountCalculator.getHstAmount(fNet);
+		fGross = AmountCalculator.getGrossAmount(fNet);
+		
+		
+		txtNet.setText( AmountCalculator.getAmountString(fNet));
+		txtHst.setText( AmountCalculator.getAmountString(fHst));
+		txtTotal.setText( AmountCalculator.getAmountString(fGross));
 
 	}
+
 
 	class MyBaseAdapter extends BaseAdapter {
 
@@ -141,13 +160,13 @@ public class OrderConfirmActivity extends Activity {
 			MenuModel aModel = menuList.get(position);
 
 			for(String key: keys){
-			if(aModel.getMenuid()== key)
-				itemId=key;
+				if(aModel.getMenuid()== key)
+					itemId=key;
 			}
-			if(itemId!=null)
-			//String quantityString = orderObject.get(itemId);
-			order_item_qty.setText("Qty: " +orderLineList.get(itemId));		
-			
+			if(itemId!=null){
+				//String quantityString = orderObject.get(itemId);
+				order_item_qty.setText("Qty: " +orderLineList.get(itemId));		
+			}
 			return view;
 		}
 	}
