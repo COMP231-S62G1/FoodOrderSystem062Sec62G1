@@ -38,5 +38,6 @@
     <string name="btnViewCart">Go to Cart</string>
     <string name="btnRemove">Remove</string>
     <string name="title_activity_order_detail">OrderDetail</string>
+    <string name="prompt">Quantity</string>
 
 </resources>
