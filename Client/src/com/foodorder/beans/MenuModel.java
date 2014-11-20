@@ -13,6 +13,14 @@ public class MenuModel  implements Serializable {
 	private String name;
 	private String pic;
 	private String des;
+	private String price;
+	
+	public void setPrice(String price){
+		this.price = price;
+	}
+	public String getPrice(){
+		return this.price;
+	}
 	public String getMenuid() {
 		return menuid;
 	}

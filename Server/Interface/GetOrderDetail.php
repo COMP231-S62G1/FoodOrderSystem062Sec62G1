@@ -1,17 +1,10 @@
 <?php
 
-$user_input = empty($_POST)?$_GET:$_POST;
+include '../dbConnector.php';
+
+
 $table = "orderline";
 $orderId = $user_input['orderid'];
-
-
-//connect to database
-mysql_connect("localhost", "root", "admin1234") or
-  die("Could not connect: " . mysql_error());
-
-//select a database
-mysql_select_db("foodorder");
-
 $query = "SELECT * FROM $table WHERE orderid=$orderId";
 $result = mysql_query($query);
 

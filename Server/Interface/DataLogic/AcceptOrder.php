@@ -1,7 +1,6 @@
-<!-- include db connector -->
-<?php include '../../dbConnector.php';?>
-
 <?php
+
+include '../../dbConnector.php';
 
 $table = 'orders';
 $orderId = $user_input['orderId'];

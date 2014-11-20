@@ -57,7 +57,7 @@ CREATE TABLE `menu` (
   `name` varchar(45) DEFAULT NULL,
   `pic` varchar(450) DEFAULT NULL,
   `des` varchar(450) DEFAULT NULL,
-  `price` decimal(3,3) DEFAULT '0.990',
+  `price` decimal(6,2) DEFAULT '0.99',
   PRIMARY KEY (`menuid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

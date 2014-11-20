@@ -46,7 +46,7 @@ public class ShoppingCartActivity extends Activity {
 	private Button btnOrderConfirm;
 	private Button btnBack;
 	private HashMap<String, String> currentOrderline;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -152,6 +152,18 @@ public class ShoppingCartActivity extends Activity {
 			// TODO Auto-generated method stub
 			return position;
 		}
+		
+		boolean tryParseDouble(String value)  
+		{  
+		     try  
+		     {  
+		    	 Double.parseDouble(value);  
+		         return true;  
+		      } catch(NumberFormatException nfe)  
+		      {  
+		          return false;  
+		      }  
+		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -164,13 +176,14 @@ public class ShoppingCartActivity extends Activity {
 			Object obj = menuList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
+			TextView total = (TextView) view.findViewById(R.id.totalPrice);
+			TextView finalTotal = (TextView) view.findViewById(R.id.total);
 			ImageButton right_flag = (ImageButton) view
 					.findViewById(R.id.btnRemove);
 			ImageButton updateBtn = (ImageButton) view
 					.findViewById(R.id.btnUpdate);
 
-			final EditText txtQuantity = (EditText) view
-					.findViewById(R.id.txtQty1);
+			final EditText txtQuantity = (EditText) view.findViewById(R.id.txtQty1);
 			if (txtQuantity != null) {
 				Set<String> keys = currentOrderline.keySet();
 				String itemId = null;
@@ -179,10 +192,25 @@ public class ShoppingCartActivity extends Activity {
 				for (String key : keys) {
 					if (aModel.getMenuid() == key)
 						itemId = key;
+					
 				}
 				txtQuantity.setText(currentOrderline.get(itemId));
+				final MenuModel aMenuPrice = (MenuModel) obj;
+				double qty = Double.parseDouble(currentOrderline.get(itemId));
+				double price = 0.0f;
+				if(aMenuPrice.getPrice()!=null)
+				{
+					price = Double.parseDouble(aMenuPrice.getPrice());
+				}
+				
+				double calcTotal = qty*price;
+				String calcTotall = String.valueOf(calcTotal);
+				total.setText("Total: $" + calcTotall);				
+				
 			}
-
+			
+			
+			
 			// update a new quantity
 			updateBtn.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {
@@ -249,7 +277,7 @@ public class ShoppingCartActivity extends Activity {
 			if (obj instanceof MenuModel) {
 				final MenuModel aMenuItem = (MenuModel) obj;
 				menu_item_title.setText("Name: " + aMenuItem.getName() + "\n"
-						+ "Description: " + aMenuItem.getDes());
+						+ "Description: " + aMenuItem.getDes() + "\n" + "Price: $" + aMenuItem.getPrice());
 
 				menu_item_image.setTag(aMenuItem.getPic());
 				if (menuList.get(position).getPic() != null

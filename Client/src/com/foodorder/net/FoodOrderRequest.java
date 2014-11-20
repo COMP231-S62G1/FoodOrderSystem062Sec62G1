@@ -103,4 +103,16 @@ public class FoodOrderRequest {
 		Log.e("getOrderDetial", "url: " + getUrl("GetOrderDetail.php", ""));
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrderDetail.php", ""));
 	}
+	
+	public String getReason(String orderid) throws IOException, TimeoutException{
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if(!TextUtils.isEmpty(orderid)){
+			strParams.add(new BasicNameValuePair("orderid", orderid));
+		}else{
+			return null;
+		}
+		Log.e("getReason", "param: " + strParams);
+		Log.e("getReason", "url: " + getUrl("GetReason.php", ""));
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetReason.php", ""));
+	}
 }

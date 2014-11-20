@@ -1,7 +1,5 @@
-<!-- include db connector -->
-<?php include '../../dbConnector.php';?>
-
 <?php
+include '../../dbConnector.php';
 
 $table = 'orders';
 $orderId = $user_input['orderId'];
@@ -16,14 +14,11 @@ $table = 'rejection';
 $sql = "INSERT INTO $table (orderId,rejectReason) VALUES ($orderId,'$reason');";
 $result = mysql_query($sql);
 
-
 /*
 echo $sql."<br/>";
 echo $result."result";
 echo "<br/>Reason is <br/>".$reason;
-
 */
-
 
 ?>
 
