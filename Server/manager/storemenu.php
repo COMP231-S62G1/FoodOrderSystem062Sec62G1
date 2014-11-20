@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Centennial College Food Order</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="../styles.css" rel="stylesheet" type="text/css" media="screen" />
+<style type="text/css">
+.auto-style1 {
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+<form id="form1" runat="server">
+<div id="content">
+	<div id="back_all">
+<!-- header begins -->
+<div id="header">
+  <div id="menu">
+		<ul>
+			<li><a href="" title="">Home</a></li>
+			<li><a href="storeinfo.html"  title="">Store Info</a></li>
+			<li><a href="storemenu.html" title="">Menus</a></li>
+			<li><a href="storeaccount.html"  title="">Account</a></li>
+			<li><a href="storereport.html"  title="">Report</a></li>
+			<li><a href="" title="">Logout</a></li>
+		</ul>
+	</div>
+	<div id="logo">
+		<h1><a href="http://www.centennialcollege.ca" title="Centennial College Food Order">Centennial College Food Order</a></h1>
+		<h2><a href="http://github.com/COMP231-S62G1/FoodOrderSystem062Sec62G1/" id="metamorph">Designed by Group 1</a></h2>
+	</div>
+</div>
+<!-- header ends -->
+<!-- content begins -->
+ <div id="main">
+ 	<div id="right">
+		<h3>Welcome To Centennial College Food Order</h3><br />
+			<h4>Maintain Menu</h4>
+			<table style="width: 100%">
+				<tr>
+					<td style="width: 146px; height: 18px">Restaurtant ID:</td>
+					<td style="height: 18px">
+					<input name="txtRestID" style="width: 207px" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 146px; height: 18px">Item Name:</td>
+					<td style="height: 18px">
+					<input name="txtMName" style="width: 207px" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 146px; height: 18px">Item Price</td>
+					<td style="height: 18px">
+					<input name="txtPrice" style="width: 207px" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 146px">Item Picture Path:</td>
+					<td><input name="itemPic" style="width: 300px" type="file" /></td>
+				</tr>
+				<tr>
+					<td style="width: 146px">Item Description:</td>
+					<td>
+					<textarea name="TextArea1" style="width: 332px; height: 63px"></textarea></td>
+				</tr>
+				<tr>
+					<td style="width: 146px">&nbsp;</td>
+					<td><button name="btnEdit">Edit</button>&nbsp;&nbsp;&nbsp;
+					<button name="btnDelete">Delete</button>&nbsp;&nbsp;&nbsp;
+					<button name="btnCancel">Cancel</button>&nbsp;&nbsp;&nbsp;
+					<button name="btnSave">Save</button></td>
+				</tr>
+		</table>
+		<p><br />
+	    </p>
+			<h4><a href="http://www.mianfeimoban.com">Display all Menu Items</a></h4><br />
+			<table style="width: 100%">
+				<tr>
+				<th style="height: 18px">Item ID</th>
+                <th style="height: 18px">Item Photo</th>
+                <th style="height: 18px">Item Name</th>
+                <th style="height: 18px">Item Price</th>
+                <th style="height: 18px">Item Description</th>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+		</table>
+			<p class="date">&nbsp;</p>
+			
+		<br />
+	
+			
+	</div>
+	<div id="left">
+		<a href="storemenu.php" class="auto-style1"><h3>Edit Menus</h3>
+		<br />
+	
+	</div>
+	
+
+<!--content ends -->
+	</div>
+<!--footer begins -->
+	</div>
+</div>
+<div id="footer">
+<p>Copyright &copy; 2014. Designed by COMP 231 Group 1</p>
+	</div>
+<!-- footer ends-->
+</form>
+</body>
+</html>
