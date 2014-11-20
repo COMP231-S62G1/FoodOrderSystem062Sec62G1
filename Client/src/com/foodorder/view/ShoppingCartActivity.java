@@ -154,18 +154,18 @@ public class ShoppingCartActivity extends Activity {
 			Button right_flag = (Button) view.findViewById(R.id.btnRemove);
 			Button updateBtn = (Button) view.findViewById(R.id.btnUpdate);
 
-			final EditText txtQuantity = (EditText) view.findViewById(R.id.txtQty1);
-			if ( txtQuantity != null )
+			final EditText txtQuant = (EditText) view.findViewById(R.id.txtQty1);
+			if ( txtQuant != null )
 		     {						 
-				Set<String> keys = currentOrderline.keySet();
-				String itemId = null;
-				MenuModel aModel = menuList.get(position);
+				 Set<String> keys = currentOrderline.keySet();
+				 String itemId = null;
+				 MenuModel aModel = menuList.get(position);
 
 				for(String key: keys){
 				if(aModel.getMenuid()== key)
 					itemId=key;
 				}
-				txtQuantity.setText(currentOrderline.get(itemId));	
+				txtQuant.setText(currentOrderline.get(itemId));	
 		     }
 			
 			//update a new quantity
@@ -177,10 +177,14 @@ public class ShoppingCartActivity extends Activity {
 					if (!currentOrderline.isEmpty()) {
 						if (currentOrderline.containsKey(aMenu.getMenuid())) {
 							currentOrderline.remove(aMenu.getMenuid());
+							
 						}
 					}
-					currentOrderline.put(aMenu.getMenuid(), txtQuantity
+					
+					//set quantity and store to application data
+					currentOrderline.put(aMenu.getMenuid(), txtQuant
 							.getText().toString());
+							//application data set list
 					ApplicationData.setOrderLineList(currentOrderline);	
 	                notifyDataSetChanged();
 				}
