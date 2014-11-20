@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img"
         android:layout_alignTop="@+id/img"
+        android:layout_toLeftOf="@+id/btnUpdate"
         android:layout_toRightOf="@+id/img"
         android:text="info"
         android:textSize="12dp" />
@@ -53,14 +54,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/info"
-        android:layout_alignLeft="@+id/btnUpdate"
         android:layout_alignParentEnd="true"
         android:layout_alignRight="@+id/btnRemove"
-        android:ems="10"
         android:inputType="numberDecimal"
         android:textSize="10dp" >
 
         <requestFocus />
     </EditText>
+
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnUpdate"
+        android:layout_alignParentBottom="true"
+        android:ems="6"
+        android:inputType="numberDecimal"
+        android:textSize="10dp" />
 
 </RelativeLayout>
