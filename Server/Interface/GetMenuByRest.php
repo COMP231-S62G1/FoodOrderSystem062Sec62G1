@@ -27,13 +27,14 @@ $rst = array(
 $arr_category = array();
 $i = 0;
 while ($row = mysql_fetch_array($result)) {
-  $i++;
-  $rst['menuid'] = $row['menuid'];
-  $rst['restid'] = $row['restid'];
-  $rst['name'] = $row['name'];
-  $rst['pic'] = $row['pic'];
- $rst['des'] = $row['des'];
- array_push($arr_category, $rst);
+    $i++;
+    $rst['menuid'] = $row['menuid'];
+    $rst['restid'] = $row['restid'];
+    $rst['name'] = $row['name'];
+    $rst['pic'] = $row['pic'];
+    $rst['price'] = $row['price']; 
+    $rst['des'] = $row['des'];
+    array_push($arr_category, $rst);
 }
 
 

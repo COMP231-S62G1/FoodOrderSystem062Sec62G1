@@ -83,6 +83,9 @@ private ArrayList<MenuModel> menuList;
 		
 		if(orderStatus > 0){
 			txtTitle.setText(txtTitle.getText().toString() + " " + getStatusString(orderStatus));
+			if(orderStatus == 3){
+				new GetReason(OrderDetail.this).execute("");
+			}
 		}else{
 			new GetStatus(OrderDetail.this, 1).execute("");
 		}
@@ -116,6 +119,42 @@ private ArrayList<MenuModel> menuList;
 			default:
 				return "unkonwn";
 				
+		}
+	}
+	
+	private class GetReason extends AsyncTask<String, String, String> {
+		private Context mContext;
+		
+		private GetReason(Context context) {
+			this.mContext = context;
+		}
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			FoodOrderRequest request = new FoodOrderRequest(OrderDetail.this);
+			
+			try {
+				result = request.getReason(Integer.toString(orderId));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (result == null || result.equals("")) {
+				handler.sendEmptyMessage(3);
+			} else {
+				txtTitle.setText(txtTitle.getText().toString() + "\nDue to " + result);
+				txtTitle.invalidate();
+			}
 		}
 	}
 	
@@ -160,6 +199,9 @@ private ArrayList<MenuModel> menuList;
 				int orderStatus = Integer.parseInt(status);
 				txtTitle.setText(txtTitle.getText().toString() + " " + getStatusString(orderStatus));
 				txtTitle.invalidate();
+				if(orderStatus == 3){
+					new GetReason(mContext).execute("");;
+				}
 			}
 		}
 	}
