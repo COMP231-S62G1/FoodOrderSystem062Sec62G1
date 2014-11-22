@@ -14,7 +14,7 @@
 </head>
 <body>
 <form id="form1" runat="server">
-<div id="content">
+<div id="contents">
 	<div id="back_all">
 <!-- header begins -->
 <div id="header">
@@ -22,9 +22,7 @@
 		<ul>
 			<li><a href="" title="">Home</a></li>
 			<li><a href="storeinfo.html"  title="">Store Info</a></li>
-			<li><a href="storemenu.html" title="">Menus</a></li>
-			<li><a href="storeaccount.html"  title="">Account</a></li>
-			<li><a href="storereport.html"  title="">Report</a></li>
+			<li><a href="storemenu.html" title="">Edit Menu</a></li>
 			<li><a href="" title="">Logout</a></li>
 		</ul>
 	</div>
@@ -36,77 +34,129 @@
 <!-- header ends -->
 <!-- content begins -->
  <div id="main">
- 	<div id="right">
+ 	<div id="rights">
 		<h3>Welcome To Centennial College Food Order</h3><br />
+		<p id="result"></p>
 			<h4>Maintain Menu</h4>
+			<form>
 			<table style="width: 100%">
 				<tr>
-					<td style="width: 146px; height: 18px">Restaurtant ID:</td>
+					<td style="width: 90px; height: 18px">Restaurant ID:</td>
 					<td style="height: 18px">
 					<input name="txtRestID" style="width: 207px" type="text" /></td>
 				</tr>
 				<tr>
-					<td style="width: 146px; height: 18px">Item Name:</td>
+					<td style="width: 90px; height: 18px">Item Name:</td>
 					<td style="height: 18px">
 					<input name="txtMName" style="width: 207px" type="text" /></td>
 				</tr>
 				<tr>
-					<td style="width: 146px; height: 18px">Item Price</td>
+					<td style="width: 90px; height: 18px">Price:</td>
 					<td style="height: 18px">
 					<input name="txtPrice" style="width: 207px" type="text" /></td>
 				</tr>
 				<tr>
-					<td style="width: 146px">Item Picture Path:</td>
+					<td style="width: 90px">Picture Path:</td>
 					<td><input name="itemPic" style="width: 300px" type="file" /></td>
 				</tr>
 				<tr>
-					<td style="width: 146px">Item Description:</td>
+					<td style="width: 90px">Description:</td>
 					<td>
-					<textarea name="TextArea1" style="width: 332px; height: 63px"></textarea></td>
+					<textarea name="TextArea1" style="width: 220px; height: 63px"></textarea></td>
 				</tr>
 				<tr>
-					<td style="width: 146px">&nbsp;</td>
-					<td><button name="btnEdit">Edit</button>&nbsp;&nbsp;&nbsp;
-					<button name="btnDelete">Delete</button>&nbsp;&nbsp;&nbsp;
-					<button name="btnCancel">Cancel</button>&nbsp;&nbsp;&nbsp;
-					<button name="btnSave">Save</button></td>
+				</tr>
+				<tr>
+					<td style="width: 90px">&nbsp;</td>
+					<td>
+					<button name="btnEdit" onclick="SavePopUp()">Save</button>&nbsp;
+					<button name="btnSave" onclick="AddPopUp()">Add as New</button>&nbsp;
+					<button name="btnDelete" onclick="DeletePopUp()">Delete</button>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 90px">&nbsp;</td>
+					<td>					
+					<input type="button" name="reset_form" value="Reset Form" onclick="this.form.reset();">
+					<td>
+					</td>
 				</tr>
 		</table>
+		</form>
 		<p><br />
 	    </p>
-			<h4><a href="http://www.mianfeimoban.com">Display all Menu Items</a></h4><br />
-			<table style="width: 100%">
-				<tr>
-				<th style="height: 18px">Item ID</th>
-                <th style="height: 18px">Item Photo</th>
-                <th style="height: 18px">Item Name</th>
-                <th style="height: 18px">Item Price</th>
-                <th style="height: 18px">Item Description</th>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-				</tr>
-		</table>
+			
+					<script>
+						function DeletePopUp() {
+							var x;
+							if (confirm("Are you sure you want to delete this item?") == true) {
+								x = "Item deleted";
+								<!--logic for deleting an item-->	
+								
+							} else {
+								x = "Item not deleted";
+							}
+							document.getElementById("result").innerHTML = x;
+							}
+							
+							function AddPopUp() {
+							var x;
+							if (confirm("Are you sure you want to add this item?") == true) {
+								x = "Item Added";
+								<!--logic for adding an item-->	
+							} else {
+								x = "Item not added";
+							}
+							document.getElementById("result").innerHTML = x;
+						}
+						
+						function SavePopUp() {
+							var x;
+							if (confirm("Are you sure you want to save this item?") == true) {
+								x = "Item edited";
+								<!--logic for edit-->	
+							} else {
+								x = "Item not edited";
+							}
+							document.getElementById("result").innerHTML = x;
+						}
+						
+					
+		</script>
+			
 			<p class="date">&nbsp;</p>
 			
 		<br />
 	
 			
 	</div>
-	<div id="left">
-		<a href="storemenu.php" class="auto-style1"><h3>Edit Menus</h3>
-		<br />
+	<div id="lefts">
+	<form>
+	Enter Item Name: <input name="itemNameS" style="width: 207px" type="text" />
+	<button name="btnSearch">Search</button></br></br>
+	</form/>
+		<table style="width: 50%">
+				<tr>
+				<th style="height: 18px">Item ID</th>
+                <th style="height: 18px">Item Photo</th>
+                <th style="height: 18px">Item Name</th>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+		</table>
 	
 	</div>
 	
