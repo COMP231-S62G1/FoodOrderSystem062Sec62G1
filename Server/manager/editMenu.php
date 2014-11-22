@@ -36,7 +36,10 @@
         $action = "edit";
     }else if(isset($user_input['btnSave'])){
         $action = "save";
-  
+    }else if(isset($user_input['btnDelete'])){
+        $action = "delete";
+    }
+
 
     if($action != "save"){
         if (strlen($menuid)<=0) {
@@ -73,7 +76,11 @@
             $query = "update $table set des='$des', name='$name', price=$price, pic='$pic' where menuid='$menuid'";
         }
         $result = mysql_query($query);
+    }else if($action == "delete"){
+        $query = "delete from $table where menuid='$menuid'";
+        $result = mysql_query($query);
     }
+
 
     if($result == FALSE){
         $uploadOk = false;
