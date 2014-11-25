@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 
 import com.foodorder.beans.ApplicationData;
@@ -35,12 +36,13 @@ public class LoginActivity extends Activity {
 	
 	private String name;
 	private String pwd;
+	private EditText txtPassword;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);  
-        
+        txtPassword = (EditText) findViewById(R.id.editPassword);
     }
 	
 	
@@ -100,7 +102,27 @@ public class LoginActivity extends Activity {
 						alertDialog1=new AlertDialog.Builder(mContext).create();
 					}
 					
-					
+					if(isFailed && alertDialog1!=null){
+						//Setting Dialog Title
+		                alertDialog1.setTitle("Log in failed");
+		                //Setting Dialog Message
+		                alertDialog1.setMessage("User name and password are not matched");
+		                //Setting Icon to Dialog
+		                alertDialog1.setIcon(R.drawable.login);
+		                //Setting OK Button
+		                alertDialog1.setButton("OK", 
+		                		new DialogInterface.OnClickListener() {
+				                    @Override
+				                    public void onClick(final DialogInterface dialog, final int which) {
+				                        // TODO do something when failed to log-in
+				                    	// eg. remove user name or password edit text field
+				                    	if(txtPassword != null)
+				                    		txtPassword.setText("");
+				                    }
+				                });
+		                //Showing Alert Message
+		                alertDialog1.show();
+					}
 						
 				}
 			}
