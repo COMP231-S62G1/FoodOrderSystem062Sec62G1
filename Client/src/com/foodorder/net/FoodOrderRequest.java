@@ -35,7 +35,25 @@ public class FoodOrderRequest {
 		sb.append(url).append(u).append("/").append(a);
 		return sb.toString();
 	}
+//user registration
+	public String getRegistration(String username, String password, String phone, 
+			String email)
+			throws IOException, TimeoutException {
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if (!TextUtils.isEmpty(username) &&
+				!TextUtils.isEmpty(password) &&
+				!TextUtils.isEmpty(phone) &&
+				!TextUtils.isEmpty(email)) {
+			strParams.add(new BasicNameValuePair("name", username));
+			strParams.add(new BasicNameValuePair("pwd", password));
+			strParams.add(new BasicNameValuePair("phone", phone));
+			strParams.add(new BasicNameValuePair("email", email));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("Register.php", ""));
 
+	}
 	
 	public String getRestList() throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
