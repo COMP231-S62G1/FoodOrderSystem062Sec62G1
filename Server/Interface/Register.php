@@ -1,7 +1,7 @@
 <?php
-
-$user_input = empty($_POST)?$_GET:$_POST;
+include '../dbConnector.php';
 $table = 'user';
+
 $username = $user_input['name'];
 $email = $user_input['email'];
 $pswd = $user_input['pwd'];
@@ -10,12 +10,6 @@ $phone = $user_input['phone'];
 if($phone ==NULL)
 $phone='';
 
-//connect to database
-mysql_connect("localhost", "root", "wechao") or
-  die("Could not connect: " . mysql_error());
-
-//select a database
-mysql_select_db("foodorder");
 $sql = "insert into user(name,email,pwd,balance,lastlogin,phone)
 values('$username','$email',md5('$pswd'),0,Now(),'$phone')";
 $result = mysql_query($sql);
