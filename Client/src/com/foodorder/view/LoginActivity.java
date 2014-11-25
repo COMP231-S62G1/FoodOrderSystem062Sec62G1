@@ -37,16 +37,18 @@ public class LoginActivity extends Activity {
 	private String name;
 	private String pwd;
 	private EditText txtPassword;
+	private Intent getRegister;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);  
         txtPassword = (EditText) findViewById(R.id.editPassword);
+        
+        getRegister = getIntent();
+		Bundle b = getRegister.getExtras();
+		b.get("Viewregister");
     }
-	
-	
-	
 	
 	
 	private class GetData extends AsyncTask<String, String, String> {

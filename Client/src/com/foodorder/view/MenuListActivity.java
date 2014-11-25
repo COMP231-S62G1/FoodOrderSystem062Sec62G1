@@ -169,7 +169,14 @@ public class MenuListActivity extends Activity {
             finish();
             startActivity(loginIntent);
             return true;
-        }else if (id == R.id.action_login) {
+        }else if (id == R.id.action_register) {
+			Intent intentRegister = new Intent(MenuListActivity.this,
+					RegisterActivity.class);
+					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intentRegister);
+		
+		}
+		else if (id == R.id.action_login) {
 			ApplicationData.setUser(null);
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);

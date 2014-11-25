@@ -391,7 +391,13 @@ private ArrayList<MenuModel> menuList;
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             return true;
-        }
+        }else if (id == R.id.action_register) {
+			Intent intentRegister = new Intent(OrderDetail.this,
+					RegisterActivity.class);
+					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intentRegister);
+		
+		}
 		return super.onOptionsItemSelected(item);
 	}
 }

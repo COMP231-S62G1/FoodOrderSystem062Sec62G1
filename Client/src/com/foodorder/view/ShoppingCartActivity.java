@@ -139,7 +139,13 @@ public class ShoppingCartActivity extends Activity {
             finish();
             startActivity(loginIntent);
             return true;
-        }
+        }else if (id == R.id.action_register) {
+			Intent intentRegister = new Intent(ShoppingCartActivity.this,
+					RegisterActivity.class);
+					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intentRegister);
+		
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
