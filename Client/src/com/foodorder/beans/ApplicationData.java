@@ -27,6 +27,15 @@ public class ApplicationData extends Application{
 	
 	static ArrayList<Object> listdata = new ArrayList<Object>();
 	static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
+	
+	static UserInfo user;
+	
+	public static UserInfo getUser(){
+		return user;
+	}
+	public static void setUser(UserInfo user){
+		ApplicationData.user = user;
+	}
 	public static ArrayList<MenuModel> getCartList()
 	{
 		return cartList;

@@ -177,7 +177,7 @@ public class ShoppingCartActivity extends Activity {
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
 			TextView total = (TextView) view.findViewById(R.id.totalPrice);
-			TextView finalTotal = (TextView) view.findViewById(R.id.total);
+			//TextView finalTotal = (TextView) view.findViewById(R.id.total);
 			ImageButton right_flag = (ImageButton) view
 					.findViewById(R.id.btnRemove);
 			ImageButton updateBtn = (ImageButton) view
