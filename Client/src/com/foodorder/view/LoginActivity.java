@@ -100,29 +100,7 @@ public class LoginActivity extends Activity {
 						alertDialog1=new AlertDialog.Builder(mContext).create();
 					}
 					
-					if(isFailed && alertDialog1!=null){
-						//Setting Dialog Title
-		                alertDialog1.setTitle("Log in failed");
-	
-		                //Setting Dialog Message
-		                alertDialog1.setMessage("User name and password are not matched");
-	
-		                //Setting Icon to Dialog
-		                alertDialog1.setIcon(R.drawable.login);
-	
-		                //Setting OK Button
-		                alertDialog1.setButton("OK", new DialogInterface.OnClickListener() {
-	
-		                    @Override
-		                    public void onClick(final DialogInterface dialog, final int which) {
-		                        // do something when failed to log-in
-		                    	// eg. remove user name or password edit text field
-		                    }
-		                });
-	
-		                //Showing Alert Message
-		                alertDialog1.show();
-					}
+					
 						
 				}
 			}
