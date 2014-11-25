@@ -135,7 +135,10 @@ public class MenuListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_list, menu);
+		if(ApplicationData.getUser() != null)
+			getMenuInflater().inflate(R.menu.menu_list, menu);
+		else
+			getMenuInflater().inflate(R.menu.menu_list_login, menu);
 		return true;
 	}
 
@@ -164,6 +167,11 @@ public class MenuListActivity extends Activity {
             Intent loginIntent = new Intent(this, LoginActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
+            startActivity(loginIntent);
+            return true;
+        }else if (id == R.id.action_login) {
+			ApplicationData.setUser(null);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             return true;
         }

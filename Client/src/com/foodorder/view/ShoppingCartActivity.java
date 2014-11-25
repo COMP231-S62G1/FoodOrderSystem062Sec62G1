@@ -109,7 +109,10 @@ public class ShoppingCartActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.shopping_cart, menu);
+		if(ApplicationData.getUser() != null)
+			getMenuInflater().inflate(R.menu.shopping_cart, menu);
+		else
+			getMenuInflater().inflate(R.menu.shopping_cart_login, menu);
 		return true;
 	}
 

@@ -244,11 +244,11 @@ private ArrayList<MenuModel> menuList;
 				handler.sendEmptyMessage(3);
 			} else {
 
-				orderLine = new ArrayList<OrderLine>();
+				//orderLine = new ArrayList<OrderLine>();
 				try {
 					orderLine = new Parse().GetOrderLine(result);
 					for(OrderLine aLine : orderLine){
-						Log.e("onPost", "Menu ID " + aLine.getMenuId());
+						Log.e("onPost", "Menu ID " + aLine.getMenuid());
 						Log.e("onPost", "Qty " + aLine.getQty());
 					}
 				} catch (JsonSyntaxException e) {
@@ -303,8 +303,8 @@ private ArrayList<MenuModel> menuList;
 			if(orderLine == null)
 				return 0;
 			Log.w("getItemId()", "Requested position is :" +position);
-			Log.w("getItemId()", "And its menu ID is  :" + orderLine.get(position).getMenuId());
-			return Long.parseLong(orderLine.get(position).getMenuId()) ;
+			Log.w("getItemId()", "And its menu ID is  :" + orderLine.get(position).getMenuid());
+			return Long.parseLong(orderLine.get(position).getMenuid()) ;
 		}
 
 		@Override
@@ -359,7 +359,10 @@ private ArrayList<MenuModel> menuList;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.order_detail, menu);
+		if(ApplicationData.getUser() != null)
+			getMenuInflater().inflate(R.menu.order_detail, menu);
+		else
+			getMenuInflater().inflate(R.menu.order_detail_login, menu);
 		return true;
 	}
 
@@ -381,6 +384,11 @@ private ArrayList<MenuModel> menuList;
             Intent loginIntent = new Intent(this, LoginActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
+            startActivity(loginIntent);
+            return true;
+        }else if (id == R.id.action_login) {
+			ApplicationData.setUser(null);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             return true;
         }
