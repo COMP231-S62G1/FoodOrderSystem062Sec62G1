@@ -51,5 +51,7 @@
    <string name="emailV">Verify Email:</string>
    <string name="passV">Verify Password:</string>
    <string name="phone">Phone:</string>  
-
+   <string name="login">Log In</string>  
+   <string name="logout">Log Out</string>  
+   
 </resources>
