@@ -43,5 +43,13 @@
     <string name="hst">HST amount:</string>
     <string name="gross">Total amount:</string>
     <string name="plzconfirm">Please confirm your order:</string>
+	<string name="username">Enter a username:</string>
+   <string name="password">Enter a password:</string>
+   <string name="Reg">Register</string>
+   <string name="RegisterT">Registration Page</string>
+   <string name="email">Email:</string>
+   <string name="emailV">Verify Email:</string>
+   <string name="passV">Verify Password:</string>
+   <string name="phone">Phone:</string>  
 
 </resources>
