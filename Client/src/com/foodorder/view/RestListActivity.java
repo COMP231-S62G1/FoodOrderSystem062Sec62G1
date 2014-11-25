@@ -113,7 +113,14 @@ public class RestListActivity extends Activity {
 				intentViewOrder.putExtra("orderId", Integer.parseInt(ApplicationData.arrOrderId.get(0)));
 			}
 			startActivity(intentViewOrder);
-		}
+		}else if (id == R.id.action_logout) {
+			ApplicationData.setUser(null);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(loginIntent);
+            return true;
+        }
 		return super.onOptionsItemSelected(item);
 	}
 
