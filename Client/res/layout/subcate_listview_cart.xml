@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/info"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignRight="@+id/btnRemove"
         android:inputType="numberDecimal"
         android:textSize="10dp" >

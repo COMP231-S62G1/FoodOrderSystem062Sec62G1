@@ -80,5 +80,13 @@ public class Parse {
 		return lcs;
 	}
 	
+	public UserInfo GetUserInfo(String str) throws JsonSyntaxException{
+		Gson gson = new Gson(); 
+	    JsonParser parser = new JsonParser(); 
+	    JsonArray jObj = parser.parse(str).getAsJsonArray(); 
+	    UserInfo user = gson.fromJson( jObj , UserInfo.class);
+		return user;
+	}
+	
 	
 }
