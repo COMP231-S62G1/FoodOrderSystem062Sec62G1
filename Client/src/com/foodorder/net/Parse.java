@@ -25,6 +25,15 @@ public class Parse {
 		return model;
 	}
 
+	public CommonModel getRegistration(String str) {
+		Gson gson = new Gson();
+		Type type = new TypeToken<CommonModel>() {
+		}.getType();
+		CommonModel model = new CommonModel();
+		model = gson.fromJson(str, type);
+		return model;
+	}
+	
 	
 	
 	public ArrayList<Rest> getRestList(String str)
