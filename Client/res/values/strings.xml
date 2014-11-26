@@ -54,8 +54,4 @@
    <string name="login">Log In</string>  
    <string name="logout">Log Out</string>  
    
-   <string name="balance_welcome">Balance Information</string>
-   <string name="balance">Balance:</string>
-   <string name="reload">Reload</string>
-   
 </resources>

@@ -42,14 +42,6 @@ public class ApplicationData extends Application{
 	}
 	
 	
-	public static void setBalance(double balance){
-		if(user == null)
-			return;
-		else{
-			user.setBalance(Double.toString(balance));
-		}
-	}
-	
 	/*
 	 * getBalance()
 	 * 
