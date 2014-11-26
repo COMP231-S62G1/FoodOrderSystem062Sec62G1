@@ -135,7 +135,10 @@ public class MenuListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_list, menu);
+		if(ApplicationData.getUser() != null)
+			getMenuInflater().inflate(R.menu.menu_list, menu);
+		else
+			getMenuInflater().inflate(R.menu.menu_list_login, menu);
 		return true;
 	}
 
@@ -160,14 +163,61 @@ public class MenuListActivity extends Activity {
 			}
 			startActivity(intentViewOrder);
 		}else if (id == R.id.action_logout) {
-			ApplicationData.setUser(null);
+			/*ApplicationData.setUser(null);
             Intent loginIntent = new Intent(this, LoginActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
+            startActivity(loginIntent);*/
+			comfirmlogout();
+            return true;
+        }else if (id == R.id.action_register) {
+			Intent intentRegister = new Intent(MenuListActivity.this,
+					RegisterActivity.class);
+					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intentRegister);
+		
+		}
+		else if (id == R.id.action_login) {
+			ApplicationData.setUser(null);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             return true;
         }
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void comfirmlogout() {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		builder.setMessage("Do you want to logout?");
+		builder.setPositiveButton("Ok",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// if user pressed "OK", then he is allowed to exit from
+						// application
+						ApplicationData.setUser(null);
+			            Intent loginIntent = new Intent(MenuListActivity.this, LoginActivity.class);
+			            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			            finish();
+			            startActivity(loginIntent);
+					}
+				});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// if user select"Cancel", just cancel this dialog and
+						// continue with app
+						dialog.cancel();
+
+					}
+				});
+		AlertDialog exitAlertDialog = builder.create();
+		exitAlertDialog.show();
 	}
 	
 

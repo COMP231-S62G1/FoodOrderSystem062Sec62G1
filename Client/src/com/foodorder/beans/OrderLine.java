@@ -21,11 +21,11 @@ public class OrderLine  implements Serializable {
 	public void setQty(String qty) {
 		this.qty = qty;
 	}
-	public String getMenuId() {
-		return menuId;
+	public String getMenuid() {
+		return menuid;
 	}
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
+	public void setMenuid(String menuid) {
+		this.menuid = menuid;
 	}
 	public String getDes() {
 		return des;
@@ -41,8 +41,12 @@ public class OrderLine  implements Serializable {
 	}
 	private String idorderline;
 	private String qty;
-	private String menuId;
+	private String menuid;
 	private String des;
 	private String orderid;
+	
+	public String toString(){
+		return "qty:"+qty+", menuid:"+menuid+", des"+des+", idorderline"+idorderline+", orderid:"+orderid;
+	}
 	
 }
