@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="16dp"
-            android:hint="4506123456"
+            android:hint="@string/cardnumberformat"
             android:inputType="numberDecimal" >
 
             <requestFocus />
