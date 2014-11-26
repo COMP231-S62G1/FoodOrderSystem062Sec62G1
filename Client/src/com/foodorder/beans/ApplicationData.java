@@ -41,6 +41,27 @@ public class ApplicationData extends Application{
 		return cartList;
 	}
 	
+	
+	/*
+	 * getBalance()
+	 * 
+	 * return balance of current user
+	 * 
+	 * if user does not logged in yet or some error occurred, return -1
+	 * otherwise return remaining balance amount
+	 * 
+	 * return type is double
+	 */
+	public static double getBalance(){
+		if(user == null){
+			return -1;
+		}else if (user.getBalance() == null || user.getBalance().length() == 0){
+			return -1;
+		}
+		double fBalance = Double.parseDouble(ApplicationData.user.getBalance());
+		return fBalance;
+	}
+	
 	public static void setCartList(ArrayList<MenuModel> listCart)
 	{
 		cartList = listCart;
