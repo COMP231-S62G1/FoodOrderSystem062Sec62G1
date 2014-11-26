@@ -47,9 +47,9 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);  
         txtPassword = (EditText) findViewById(R.id.editPassword);
         
-        getRegister = getIntent();
-		Bundle b = getRegister.getExtras();
-		b.get("Viewregister");
+        //getRegister = getIntent();
+		//Bundle b = getRegister.getExtras();
+		//b.get("Viewregister");
 		
 		pwd=txtPassword.getText().toString();
 				
@@ -60,6 +60,18 @@ public class LoginActivity extends Activity {
 				
 				GetData getdata=new GetData(getApplicationContext());
 				getdata.execute(pwd);
+			}
+		});
+
+	Register1=(Button) findViewById(R.id.btnSignup);		
+		Register1.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				
+				Intent intentR = new Intent(LoginActivity.this,
+						RegisterActivity.class);
+				intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(intentR);
 			}
 		});
    
