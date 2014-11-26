@@ -28,6 +28,7 @@ import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.UserInfo;
 import com.foodorder.client.R;
+import com.foodorder.client.R.id;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.google.gson.JsonSyntaxException;
@@ -38,6 +39,7 @@ public class LoginActivity extends Activity {
 	private String pwd;
 	private EditText txtPassword;
 	private Intent getRegister;
+	private Button btnLogin;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,20 @@ public class LoginActivity extends Activity {
         getRegister = getIntent();
 		Bundle b = getRegister.getExtras();
 		b.get("Viewregister");
-    }
-	
+		
+		pwd=txtPassword.getText().toString();
+				
+		btnLogin=(Button) findViewById(R.id.btnLogin);
+		
+		btnLogin.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				
+				GetData getdata=new GetData(getApplicationContext());
+				getdata.execute(pwd);
+			}
+		});
+   
+	}
 	
 	private class GetData extends AsyncTask<String, String, String> {
 		private Context mContext;
@@ -130,7 +144,7 @@ public class LoginActivity extends Activity {
 			}
 		}
 
-		
+	}	
 
-	}
+	
 }
