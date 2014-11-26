@@ -146,4 +146,15 @@ public class FoodOrderRequest {
 		Log.e("getReason", "url: " + getUrl("login.php", ""));
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("login.php", ""));
 	}
+	
+	public String getBalance(String userid) throws IOException, TimeoutException{
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if(!TextUtils.isEmpty(userid)){
+			strParams.add(new BasicNameValuePair("userid", userid));
+		}else{
+			return null;
+		}
+		Log.e("getBalance", "param: " + strParams);
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("getBalance.php", ""));
+	}
 }
