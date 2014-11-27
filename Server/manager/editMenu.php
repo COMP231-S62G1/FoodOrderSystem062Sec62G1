@@ -43,13 +43,13 @@
 
     if($action != "save"){
         if (strlen($menuid)<=0) {
-        echo "<script>
-                alert('Cannot find menu item ID. Go back to previous page.');
-                window.history.back();
-            </script>";
+            echo "<script>
+                    alert('Cannot find menu item ID. Go back to previous page.');
+                    window.history.back();
+                </script>";
+        }
     }
-    }
-    }
+    
 
     mysql_query("BEGIN");
     $uploadOk = true;
