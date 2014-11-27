@@ -12,8 +12,14 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/txtOrder"/>
-    
-    <item android:id="@+id/action_login"
-        android:title="@string/login"
-        android:showAsAction="withText|ifRoom" />
+    <item
+        android:id="@+id/action_login"
+        android:showAsAction="withText|ifRoom"
+        android:title="@string/login"/>
+    <item
+        android:id="@+id/action_user_info"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/txtUser"/>
+
 </menu>
