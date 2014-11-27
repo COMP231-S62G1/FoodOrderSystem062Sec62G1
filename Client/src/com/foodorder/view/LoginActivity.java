@@ -40,7 +40,6 @@ public class LoginActivity extends Activity {
 	private EditText txtPassword;
 	private Intent getRegister;
 	private Button btnLogin;
-	private Button Register1;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {

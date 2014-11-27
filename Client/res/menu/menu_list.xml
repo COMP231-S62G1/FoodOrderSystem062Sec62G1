@@ -22,7 +22,7 @@
         android:title="@string/logout"
         android:showAsAction="withText|ifRoom" />
     
-    <item
+        <item
         android:id="@+id/action_register"
         android:orderInCategory="100"
         android:showAsAction="never"

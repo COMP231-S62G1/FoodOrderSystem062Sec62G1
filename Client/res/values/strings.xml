@@ -58,12 +58,4 @@
    <string name="balance">Balance:</string>
    <string name="reload">Reload</string>
    
-   <string name="info">User Information</string>
-   <string name="info1">Username:</string>
-   <string name="info2">Phone #:</string>
-   <string name="info3">Email:</string>
-    <string name="btnEditLink">Edit User Info</string>
-    <string name="balance1">Account Balance:</string>
-      <string name="txtUser">User Info</string>
-   
 </resources>

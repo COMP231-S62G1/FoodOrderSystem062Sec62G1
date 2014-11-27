@@ -52,7 +52,6 @@ private ArrayList<MenuModel> menuList;
 	private Button btnCancel;
 	private int orderId;
 	private int orderStatus;
-	private int requestType =0;
 	
 	private TextView txtTitle;
 	
@@ -85,12 +84,10 @@ private ArrayList<MenuModel> menuList;
 		if(orderStatus > 0){
 			txtTitle.setText(txtTitle.getText().toString() + " " + getStatusString(orderStatus));
 			if(orderStatus == 3){
-				//new GetReason(OrderDetail.this).execute("");
-				handler.sendEmptyMessage(2);
+				new GetReason(OrderDetail.this).execute("");
 			}
 		}else{
-			requestType = 10000;
-			new GetData(OrderDetail.this, 1).execute("");
+			new GetStatus(OrderDetail.this, 1).execute("");
 		}
 		
 
@@ -229,20 +226,7 @@ private ArrayList<MenuModel> menuList;
 			FoodOrderRequest request = new FoodOrderRequest(OrderDetail.this);
 			
 			try {
-				if(this.mType==1)
-				{
 				result = request.getOrderDetail(String.format("%d",orderId));
-				}
-				else if(this.mType == 2)
-				{
-					result = request.getReason(Integer.toString(orderId));
-
-				}
-				else if (this.mType ==3)
-				{
-					result = request.checkStatus(Integer.toString(orderId));
-
-				}
 				Log.e("doInBackground", "result: " + result);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -260,12 +244,6 @@ private ArrayList<MenuModel> menuList;
 				handler.sendEmptyMessage(3);
 			} else {
 
-				if(this.mType == 0)
-				{
-					
-				}
-				else if(this.mType == 1)
-				{}
 				//orderLine = new ArrayList<OrderLine>();
 				try {
 					orderLine = new Parse().GetOrderLine(result);
@@ -293,12 +271,6 @@ private ArrayList<MenuModel> menuList;
 			switch (msg.what) {
 			case 0:
 				new GetData(OrderDetail.this, 1).execute("");
-				break;
-			case 1:
-				new GetData(OrderDetail.this, 2).execute("");
-				break;
-			case 2:
-				new GetData(OrderDetail.this, 3).execute("");
 				break;
 			default:
 				break;
@@ -414,14 +386,7 @@ private ArrayList<MenuModel> menuList;
             finish();
             startActivity(loginIntent);
             return true;
-        } else if (id == R.id.action_user_info) {
-			Intent intentUser = new Intent(OrderDetail.this,
-					UserInfoActivity.class);
-					intentUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intentUser);
-		
-		}		
-		else if (id == R.id.action_login) {
+        }else if (id == R.id.action_login) {
 			ApplicationData.setUser(null);
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
