@@ -3,27 +3,28 @@ include '../dbConnector.php';
 $table = 'user';
 $name = $user_input['name'];
 $pwd = $user_input['pwd'];
-//echo "order id is $orderId<br>";
+$email = $user_input['email'];
+$phone = $user_input['phone'];
+$userid = $user_input['userid'];
 
-$result = mysql_query("SELECT * FROM $table where (name='$name' AND pwd=MD5('$pwd'))");
 
-$user = array(
-        "userid"=>"",
-        "name"=>"",
-        "balance"=>"",
-        "email"=>"",
-        "phone"=>"",
-        "pwd"=>""
-    );
+$result = mysql_query("update $table set name='$name',email='$email',phone='$phone',pwd='$pwd' where 
+    userid='$userid')");
 
-if($row = mysql_fetch_array($result)) {
-    $user['userid'] = $row['userid'];
-    $user['name'] = $row['name'];
-    $user['balance'] = $row['balance'];
-    $user['email'] = $row['email'];
-    $user['phone'] = $row['phone'];
-    $user['pwd'] = "";
-    $output = json_encode($user);
-    print_r($output);
+$arr_all = array(
+  'result' => "succ",
+);
+$fail_all = array(
+  'result' => "fail",
+);
+$output;
+if($result==1)
+{
+$output = json_encode($arr_all);
 }
+else
+{
+$output = json_encode($fail_all);
+}
+print_r($output);
 ?>
