@@ -1,0 +1,1 @@
+ALTER TABLE `menu` CHANGE `price` `price` DECIMAL(6,3) NULL DEFAULT '0.9900';

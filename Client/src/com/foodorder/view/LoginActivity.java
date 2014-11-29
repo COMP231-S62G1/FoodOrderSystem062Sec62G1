@@ -68,11 +68,27 @@ public class LoginActivity extends Activity {
 		Register1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				
-				Intent intentR = new Intent(LoginActivity.this,
-						RegisterActivity.class);
-				intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(intentR);
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(
+						getBaseContext());
+				builder1.setMessage("Congrates");
+				builder1.setCancelable(true);
+				builder1.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int id) {
+								Intent intentR = new Intent(LoginActivity.this,
+										RegisterActivity.class);
+								intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+								startActivity(intentR);
+								
+								dialog.cancel();
+							}
+						});
+
+				AlertDialog alert11 = builder1.create();
+				alert11.show();
+				
 			}
 		});
    
