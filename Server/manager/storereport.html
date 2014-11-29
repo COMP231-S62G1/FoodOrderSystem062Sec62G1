@@ -21,16 +21,16 @@
   <div id="menu">
 		<ul>
 			<li><a href="" title="">Home</a></li>
-			<li><a href="storeinfo.html"  title="">Store Info</a></li>
-			<li><a href="storemenu.html" title="">Menus</a></li>
-			<li><a href="storeaccount.html"  title="">Account</a></li>
-			<li><a href="storereport.html"  title="">Report</a></li>
+			<li><a href="storeinfo.php"  title="">Store Info</a></li>
+			<li><a href="storemenu.php" title="">Menus</a></li>
+			<li><a href="storeaccount.php"  title="">Account</a></li>
+			<li><a href="storereport.php"  title="">Report</a></li>
 			<li><a href="" title="">Logout</a></li>
 		</ul>
 	</div>
 	<div id="logo">
 		<h1><a href="http://www.centennialcollege.ca" title="Centennial College Food Order">Centennial College Food Order</a></h1>
-		<h2><a href="http://github.com/COMP231-S62G1/FoodOrderSystem062Sec62G1/" id="metamorph">Designed by Group 1</a></h2>
+		<h2><a href="http://github.com/COMP231-S62G1/FoodOrderSystem062Sec62G1/" id="metamorph">Design by Group 1</a></h2>
 	</div>
 </div>
 <!-- header ends -->
@@ -43,10 +43,10 @@
 		<p>
 		<table style="width: 100%">
 			<tr>
-				<th style="height: 18px">Order ID</th>
-                <th style="height: 18px">Order Date</th>
-                <th style="height: 18px">Order Amount</th>
-                <th style="height: 18px">Order Status</th>
+				<th style="height: 18px">Date of Sale</th>
+                <th style="height: 18px">Number of Completed Order </th>
+                <th style="height: 18px">Number of Rejected Order</th>
+                <th style="height: 18px">Sales Amount</th>
 
 			</tr>
 			<tr>
@@ -77,11 +77,20 @@
 	<div id="left">
 		<h3>Store Information</h3>
 		<br />
-		<a href="storeaccount.html" class="auto-style1"><h3>Store Account</h3>
+		<a href="storeaccount.php" class="auto-style1"><h3>Store account</h3>
 		<br />
-			<a href="storeinfo.html" class="auto-style1"><h3>Store Menus</h3></a>
+			<a href="storeinfo.php" class="auto-style1"><h3>store menus</h3></a>
 		<br />	
-			<a href="storereport.html" class="auto-style1"><h3>Store Reports</h3></a>
+			<a href="storereport.php" class="auto-style1"><h3>store reports</h3>
+			<ul>
+				<li><ul>
+					<li><a href="storeorderreport.php">Order Report</a></li>
+					<li><a href="storereport.php">Sales Report</a></li>
+				</ul>
+			  </li>
+			</ul>
+			<br />
+</a>
 		
 	</div>
 	
@@ -92,7 +101,7 @@
 	</div>
 </div>
 <div id="footer">
-<p>Copyright &copy; 2014. Designed by COMP 231 Group 1</p>
+<p>Copyright &copy; 2014. Design by COMP 231 Group 1</p>
 	</div>
 <!-- footer ends-->
 </form>
