@@ -34,70 +34,68 @@ import com.foodorder.net.Parse;
 import com.google.gson.JsonSyntaxException;
 
 public class LoginActivity extends Activity {
-	
+
 	private String name;
 	private String pwd;
 	private EditText txtPassword;
 	private Intent getRegister;
 	private Button btnLogin;
 	private Button Register1;
-	
+	private EditText txtUsername;
+
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);  
-        txtPassword = (EditText) findViewById(R.id.editPassword);
-        
-        //getRegister = getIntent();
-		//Bundle b = getRegister.getExtras();
-		//b.get("Viewregister");
-		
-		pwd=txtPassword.getText().toString();
-				
-		btnLogin=(Button) findViewById(R.id.btnLogin);
-		
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		txtPassword = (EditText) findViewById(R.id.editPassword);
+		txtUsername = (EditText) findViewById(R.id.username);
+		// getRegister = getIntent();
+		// Bundle b = getRegister.getExtras();
+		// b.get("Viewregister");
+
+		pwd = txtPassword.getText().toString();
+		btnLogin = (Button) findViewById(R.id.btnLogin);
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-				
-				GetData getdata=new GetData(getApplicationContext());
+
+				GetData getdata = new GetData(getApplicationContext());
 				getdata.execute(pwd);
 			}
 		});
 
-	Register1=(Button) findViewById(R.id.btnSignup);		
+		Register1 = (Button) findViewById(R.id.btnSignup);
 		Register1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-				
+
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(
 						getBaseContext());
 				builder1.setMessage("Congrates");
 				builder1.setCancelable(true);
 				builder1.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int id) {
+							public void onClick(DialogInterface dialog, int id) {
 								Intent intentR = new Intent(LoginActivity.this,
 										RegisterActivity.class);
 								intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
 								startActivity(intentR);
-								
+
 								dialog.cancel();
 							}
 						});
 
 				AlertDialog alert11 = builder1.create();
 				alert11.show();
-				
+
 			}
 		});
-   
+
 	}
-	
+
 	private class GetData extends AsyncTask<String, String, String> {
 		private Context mContext;
 		private UserInfo user;
-		
+
 		private AlertDialog alertDialog1;
 
 		private GetData(Context context) {
@@ -115,7 +113,8 @@ public class LoginActivity extends Activity {
 			FoodOrderRequest request = new FoodOrderRequest(LoginActivity.this);
 
 			try {
-				result = request.login(name, pwd);
+				result = request.login(txtUsername.getText().toString(),
+						txtUsername.getText().toString());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
@@ -129,51 +128,56 @@ public class LoginActivity extends Activity {
 		protected void onPostExecute(String result) {
 			boolean isFailed = false;
 			if (result == null || result.equals("")) {
-				alertDialog1=new AlertDialog.Builder(mContext).create();
+				alertDialog1 = new AlertDialog.Builder(mContext).create();
 				isFailed = true;
 			} else {
 				try {
 					user = new Parse().GetUserInfo(result);
-					
+
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
-				} finally{
+				} finally {
 					if (user != null) {
 						ApplicationData.setUser(user);
 						// TODO do something when success login
 						finish();
 					} else {
 						isFailed = true;
-						alertDialog1=new AlertDialog.Builder(mContext).create();
+						alertDialog1 = new AlertDialog.Builder(mContext)
+								.create();
 					}
-					
-					if(isFailed && alertDialog1!=null){
-						//Setting Dialog Title
-		                alertDialog1.setTitle("Log in failed");
-		                //Setting Dialog Message
-		                alertDialog1.setMessage("User name and password are not matched");
-		                //Setting Icon to Dialog
-		                alertDialog1.setIcon(R.drawable.login);
-		                //Setting OK Button
-		                alertDialog1.setButton("OK", 
-		                		new DialogInterface.OnClickListener() {
-				                    @Override
-				                    public void onClick(final DialogInterface dialog, final int which) {
-				                        // TODO do something when failed to log-in
-				                    	// eg. remove user name or password edit text field
-				                    	if(txtPassword != null)
-				                    		txtPassword.setText("");
-				                    }
-				                });
-		                //Showing Alert Message
-		                alertDialog1.show();
+
+					if (isFailed && alertDialog1 != null) {
+						// Setting Dialog Title
+						alertDialog1.setTitle("Log in failed");
+						// Setting Dialog Message
+						alertDialog1
+								.setMessage("User name and password are not matched");
+						// Setting Icon to Dialog
+						alertDialog1.setIcon(R.drawable.login);
+						// Setting OK Button
+						alertDialog1.setButton("OK",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(
+											final DialogInterface dialog,
+											final int which) {
+										// TODO do something when failed to
+										// log-in
+										// eg. remove user name or password edit
+										// text field
+										if (txtPassword != null)
+											txtPassword.setText("");
+									}
+								});
+						// Showing Alert Message
+						alertDialog1.show();
 					}
-						
+
 				}
 			}
 		}
 
-	}	
+	}
 
-	
 }
