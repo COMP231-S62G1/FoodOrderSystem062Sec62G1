@@ -24,7 +24,7 @@ if($row = mysql_fetch_array($result)) {
     $user['phone'] = $row['phone'];
     $user['pwd'] = "";
     
-array_push($arr_category, $rst);
+array_push($arr_category,  $user);
 }
 
 $output = json_encode($arr_category);
