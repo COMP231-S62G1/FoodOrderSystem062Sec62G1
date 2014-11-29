@@ -44,11 +44,19 @@ public class UserInfo  implements Serializable {
 	public void setBalance(String balance) {
 		this.balance = balance;
 	}
+	public String getRoleType() {
+		return roleType;
+	}
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
+	}
 	private String name;
 	private String userid;
 	private String email;
 	private String pwd;
 	private String phone;
 	private String balance;
+	private String roleType;
+	
 	
 }

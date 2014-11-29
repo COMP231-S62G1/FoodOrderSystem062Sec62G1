@@ -28,13 +28,13 @@ public class ApplicationData extends Application{
 	static ArrayList<Object> listdata = new ArrayList<Object>();
 	static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
 	
-	static UserInfo user;
+	static UserInfo userinfo;
 	
 	public static UserInfo getUser(){
-		return user;
+		return userinfo;
 	}
 	public static void setUser(UserInfo user){
-		ApplicationData.user = user;
+		userinfo = user;
 	}
 	public static ArrayList<MenuModel> getCartList()
 	{
@@ -43,10 +43,10 @@ public class ApplicationData extends Application{
 	
 	
 	public static void setBalance(double balance){
-		if(user == null)
+		if(userinfo == null)
 			return;
 		else{
-			user.setBalance(Double.toString(balance));
+			userinfo.setBalance(Double.toString(balance));
 		}
 	}
 	
@@ -61,12 +61,12 @@ public class ApplicationData extends Application{
 	 * return type is double
 	 */
 	public static double getBalance(){
-		if(user == null){
+		if(userinfo == null){
 			return -1;
-		}else if (user.getBalance() == null || user.getBalance().length() == 0){
+		}else if (userinfo.getBalance() == null || userinfo.getBalance().length() == 0){
 			return -1;
 		}
-		double fBalance = Double.parseDouble(ApplicationData.user.getBalance());
+		double fBalance = Double.parseDouble(userinfo.getBalance());
 		return fBalance;
 	}
 	

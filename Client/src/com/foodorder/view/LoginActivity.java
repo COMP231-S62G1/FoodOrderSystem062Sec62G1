@@ -114,7 +114,7 @@ public class LoginActivity extends Activity {
 
 			try {
 				result = request.login(txtUsername.getText().toString(),
-						txtUsername.getText().toString());
+						txtPassword.getText().toString());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
@@ -132,7 +132,7 @@ public class LoginActivity extends Activity {
 				isFailed = true;
 			} else {
 				try {
-					user = new Parse().GetUserInfo(result);
+					user = new Parse().GetLoginInfo(result);
 
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
@@ -140,7 +140,7 @@ public class LoginActivity extends Activity {
 					if (user != null) {
 						ApplicationData.setUser(user);
 						// TODO do something when success login
-						finish();
+						
 					} else {
 						isFailed = true;
 						alertDialog1 = new AlertDialog.Builder(mContext)

@@ -112,6 +112,7 @@ public class RegisterActivity extends Activity {
 			} else {
 				// alert and goto login page
 
+				
 				Intent intentMenu = new Intent(RegisterActivity.this,
 						LoginActivity.class);
 				intentMenu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
