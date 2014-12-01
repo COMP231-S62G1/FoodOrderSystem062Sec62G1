@@ -67,25 +67,28 @@ public class LoginActivity extends Activity {
 		Register1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 
-				AlertDialog.Builder builder1 = new AlertDialog.Builder(
-						getBaseContext());
-				builder1.setMessage("Congrates");
-				builder1.setCancelable(true);
-				builder1.setPositiveButton("Yes",
+				new AlertDialog.Builder(LoginActivity.this)
+				.setTitle("Sign Up")
+				.setMessage("Register?")
+				.setPositiveButton("yes",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
+							public void onClick(DialogInterface dialog,
+									int which) {
 								Intent intentR = new Intent(LoginActivity.this,
 										RegisterActivity.class);
 								intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-								startActivity(intentR);
+								startActivity(intentR);				
+								}
+						})
+				.setNegativeButton("no",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
 
-								dialog.cancel();
 							}
-						});
+						}).show();
 
-				AlertDialog alert11 = builder1.create();
-				alert11.show();
 
 			}
 		});

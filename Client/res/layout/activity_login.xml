@@ -12,16 +12,6 @@
         android:layout_marginTop="20dp"
         android:src="@drawable/login" />
 
-    <TextView
-        android:id="@+id/txtUserID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="416-289-5000 "
-        android:textSize="16dp"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
@@ -57,7 +47,7 @@
         android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="15dp"
         android:gravity="bottom" >
 
         <Button
@@ -66,8 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:onClick="signUp"
+            android:layout_alignParentTop="true"
             android:text="Sign up" />
+
     </RelativeLayout>
 
 </LinearLayout>
