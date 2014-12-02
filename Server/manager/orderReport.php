@@ -2,9 +2,9 @@
     include '../dbConnector.php';
     $restid = $user_input['restid'];
     $table = "orderline";
-    $date = $user_input['date'];
+    $date = $user_input['dateon'];
     if($date == null)
-        $date = "NOW()";
+        $date = date("Y-m-d");
 
     // show today's sales report
     $query = "SELECT";
@@ -19,7 +19,7 @@
     $query .= " INNER JOIN menu ON orderline.menuid=menu.menuid";
     $query .= " WHERE menu.restid=$restid";
 //    $query .= " AND status=2";
-    $query .= " AND DATE(orders.orderTime)=DATE($date)";
+    $query .= " AND DATE(orders.orderTime)=DATE('$date')";
     $query .= " GROUP BY menu.menuid";
     $query .= " ORDER BY amount DESC";
 
@@ -82,7 +82,7 @@
             $arrPrevSales[$nCnt]["prevAmount"] = 0;
         }
         
-        echo "<p> MenuID:$menuid, Sales:{$tempRow["sales"]} (Ave:{$arrPrevSales[$nCnt]["prevSales"]})</p>";
+        //echo "<p> MenuID:$menuid, Sales:{$tempRow["sales"]} (Ave:{$arrPrevSales[$nCnt]["prevSales"]})</p>";
     }
 
 /*
