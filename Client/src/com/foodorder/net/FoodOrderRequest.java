@@ -55,6 +55,22 @@ public class FoodOrderRequest {
 
 	}
 	
+	public String updateUserInfo( String phone, 
+			String email,int userid)
+			throws IOException, TimeoutException {
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if (
+				!TextUtils.isEmpty(phone) &&
+				!TextUtils.isEmpty(email)) {
+			strParams.add(new BasicNameValuePair("phone", phone));
+			strParams.add(new BasicNameValuePair("email", email));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("Update.php", ""));
+
+	}
+	
 	public String getRestList() throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
 		return baseRequest.postRequestByHttpClient(strParams,

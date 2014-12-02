@@ -85,7 +85,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.foodorder.view.EditUserActivity"
+            android:name="com.foodorder.view.EditUserInfoActivity"
             android:label="@string/title_activity_edit_user"
             android:screenOrientation="portrait" >
         </activity>

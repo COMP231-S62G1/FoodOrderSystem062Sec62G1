@@ -67,15 +67,19 @@ public class UserInfoActivity extends Activity {
     	   error.setText("Please login");
        }
         
-        this.btnEdit = (Button) findViewById(R.id.edit);
-		this.btnEdit.setOnClickListener(new OnClickListener() {
+        btnEdit = (Button) findViewById(R.id.edit3);
+		btnEdit.setOnClickListener(new OnClickListener() {			
+			
 			public void onClick(View v) {
+				// TODO Auto-generated method stub
 				Intent intentEdit = new Intent(UserInfoActivity.this,
 						EditUserInfoActivity.class);
-				intentEdit .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(intentEdit);				
+//				intentEdit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(intentEdit);		
 			}
+		
+			
 		});
 
     }
