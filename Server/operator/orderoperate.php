@@ -14,6 +14,9 @@
     $rdoType = $_GET['type'];
     $chkOption = $_GET['check'];
     $dateon = $_GET['date'];
+    $restid = $user_input['restid'];
+    if($restid == null)
+        $restid = 1;
     if($dateon == null)
         $dateon = date("Y-m-d");
 ?>
@@ -22,35 +25,57 @@
 <?php
     //select all orders
     $query = "SELECT * FROM $table ";
+    
+    $query = "SELECT orders.idorder, orders.userid, orders.status, orders.orderTime, orders.username ";
+    $query .= "FROM (orderline INNER JOIN orders ON orderline.orderid = orders.idorder) ";
+    $query .= "INNER JOIN menu ON orderline.menuid=menu.menuid ";
+    $query .= "WHERE menu.restid=$restid AND ";
+                
+/*
+SELECT orders.idorder, orders.userid, orders.status, orders.orderTime, orders.username
+FROM 
+(orderline INNER JOIN orders
+ON orderline.orderid = orders.idorder)
+    
+INNER JOIN 
+menu
+ON orderline.menuid=menu.menuid 
+
+
+WHERE Date(orders.orderTime)=Date("2014-10-05")
+GROUP BY orders.idorder
+ORDER BY orders.orderTime DESC;
+"GROUP BY orders.idorder ORDER BY orders.orderTime DESC;"
+*/
+
     if($rdoType == "all"){
         if($dateon != ""){ 
-            $query .= "WHERE DATE(orderTime) = DATE('$dateon')";
+            $query .= "DATE(orderTime) = DATE('$dateon') ";
         }
-    }else
-    {
+    }else{
         if($rdoType == "active"){
             if($chkOption == "all"){
-                $query .="WHERE (status=0 OR status=1)";
+                $query .="(status=0 OR status=1) ";
             }else if($chkOption == "new"){
-                $query .="WHERE status=0";
+                $query .="status=0 ";
             }else if($chkOption == "confirmed"){
-                $query .="WHERE status=1";
+                $query .="status=1 ";
             }else{
-                $query .="WHERE status=100";
+                $query .="status=100 ";
             }
         }else if($rdoType == "inactive"){
             if($chkOption == "all"){
-                $query .="WHERE (status=2 OR status=3)";
+                $query .="(status=2 OR status=3) ";
             }else if($chkOption == "completed"){
-                $query .="WHERE status=2";
+                $query .=" status=2";
             }else if($chkOption == "rejected"){
-                $query .="WHERE status=3";
+                $query .=" status=3";
             }else{
-                $query .="WHERE status=100";
+                $query .=" status=100";
             }
         }else{
             // default status
-            $query .="WHERE (status=0 OR status=1)";
+            $query .=" (status=0 OR status=1)";
             $rdoType ="active";
             $chkOption = "all";
         }
@@ -58,9 +83,11 @@
             $query .= " AND DATE(orderTime) = DATE('$dateon')";
         }
     }
+    $query .= " GROUP BY orders.idorder ORDER BY orders.orderTime DESC ";
     
-    $query .= " ORDER BY orderTime";
     $result = mysql_query($query); 
+
+    //echo "<br><p>$query</p>";
 
     //init order data structure
     $order = array(
@@ -75,13 +102,29 @@
 
     // load data to order array
     while ($row = mysql_fetch_array($result)) {
+        
         $order["orderId"] = $row["idorder"];
         $order["userId"] = $row["userid"];
         $order["orderTime"] = $row["orderTime"];
         $order["userName"] = $row["username"];
         $order["orderStatus"] = $row["status"];
         array_push($arrOrder, $order);
+        //echo "<br><br>";
+        //echo"Order Line: {$order['orderId']}, {$order["userId"]}, {$order["orderTime"]} ";
     }
+/*
+SELECT *
+FROM 
+(orderline INNER JOIN orders
+ON orderline.orderid = orders.idorder)
+    
+INNER JOIN 
+menu
+ON orderline.menuid=menu.menuid WHERE menu.restid=1
+
+;
+*/
+
 
 ?>
 
