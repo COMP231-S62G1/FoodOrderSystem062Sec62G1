@@ -133,7 +133,7 @@ public class EditUserInfoActivity extends Activity {
 						UserInfoActivity.class);
 				intentMenu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intentMenu.putExtra("Viewregister", "Update Successful");
+				intentMenu.putExtra("ViewUpdate", "Update Successful");
 				startActivity(intentMenu);
 			}
 		}

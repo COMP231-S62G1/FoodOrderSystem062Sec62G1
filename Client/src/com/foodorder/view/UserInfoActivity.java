@@ -40,6 +40,7 @@ public class UserInfoActivity extends Activity {
 	private UserInfo user;
 	private double aBalance;
 	private TextView error;
+	private Intent getUpdate;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,9 @@ public class UserInfoActivity extends Activity {
 			
 		});
 
+		getUpdate = getIntent();
+		Bundle b = getUpdate.getExtras();
+		b.get("ViewUpdate");
     }
 	
 	
