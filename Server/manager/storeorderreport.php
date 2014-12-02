@@ -12,20 +12,47 @@
 }
 </style>
 </head>
+
+
+    
 <body>
-<form id="form1" runat="server">
+    <?php
+    include "orderReport.php";
+?>
 <div id="content">
 	<div id="back_all">
 <!-- header begins -->
+<form action="storeaccount.php" method="POST" name="storeaccount">  
+    <input type="hidden" name="restid" value="<?php echo $restid; ?>">
+</form>
+<form action="storeinfo.php" method="POST" name="storeinfo">  
+    <input type="hidden" name="restid" value="<?php echo $restid; ?>">
+</form>
+<form action="storemenu.php" method="POST" name="storemenu">  
+    <input type="hidden" name="restid" value="<?php echo $restid; ?>">
+</form>
+<form action="storeorderreport.php" method="POST" name="storeorderreport">  
+    <input type="hidden" name="restid" value="<?php echo $restid ?>">
+</form>
+<form action="storesalesreport.php" method="POST" name="storesalesreport">  
+    <input type="hidden" name="restid" value="<?php echo $restid ?>">
+</form>
+<form action="storeinfo.php" method="POST" name="home">  
+    <input type="hidden" name="restid" value="<?php echo $restid ?>">
+</form>
+<form action="../default.php" method="POST" name="logout">
+</form>
+
+
 <div id="header">
   <div id="menu">
 		<ul>
-			<li><a href="" title="">Home</a></li>
-			<li><a href="storeinfo.php"  title="">Store Info</a></li>
-			<li><a href="storemenu.php" title="">Menus</a></li>
-			<li><a href="storeaccount.php"  title="">Account</a></li>
-			<li><a href="storereport.php"  title="">Report</a></li>
-			<li><a href="" title="">Logout</a></li>
+			<li><a href="#" title="" onclick="document.home.submit();">Home</a></li>
+            <li><a href="#" title="" onclick="document.storeinfo.submit();">Store Information</a></li>
+			<li><a href="#" title="" onclick="document.storemenu.submit();">Menus</a></li>
+			<li><a href="#" title="" onclick="document.storeaccount.submit();">Account</a></li>
+			<li><a href="#" title="" onclick="document.storereport.submit();">Report</a></li>
+			<li><a href="#" title="" onclick="document.logout.submit();">Logout</a></li>
 		</ul>
 	</div>
 	<div id="logo">
@@ -35,15 +62,12 @@
 </div>
 <!-- header ends -->
 <!-- content begins -->
-<?php
-    include "orderReport.php";
-?>
  <div id="main">
  	<div id="right">
 		<h3>Welcome To Centennial College Food Order</h3><br />
 			<h4>Order Report</h4>
-            <form action='./storeorderreport.php' method='get' id='acceptForm'>
-            <input type="hidden" name="restid" value="<?php echo $restid ?>"/>
+            <form action='./storeorderreport.php' method='POST' id='acceptForm'>
+            <input type="hidden" name="restid" value="<?php echo $restid; ?>"/>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;Select date to report&nbsp;:&nbsp;&nbsp;<input type="date"  id="dateon" name="dateon" value=<?php echo $date ?> max='<?php echo date("Y-m-d")?>' />&nbsp;&nbsp;&nbsp;<input type="submit" value="Apply Now" /></p>
             </form>
 		<p>
@@ -59,55 +83,69 @@
     if($nCount <= 0){
         echo "<tr><td colspan=4 align='center'>No sales result</td></tr>";
     }
-
+    $totSales = 0;
+    $totAmt = 0;
+    $prevTotSales = 0;
+    $prevTotAmt = 0;
     for($nCnt = 0; $nCnt < $nCount ; $nCnt++){
         $tempRow = $arrSales[$nCnt];
-        $prevRow = $arrPrevSales[$nCnt];
+        $totSales += $tempRow["sales"];
+        $totAmt += $tempRow["amount"];
+        $prevTotSales += $tempRow["prevSales"];
+        $prevTotAmt += $tempRow["prevAmount"];
         echo "<tr>";
         echo "<td align='center'><img src=".$tempRow['pic']." width='60px'></td>";
         echo "<td align='center'>{$tempRow["name"]}</td>";
         echo "<td align='center'>";
         echo    "{$tempRow["sales"]}<br/>";
-        if($prevRow["sales"] <= 0){
-            $gap = $tempRow["sales"]-$prevRow["sales"];
-            echo "<font color='red'>&infin; &#37;";
+        if($tempRow["prevSales"] <= 0){
+            $gap = $tempRow["sales"];
+            echo "<font color='red'>&infin; &#37;<br/>";
             echo " (&uarr; $gap)</font>";
-        }else if($prevRow["sales"] > $prevRow["sales"] ){
-            $gap = $tempRow["sales"]-$prevRow["sales"];
-            $percent = round($gap / $prevRow["sales"] * 10000);
+        }else if($tempRow["prevSales"] < $tempRow["sales"] ){
+            $gap = $tempRow["sales"] -$tempRow["prevSales"];
+            $percent = round($gap / $tempRow["prevSales"] * 10000);
             $percent = $percent /100;
             $gap = abs($gap);
-            echo "<font color='red'>$percent &#37; (&uarr; $gap)</font>";
-        }else if($prevRow["sales"] == $prevRow["sales"] ){
-            echo "<font color='blue'>- &#37; (- 0)</font>";
+            $gap = round($gap*100);
+            $gap /= 100;
+            echo "<font color='red'>$percent &#37;<br/>(&uarr; $gap)</font>";
+        }else if($tempRow["prevSales"] == $tempRow["sales"] ){
+            echo "<font color='blue'>- &#37;<br/>(- 0)</font>";
         }else{
-            $gap = $tempRow["sales"]-$prevRow["sales"];
-            $percent = round($gap / $prevRow["sales"] * 10000);
+            $gap = $tempRow["prevSales"] -$tempRow["sales"];
+            $percent = round($gap / $tempRow["prevSales"] * 10000);
             $percent = $percent /100;
             $gap = abs($gap);
-            echo "<font color='blue'>$percent &#37; (&darr; $gap)</font>";
+            $gap = round($gap*100);
+            $gap /= 100;
+            echo "<font color='blue'>$percent &#37;<br/>(&darr; $gap)</font>";
         }
         echo "</td>";
         echo "<td align='center'>";
         echo "$ {$tempRow["amount"]}<br/>";
-        if($prevRow["amount"] <= 0){
-            $gap = $tempRow["amount"]-$prevRow["amount"];
-            echo "<font color='red'>&infin; &#37;";
-            echo " (&uarr; $ $gap)</font>";
-        }else if($prevRow["amount"] > $prevRow["amount"] ){
-            $gap = $tempRow["amount"]-$prevRow["amount"];
-            $percent = round($gap / $prevRow["amount"] * 10000);
+        if($tempRow["prevAmount"] <= 0){
+            $gap = $tempRow["amount"];
+            echo "<font color='red'>&infin; &#37;<br/>";
+            echo "(&uarr; $ $gap)</font>";
+        }else if($tempRow["prevAmount"] < $tempRow["amount"] ){
+            $gap = $tempRow["amount"] - $tempRow["prevSales"];
+            $percent = round($gap / $tempRow["prevAmount"] * 10000);
             $percent = $percent /100;
             $gap = abs($gap);
+            $gap = round($gap*100);
+            $gap /= 100;
             echo "<font color='red'>$percent &#37; (&uarr; $ $gap)</font>";
-        }else if($prevRow["amount"] == $prevRow["amount"] ){
-            echo "<font color='blue'>- &#37; (- $ 0)</font>";
+        }else if($tempRow["prevAmount"] == $tempRow["amount"] ){
+            echo "<font color='blue'>- &#37;<br/>(- $ 0)</font>";
         }else{
-            $gap = $tempRow["amount"]-$prevRow["amount"];
-            $percent = round($gap / $prevRow["amount"] * 10000);
+            $gap = $tempRow["prevSales"] -$tempRow["amount"];
+            $percent = round($gap / $tempRow["prevAmount"] * 10000);
             $percent = $percent /100;
             $gap = abs($gap);
-            echo "<font color='blue'>$percent &#37; (&darr; $ $gap)</font>";
+            $gap = round($gap*100);
+            $gap /= 100;
+            echo "<font color='blue'>$percent &#37;<br/>(&darr; $ $gap)</font>";
         }
         echo "</td>";
         echo "</tr>";
@@ -129,16 +167,25 @@
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
+				<td><B>Total</B></td>
+				<td>&nbsp;</td>
+				<td align="center"><?php echo "$totSales";?></td>
+				<td align="center"><?php echo "$ $totAmt";?></td>
+			</tr>
+            <tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
-			<tr>
+            <tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
+			</tr>
+            <tr>
+				<td colspan="4">* Increase/Decrease is comparing value with last 7 days statistics</td>
 			</tr>
 		</table>
 		<br />
@@ -148,23 +195,21 @@
 			
 	</div>
 	<div id="left">
-		<h3>Store Information</h3>
+        <a href="#" class="auto-style1" onclick="document.storeinfo.submit();"><h3>Store Information</h3></a>
 		<br />
-		<a href="storeaccount.php" class="auto-style1"><h3>Store account</h3>
-		<br />
-			<a href="storeinfo.php" class="auto-style1"><h3>store menus</h3></a>
+        <a href="#" class="auto-style1" onclick="document.storeaccount.submit();"><h3>Store account</h3></a>
+        <br />
+        <a href="#" class="auto-style1" onclick="document.storemenu.submit();"><h3>store menus</h3></a>
 		<br />	
-			<a href="storereport.php" class="auto-style1"><h3>store reports</h3>
-			<ul>
-				<li><ul>
-					<li><a href="storeorderreport.php">Order Report</a></li>
-					<li><a href="storereport.php">Sales Report</a></li>
-				</ul>
-			  </li>
-			</ul>
-			<br />
-</a>
-		
+        <h3>store reports</h3>
+        <ul>
+            <li><ul>
+                <li><a href="#" class="auto-style1" onclick="document.storeorderreport.submit();">Order Report</a></li>
+                <li><a href="#" class="auto-style1" onclick="document.storesalesreport.submit();">Sales Report</a></li>
+            </ul>
+          </li>
+        </ul>
+        <br />
 	</div>
 	
 
@@ -177,6 +222,5 @@
 <p>Copyright &copy; 2014. Design by COMP 231 Group 1</p>
 	</div>
 <!-- footer ends-->
-</form>
 </body>
 </html>

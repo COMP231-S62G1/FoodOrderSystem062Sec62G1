@@ -68,7 +68,7 @@ background: #ffffff url(images/white.gif);
 float: left;
 padding-left: 320px;
 border-left: 7px solid #FFFFFF;
-width: 477px;
+width: 480px;
 height: 82px;
 background: url(images/header_top.gif) repeat-x;
 }
@@ -184,7 +184,7 @@ border-right: 1px solid #629351;
 #right
 {
 float: right;
-width: 500px;
+width: 510px;
 padding-right: 10px;
 }
 
