@@ -23,16 +23,19 @@
 
 <div id="content">
 	<div id="back_all">
+<form action="orderoperate.php" method="POST" name="vieworder">
+</form>
+<form action="../logout.php" method="POST" name="logout">
+</form>
 <!-- header begins -->
 <div id="header">
   <div id="menu">
 		<ul>
 			<li><a href=""  title=""></a></li>
 			<li><a href="" title=""></a></li>
-			<li><a href="" title="">Home</a></li>
-			<li><a href=""  title="">View Order</a></li>
-			<li><a href="" title="">Log Out</a></li>
-			<li><a href="" title="">Contact</a></li>
+			<li><a href="" title=""></a></li>
+			<li><a href="#" title="" onclick="document.vieworder.submit();">View Order</a></li>
+			<li><a href="#" title="" onclick="document.logout.submit();">Logout</a></li>
 		</ul>
 	</div>
 	<div id="logo">
