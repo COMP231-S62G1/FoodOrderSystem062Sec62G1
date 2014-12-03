@@ -24,11 +24,11 @@ include 'login.php'; // Includes Login Script
 <div id="header">
   <div id="menu">
 		<ul>
-			<li><a href=""  title=""></a></li>
-			<li><a href="" title=""></a></li>
-			<li><a href="" title="">Home</a></li>
-			<li><a href=""  title="">Sign in</a></li>
-			<li><a href="" title="">Register</a></li>
+			<li><a href="./default.php">Home</a></li>
+            <li><a href="http://www.centennialcollege.ca" title="Centennial College">Centennial College</a></li>
+			<li><a href="http://www.timhortons.com">Tim Hortons</a></li>
+            <li><a href="http://www.subway.ca/">SUBWAY</a></li>
+            <li><a href="http://www.pizzapizza.ca/">Pizza Pizza</a></li>
 		<!--	<li><a href="" title="">Contact</a></li> -->
 		</ul>
 	</div>
@@ -65,7 +65,7 @@ include 'login.php'; // Includes Login Script
 	<div id="left">
 		<h3>Vendor Login</h3>
 		<p>
-        <form action="" method="GET">
+        <form action="" method="POST">
 		<table style="width:90%" >
 		<tr>
 		<td style="height: 37px; width: 193px;" >User Name&nbsp; :</td>
