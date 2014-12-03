@@ -1,7 +1,7 @@
 --
 -- change price type of menu
 --
-ALTER TABLE `menu` CHANGE `price` `price` DECIMAL(6,3) NULL DEFAULT '0.9900';
+ALTER TABLE `menu` CHANGE `price` `price` DECIMAL(6,2) NULL DEFAULT '0.99';
 
 --
 -- add role Type to UserTable

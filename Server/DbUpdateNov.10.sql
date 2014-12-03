@@ -176,6 +176,25 @@ INSERT INTO `rest` VALUES (1,'pizza','http://www.seattleorganicrestaurants.com/v
 /*!40000 ALTER TABLE `rest` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+DROP TABLE IF EXISTS `operator`;
+CREATE TABLE `operator` (
+    `idOper` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(45) default null,
+    `empId` int(11) NOT default null,
+    `idrest` int(11) NOT default NULL
+    `isManager` tinyint(4) DEFAULT false,
+    `pwd` varchar(45) DEFAULT NULL,
+    PRIMARY KEY (`idrest`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+LOCK TABLES `operator` WRITE;
+/*!40000 ALTER TABLE `rest` DISABLE KEYS */;
+INSERT INTO `operator` VALUES (1, "testmanager", 44512, 1, true, MD5("1234"),(2,'fruit','http://kamloopsunited.ca/wp-content/uploads/2013/10/world-food-day-heart.jpg','fruit');
+/*!40000 ALTER TABLE `rest` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 --
 -- Table structure for table `user`
 --

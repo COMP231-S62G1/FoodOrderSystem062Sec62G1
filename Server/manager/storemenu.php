@@ -1,10 +1,7 @@
 
-
-<!-- include db connector -->
-<?php include '../dbConnector.php';?>
 <?php
     $table = "menu";
-    $restid = $user_input['restid'];
+    $restid = $idRest;
     $menuid = $user_input['menuid'];
 
     $query = "SELECT * FROM $table WHERE restid=$restid";
@@ -72,21 +69,9 @@
     
 <div id="contents">
 	<div id="back_all">
-<!-- header begins -->
-<div id="header">
-  <div id="menu">
-		<ul>
-			<li><a href="" title="">Home</a></li>
-			<li><a href="storeinfo.html"  title="">Store Info</a></li>
-			<li><a href="storemenu.html" title="">Edit Menu</a></li>
-			<li><a href="" title="">Logout</a></li>
-		</ul>
-	</div>
-	<div id="logo">
-		<h1><a href="http://www.centennialcollege.ca" title="Centennial College Food Order">Centennial College Food Order</a></h1>
-		<h2><a href="http://github.com/COMP231-S62G1/FoodOrderSystem062Sec62G1/" id="metamorph">Designed by Group 1</a></h2>
-	</div>
-</div>
+<?php 
+    include './storeheader.php';
+?>
 <!-- header ends -->
 <!-- content begins -->
  <div id="main">
