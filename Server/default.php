@@ -1,3 +1,7 @@
+<?php
+include 'login.php'; // Includes Login Script
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -13,7 +17,7 @@
 </style>
 </head>
 <body>
-<form id="form1" runat="server">
+
 <div id="content">
 	<div id="back_all">
 <!-- header begins -->
@@ -45,12 +49,12 @@
 			colleges nationwide which provide their services at a reduced cost to those who need it most: the often cash-strapped student. We then compiled these savings into a coupon book, mobile app, and website that serves millions of college students each year. The best part is it's completely free for students and contains vendors they use most. Amazingly, Campus Special provides these students an average of $2,500 in savings per year.</p>
 		<p><br />
 	    </p>
-			<h4><a href="http://www.mianfeimoban.com">The cash gift card</a></h4><br />
+			<h4><a href=#>The cash gift card</a></h4><br />
 			<p>The Centennial College provides the cash gift card for college students 
 			to purchase food by ordering online. We aim to drive business through our clients' doors while helping college students save money on everyday purchases. </p>
 			<p class="date">&nbsp;</p>
 			
-			<h4><a href="http://www.mianfeimoban.com">Mobile App</a></h4><br />
+			<h4><a href=#>Mobile App</a></h4><br />
 		   In 2014, The Campus Special launched a FREE mobile application for Android phones. Students can 
 		get the hottest discounts, deals and coupons for places around their college, redeem 
 		gift cards, and even place online orders. The Campus Special app has quickly become one of the most popular apps for 18-24 year old students with top rankings in the Android Market.
@@ -61,39 +65,28 @@
 	<div id="left">
 		<h3>Vendor Login</h3>
 		<p>
+        <form action="" method="GET">
 		<table style="width:90%" >
-		<tr>
-           	<td style="height: 37px; width: 193px;" >I am a&nbsp; :</td>
-			<td colspan="2" style="height: 37px; width: 140px;"><input id="conf" name="conf" type="radio" value="Manage" /> Manage
-			<input name="conf" type="radio" value="clerk"  /> Clerk</td>
-		</tr>
 		<tr>
 		<td style="height: 37px; width: 193px;" >User Name&nbsp; :</td>
 		<td colspan="2" style="height: 37px; width: 120px;"> 
-			<input name="txtName" id="txtName" size="20" tabindex="1" type="text" style="height: 25px"/></td>
+			<input name="username" id="username" size="20" tabindex="1" type="text" style="height: 25px"/></td>
 		
 		</tr>
 		<tr>
 		<td style="height: 37px; width: 193px;" >Password&nbsp; :</td>
 		<td colspan="2" style="height: 37px; width: 140px;"> 
-			<input name="txtPsw" id="txtName" size="20" tabindex="2"  type="password" style="height: 25px" /></td>
+			<input name="password" id="password" size="20" tabindex="2"  type="password" style="height: 25px" /></td>
 		
 		</tr>
 		<tr>
 			<td colspan="4" class="auto-style1">
-			<button onClick="redirect()" name="btnLogin">Login</button>
+            <input name="submit" type="submit" value=" Login ">
 			</td>
-			<script type="text/javascript">
-    function redirect()
-    {
-    var url = "http://www.(url).com";
-    window.location(url);
-    }
-    </script>
-
 		</tr>
-
+        <tr><td colspan="4"><font color='red'><?php echo $error; ?></font></td></tr>
 		</table>
+        </form>
 		</p>
 		<br />
 			<h3>Restaurants List</h3>
@@ -125,6 +118,5 @@
 <p>Copyright &copy; 2014. Designed by COMP 231 Group 1</p>
 	</div>
 <!-- footer ends-->
-</form>
 </body>
 </html>
