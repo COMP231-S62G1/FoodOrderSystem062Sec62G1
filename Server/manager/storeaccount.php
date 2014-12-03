@@ -58,7 +58,9 @@ include './session.php';
                 $man = "false";
             $query = "INSERT INTO $table (`name`, `empId`, `idrest`, `isManager`, `pwd`) VALUES ('$name', '$empnum', $idRest, $man, MD5('$pwd'))";
             $result = mysql_query($query);
-            //echo "<br><br>".$query."<br><br>";
+            if (!$result) {
+   echo "<script> alert('Create account failed'); </script>";
+}
         }  
     }
 ?>
