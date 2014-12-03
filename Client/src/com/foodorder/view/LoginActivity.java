@@ -55,10 +55,11 @@ public class LoginActivity extends Activity {
 
 		pwd = txtPassword.getText().toString();
 		btnLogin = (Button) findViewById(R.id.btnLogin);
+		final Context mCtx = this;
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 
-				GetData getdata = new GetData(getApplicationContext());
+				GetData getdata = new GetData(mCtx);
 				getdata.execute(pwd);
 			}
 		});
@@ -146,16 +147,14 @@ public class LoginActivity extends Activity {
 						
 					} else {
 						isFailed = true;
-						alertDialog1 = new AlertDialog.Builder(mContext)
-								.create();
+						alertDialog1 = new AlertDialog.Builder(mContext).create();
 					}
 
 					if (isFailed && alertDialog1 != null) {
 						// Setting Dialog Title
 						alertDialog1.setTitle("Log in failed");
 						// Setting Dialog Message
-						alertDialog1
-								.setMessage("User name and password are not matched");
+						alertDialog1.setMessage("User name and password are not matched");
 						// Setting Icon to Dialog
 						alertDialog1.setIcon(R.drawable.login);
 						// Setting OK Button

@@ -76,6 +76,7 @@ public class Parse {
 		for (JsonElement obj : Jarray) {
 			UserInfo cse = gson.fromJson(obj, UserInfo.class);
 			lcs.add(cse);
+			Log.e("GetLoginInfo", "name:"+cse.getName()+", email:"+cse.getEmail()+", balance:"+cse.getBalance());
 		}
 		if (lcs.size() > 0) {
 			return lcs.get(0);
