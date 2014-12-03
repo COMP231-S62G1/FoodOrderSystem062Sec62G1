@@ -51,8 +51,8 @@ DROP TABLE IF EXISTS `operator`;
 CREATE TABLE `operator` (
     `idOper` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(45) default null,
-    `empId` int(11) NOT default null,
-    `idrest` int(11) NOT default null,
+    `empId` int(11) default null,
+    `idrest` int(11)  default null,
     `isManager` tinyint(4) DEFAULT false,
     `pwd` varchar(45) DEFAULT NULL,
     PRIMARY KEY (`idOper`)
