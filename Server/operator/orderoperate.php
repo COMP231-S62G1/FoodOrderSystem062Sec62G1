@@ -16,9 +16,7 @@ include './session.php';
     $rdoType = $_GET['type'];
     $chkOption = $_GET['check'];
     $dateon = $_GET['date'];
-    $restid = $user_input['restid'];
-    if($restid == null)
-        $restid = 1;
+    $restid = $idRest;
     if($dateon == null)
         $dateon = date("Y-m-d");
 ?>
