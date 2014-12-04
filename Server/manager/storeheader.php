@@ -8,6 +8,8 @@
 </form>
 <form action="storereportmenu.php" method="POST" name="storereportmenu"> 
 </form>
+<form action="storesalesreport.php" method="POST" name="storesalesreport"> 
+</form>
 <form action="storeinfo.php" method="POST" name="home">  
 </form>
 <form action="../logout.php" method="POST" name="logout">
