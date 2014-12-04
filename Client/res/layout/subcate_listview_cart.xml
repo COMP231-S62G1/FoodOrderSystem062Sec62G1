@@ -1,76 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:padding="3dip" >
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:adjustViewBounds="true"
-        android:contentDescription="noteImage"
+		android:scaleType="centerCrop"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
         android:maxHeight="80dp"
-        android:maxWidth="100dp"
+        android:maxWidth="80dp"
+        android:contentDescription="noteImage"
+        android:layout_marginRight="5sp"
+        android:layout_marginEnd="5sp"
         android:src="@drawable/note2" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/img"
         android:layout_alignTop="@+id/img"
-        android:layout_toLeftOf="@+id/btnUpdate"
+        android:layout_toLeftOf="@+id/btnRemove"
+        android:layout_toStartOf="@+id/btnRemove"
         android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img"
         android:text="info"
-        android:textSize="12dp" />
+        android:textSize="14sp" />
 
     <ImageButton
         android:id="@+id/btnRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/txtQty1"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_alignTop="@+id/info"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/remove" />
-
+        android:layout_alignTop="@id/info"
+        android:layout_marginRight="15sp"
+        android:layout_marginEnd="15sp"
+        android:src="@drawable/del" 
+        android:contentDescription="Remove this item"/>
+<!-- 
     <ImageButton
         android:id="@+id/btnUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/txtQty1"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/btnRemove"
+        android:layout_toStartOf="@+id/btnRemove"
         android:gravity="left"
-        android:src="@drawable/add" />
-
+        android:src="@drawable/refresh" />
+-->
+<!-- 
     <EditText
         android:id="@+id/txtQty1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/info"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/btnRemove"
+        android:layout_alignEnd="@+id/btnRemove"
         android:inputType="numberDecimal"
-        android:textSize="10dp" >
-
-        <requestFocus />
+        android:textSize="12sp" 
+        android:layout_marginRight="18sp"
+        android:layout_marginEnd="18sp"
+        >
     </EditText>
+-->
 
     <TextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnUpdate"
-        android:layout_alignParentBottom="true"
-        android:ems="6"
-        android:inputType="numberDecimal"
-        android:textSize="10dp" />
+        android:layout_below="@id/info"
+        android:layout_alignLeft="@id/info"
+        android:layout_alignStart="@id/info"
+        android:textSize="16sp" 
+        android:textStyle="bold"
+        android:text="total" />
+    
+    <LinearLayout
+		android:orientation = "horizontal" 
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/totalPrice"
+        android:layout_alignLeft="@id/totalPrice"
+        android:layout_alignStart="@id/totalPrice" >
+		
+        <ImageButton
+	        android:id="@+id/btnReduce"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/remove"
+	        android:contentDescription="Reduce quantity" />
+        
+        <TextView
+            android:id="@+id/txtQty1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:textStyle="bold" 
+            android:textSize="16sp"
+            android:layout_marginStart="3sp"
+            android:layout_marginEnd="3sp"
+            android:layout_marginLeft="3sp"
+            android:layout_marginRight="3sp"
+            android:text="1"/>
+        
+        <!--
+        <EditText
+	        android:id="@+id/txtQty"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:inputType="number" 
+	        android:enabled="false"/>
+        -->
+        
+		<ImageButton
+			android:id="@+id/btnAdd"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/add"
+			android:contentDescription="Inrease quantity" />
+	</LinearLayout>
 
 </RelativeLayout>

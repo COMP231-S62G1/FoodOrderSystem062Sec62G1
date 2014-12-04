@@ -2,10 +2,8 @@ package com.foodorder.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.Menu;
@@ -17,48 +15,40 @@ import android.widget.Button;
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.FoodListsViewImage;
+import com.foodorder.beans.MenuList;
 import com.foodorder.beans.MenuModel;
-import com.foodorder.beans.Rest;
 import com.foodorder.client.R;
-import com.foodorder.net.Parse;
-import com.foodorder.net.FoodOrderRequest;
-import com.foodorder.view.RestListActivity.MyBaseAdapter;
 import com.foodorder.view.ShoppingCartActivity;
-import com.google.gson.JsonSyntaxException;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.TimeoutException;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 public class MenuListActivity extends Activity {
 
-	private DialogActivity dialog;
-	private Intent intent;
 	private ArrayList<MenuModel> menuList;
+	private ArrayList<MenuList> itemList;
 	private MyBaseAdapter myBaseAdapter;
 	static String path = AppConstants.path;
 	private int menuId;
 	private ListView listView;
 	private Button btnviewCart;
+	private Button btnAddCart;
 	private Intent intentViewCart;
-	private Intent intentBack;
-	private Bundle b;
 	private MenuModel aMenu;
+	private Menu menu;
 
 	protected void generateOrderlineList() {
 		View v;
@@ -74,6 +64,11 @@ public class MenuListActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		Log.e("MenuList", "onResume()");
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
 		// Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
 	}
 
@@ -104,7 +99,6 @@ public class MenuListActivity extends Activity {
 			}
 
 		});
-
 		getMenuList();
 		listView = (ListView) findViewById(R.id.rest_listview);
 		myBaseAdapter = new MyBaseAdapter();
@@ -113,32 +107,89 @@ public class MenuListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (menuList == null) {
+				if (itemList == null) {
 					return;
 				}
-				MenuModel menuItem = menuList.get(position);
+				MenuModel menuItem = itemList.get(position).getMenu();
 				menuId = Integer.parseInt(menuItem.getMenuid());
 
 			}
 		});
+		
+		this.btnAddCart = (Button) findViewById(R.id.btnAddCart);
+		setAddCart();
 
 	}
 	
+	private void setAddCart(){
+		this.btnAddCart.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+				
+				for(int nCnt=0 ; nCnt < itemList.size(); nCnt++){
+					if(itemList.get(nCnt).getQty() <= 0)
+						continue;
+					MenuModel aMenu = itemList.get(nCnt).getMenu();
+					boolean isExistInList = false;
+					for (MenuModel m : listMenuApp) {
+						if (m.getMenuid().equals(aMenu.getMenuid()))
+							isExistInList = true;
+					}
+					if (!isExistInList)
+						listMenuApp.add(aMenu);
+					ApplicationData.setCartList(listMenuApp);
+					HashMap<String, String> currentOrderline = ApplicationData.getOrderLine();
+					int nCurrQty = 0;
+					if (!currentOrderline.isEmpty()) {
+						if (currentOrderline.containsKey(aMenu.getMenuid())) {
+							nCurrQty = Integer.parseInt(currentOrderline.get(aMenu.getMenuid()) );
+							currentOrderline.remove(aMenu.getMenuid());
+						}
+					}
+					currentOrderline.put(aMenu.getMenuid(), Integer.toString(nCurrQty+itemList.get(nCnt).getQty()));
+					ApplicationData.setOrderLineList(currentOrderline);
+					itemList.get(nCnt).setQty(0);
+				}
+				listView.invalidateViews();
+			}
+
+		});
+	}
 	
 
 	@SuppressWarnings("unchecked")
 	private void getMenuList() {
-		menuList = (ArrayList<MenuModel>) getIntent().getSerializableExtra(
-				"menuList");
+		menuList = (ArrayList<MenuModel>) getIntent().getSerializableExtra("menuList");
+		itemList = new ArrayList<MenuList>();
+		for(int nCnt=0; nCnt<menuList.size() ; nCnt++){
+			itemList.add( new MenuList( menuList.get(nCnt) )  );
+		}
+		menuList = null;
 	}
 
+	private void setLogin(boolean isLogin){
+		if(menu != null){
+			MenuItem itemLogin = menu.findItem(R.id.action_login);
+			MenuItem itemLogout = menu.findItem(R.id.action_logout);
+			if(isLogin){
+				itemLogout.setVisible(true);
+				itemLogin.setVisible(false);
+			}else{
+				itemLogout.setVisible(false);
+				itemLogin.setVisible(true);
+			}
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		if(ApplicationData.getUser() != null)
-			getMenuInflater().inflate(R.menu.menu_list, menu);
-		else
-			getMenuInflater().inflate(R.menu.menu_list_login, menu);
+		this.menu = menu;
+		getMenuInflater().inflate(R.menu.rest_list, menu);
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
 		return true;
 	}
 
@@ -198,7 +249,9 @@ public class MenuListActivity extends Activity {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return menuList.size();
+			if(itemList == null)
+				return 0;
+			return itemList.size();
 		}
 
 		@Override
@@ -215,21 +268,52 @@ public class MenuListActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if (menuList == null) {
+			if (itemList == null) {
 				return convertView;
 			}
+			Log.e("getView", "pos: "+position);
 			final View view = convertView.inflate(MenuListActivity.this,
 					R.layout.subcate_listview, null);
-			Object obj = menuList.get(position);
+			final MenuList obj = itemList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
-			Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
-			final EditText txtQuanty = (EditText) view
-					.findViewById(R.id.txtQty);
+			ImageButton btnAdd = (ImageButton) view.findViewById(R.id.btnAdd);
+			ImageButton btnRemove = (ImageButton) view.findViewById(R.id.btnRemove);
+			final TextView txtQty = (TextView) view.findViewById(R.id.txtQty);
+			txtQty.setText(Integer.toString(obj.getQty()));
+			txtQty.setPaintFlags(txtQty.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 			final int pos = position;
-			cartAdd.setTag(position);
+			btnAdd.setTag(pos);
+			btnRemove.setTag(pos);
+			btnAdd.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					int nQty = obj.getQty();
+					obj.setQty(++nQty);
+					txtQty.setText(Integer.toString(nQty));
+				}
+			});
+			
+			btnRemove.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					int nQty = obj.getQty();
+					if(nQty <= 0)
+					{
+						return;
+					}
+					obj.setQty(--nQty);
+					txtQty.setText(Integer.toString(nQty));
+				}
+			});
+			
+			//Button cartAdd = (Button) view.findViewById(R.id.btnAdd);
+			//final EditText txtQuanty = (EditText) view.findViewById(R.id.txtQty);
+			//txtQuanty.setInputType(InputType.TYPE_CLASS_NUMBER);
+			
+			//cartAdd.setTag(position);
 
-			cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
+			/*cartAdd.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {
 
 					// validate 000000
@@ -250,7 +334,7 @@ public class MenuListActivity extends Activity {
 
 						ArrayList<MenuModel> listMenuApp = ApplicationData
 								.getCartList();
-						MenuModel aMenu = menuList.get(pos);
+						MenuModel aMenu = itemList.get(pos).getMenu();
 						boolean isExistInList = false;
 						for (MenuModel m : listMenuApp) {
 							if (m.getMenuid().equals(aMenu.getMenuid()))
@@ -273,30 +357,30 @@ public class MenuListActivity extends Activity {
 						txtQuanty.setText("");
 					}
 				}
-			});
+			});*/
 
 			// ImageView right_flag = (ImageView)
 			// view.findViewById(R.id.favImg);
-			if (obj instanceof MenuModel) {
-				final MenuModel aMenuItem = (MenuModel) obj;
-				menu_item_title.setText("Name: " + aMenuItem.getName() + "\n"
-						+ "Description: " + aMenuItem.getDes() + "\n" + "Price: $" + aMenuItem.getPrice());
+			if (obj.getMenu() instanceof MenuModel) {
+				final MenuModel aMenuItem = (MenuModel) obj.getMenu();
+				menu_item_title.setText(aMenuItem.getName() + "\n\n"
+						+ "Description:\n" + aMenuItem.getDes() + "\n\n" + "Price: $" + aMenuItem.getPrice());
 
 				menu_item_image.setTag(aMenuItem.getPic());
-				if (menuList.get(position).getPic() != null
-						&& !menuList.get(position).getPic().equals("")) {
+				if (itemList.get(position).getMenu().getPic() != null
+						&& !itemList.get(position).getMenu().getPic().equals("")) {
 					try {
 						new FoodListsViewImage(MenuListActivity.this)
-								.loadingImage(menuList.get(position).getPic(),
+								.loadingImage(itemList.get(position).getMenu().getPic(),
 										menu_item_image, R.drawable.computer,
 										listView);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
 					menu_item_image.setImageResource(R.drawable.computer);
 				}
+				
 
 			} else {
 			}
@@ -311,115 +395,5 @@ public class MenuListActivity extends Activity {
 		return bitmap;
 	}
 
-	private class GetData extends AsyncTask<String, String, String> {
-		private Context mContext;
-		private int mType;
-
-		private GetData(Context context, int type) {
-			this.mContext = context;
-			this.mType = type;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			if (mType == 0) {
-				if (null != dialog && !dialog.isShowing()) {
-					dialog.show();
-				}
-			}
-			super.onPreExecute();
-		}
-
-		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			String result = null;
-			FoodOrderRequest request = new FoodOrderRequest(
-					MenuListActivity.this);
-
-			try {
-				result = request.getMenuByRestId(String.format("%d", 1));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
-
-			if (result == null || result.equals("")) {
-				handler.sendEmptyMessage(3);
-			} else {
-
-				menuList = new ArrayList<MenuModel>();
-				try {
-					menuList = new Parse().GetMenuByRestId(result);
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				if (menuList != null) {
-					Intent intent = new Intent(MenuListActivity.this,
-							ShoppingCartActivity.class);
-					intent.putExtra("menuList", (Serializable) menuList);
-					startActivity(intent);
-					finish();
-				} else {
-					handler.sendEmptyMessage(1);
-				}
-			}
-		}
-
-		private Handler handler = new Handler() {
-
-			@Override
-			public void handleMessage(Message msg) {
-				// TODO Auto-generated method stub
-				super.handleMessage(msg);
-				switch (msg.what) {
-				// get comment by note id
-				case 0:
-					Thread thread = new Thread() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							super.run();
-							FoodOrderRequest request = new FoodOrderRequest(
-									getApplicationContext());
-							String result = null;
-
-						}
-					};
-					thread.start();
-					break;
-				case 1:
-					dialog.cancel();
-					break;
-				case 2:
-					dialog.cancel();
-
-					break;
-				case 3:
-					dialog.cancel();
-
-					break;
-				default:
-					break;
-				}
-			}
-
-		};
-
-	}
+	
 }

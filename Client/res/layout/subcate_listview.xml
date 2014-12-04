@@ -1,49 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:padding="3dip" >
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:adjustViewBounds="true"
+		android:scaleType="centerCrop"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
         android:maxHeight="80dp"
-        android:maxWidth="100dp"
+        android:maxWidth="80dp"
         android:src="@drawable/note2" 
-        android:contentDescription="noteImage"
+        android:contentDescription="item image"
         />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/img"
-        android:layout_alignTop="@+id/img"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/img"
-        android:text="info" />
+        android:layout_toEndOf="@+id/img"
+        />
+    
+    
 
+    <!-- 
      <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnAddd"
         android:layout_width="78sp"
         android:layout_height="30sp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/info"
         android:text="@string/btnAddCart"
         android:textSize="10sp" />
+     -->
+    <LinearLayout
+		android:orientation = "vertical" 
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+		android:gravity="center_horizontal">
+		
+        <ImageButton
+	        android:id="@+id/btnAdd"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/add"
+	        android:contentDescription="Add item" />
+        
+        <TextView
+            android:id="@+id/txtQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+        
+        <!--
+        <EditText
+	        android:id="@+id/txtQty"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:inputType="number" 
+	        android:enabled="false"/>
+        -->
+        
+		<ImageButton
+			android:id="@+id/btnRemove"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/remove"
+			android:contentDescription="Remove item" />
+	</LinearLayout>
     
-    <EditText
-        android:id="@+id/txtQty"
+     
+    
+
+
+
+    
+    
+    <!-- 
+    <NumberPicker
+        android:id="@+id/numberPicker1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below ="@+id/btnAdd"
-        android:inputType="numberDecimal"
-        android:layout_marginRight="10dp" />
+        android:layout_below ="@+id/btnAdd" /> -->
 
 </RelativeLayout>
