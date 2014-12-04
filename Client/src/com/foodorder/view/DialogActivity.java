@@ -16,7 +16,7 @@ public class DialogActivity extends Dialog {
 	public Dialog dialog;
 	private TextView tvMessage;
 	private Button btnSure;
-	private Button btnCancel;
+	//private Button btnCancel;
 	public int mType;
 	
 
@@ -27,8 +27,8 @@ public class DialogActivity extends Dialog {
 		this.mType = type;
 		if (mType == 1) {
 			setContentView(R.layout.dialog_load);
-			btnCancel = (Button) findViewById(R.id.btn_cancel);
-			disDialog();
+			//btnCancel = (Button) findViewById(R.id.btn_cancel);
+			//disDialog();
 		} else {
 			setContentView(R.layout.dialog_prompt);
 			tvMessage = (TextView) findViewById(R.id.tv_message);
@@ -54,7 +54,7 @@ public class DialogActivity extends Dialog {
 	public Button getBtnSure() {
 		return btnSure;
 	}
-
+	/*
 	public Button getBtnCancel() {
 		return btnCancel;
 	}
@@ -69,7 +69,7 @@ public class DialogActivity extends Dialog {
 			}
 		});
 	}
-
+	*/
 	private void dis() {
 		// TODO Auto-generated method stub
 		this.dismiss();

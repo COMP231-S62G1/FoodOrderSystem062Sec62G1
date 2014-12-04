@@ -216,7 +216,6 @@ public class OrderConfirmActivity extends Activity {
 		
 		@Override
 		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
 			String result = null;
 			FoodOrderRequest request = new FoodOrderRequest(OrderConfirmActivity.this);
 			
@@ -224,10 +223,8 @@ public class OrderConfirmActivity extends Activity {
 				result = request.createOrder("Alex","0001",orderLineList);
 				Log.e("OrderConfirmActivity", "request result is "+ result);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -236,7 +233,6 @@ public class OrderConfirmActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			if (null != dialog) {
 				dialog.dismiss();
 			}
@@ -285,9 +281,6 @@ public class OrderConfirmActivity extends Activity {
 						
 					}
 				}); 
-				
-				
-					
 				//Showing Alert Message
 				alertDialog1.show();
 			}

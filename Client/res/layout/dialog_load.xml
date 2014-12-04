@@ -8,7 +8,7 @@
     android:padding="20dp" >
 
     <TextView
-        style="@style/white20"
+        style="@style/white28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -16,12 +16,14 @@
 
     <ProgressBar
         android:id="@+id/probLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="14dp"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+		android:scaleType="centerCrop"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
         android:indeterminateDrawable="@drawable/loading" />
-
+<!-- 
     <Button
         style="@style/light_black20"
         android:id="@+id/btn_cancel"
@@ -30,5 +32,5 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_capture"
         android:text="@string/cancel" />
-
+ -->
 </LinearLayout>
