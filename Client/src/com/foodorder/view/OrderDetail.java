@@ -19,7 +19,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -409,40 +408,7 @@ public class OrderDetail extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}else if(id == R.id.action_cart){
-			Intent intentViewCart = new Intent(OrderDetail.this,
-					ShoppingCartActivity.class);
-			intentViewCart.putExtra("ViewCart", "View Cart Successful");
-			startActivity(intentViewCart);
-		}else if (id == R.id.action_logout) {
-			ApplicationData.setUser(null);
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(loginIntent);
-        } else if (id == R.id.action_userinfo) {
-			Intent intentUser = new Intent(OrderDetail.this,
-					UserInfoActivity.class);
-					intentUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intentUser);
-		}		
-		else if (id == R.id.action_login) {
-			ApplicationData.setUser(null);
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginIntent);
-        }else if (id == R.id.action_register) {
-			Intent intentRegister = new Intent(OrderDetail.this,
-					RegisterActivity.class);
-					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intentRegister);
-		
-		}
+		LogInOut.handleOptionItem(this, item);
 		return super.onOptionsItemSelected(item);
 	}
 }

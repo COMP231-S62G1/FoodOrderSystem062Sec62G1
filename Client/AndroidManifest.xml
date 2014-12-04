@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -55,6 +55,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.foodorder.view.EditUserInfoActivity"
+            android:label="@string/title_activity_edit_user"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.foodorder.view.RestListActivity"
             android:label="@string/title_activity_rest_list"
             android:screenOrientation="portrait" >
@@ -62,10 +67,12 @@
         <activity
             android:name="com.foodorder.view.MenuListActivity"
             android:label="@string/title_activity_menu_list"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.foodorder.view.ShoppingCartActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_shopping_cart"
             android:screenOrientation="portrait" >
         </activity>
@@ -85,7 +92,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.foodorder.view.EditUserInfoActivity"
+            android:name="com.foodorder.view.EditUserActivity"
             android:label="@string/title_activity_edit_user"
             android:screenOrientation="portrait" >
         </activity>
@@ -94,12 +101,7 @@
         <activity
             android:name="com.foodorder.view.OrderDetail"
             android:screenOrientation="portrait" 
-            android:label="@string/title_activity_order_detail" 
-            android:parentActivityName="com.foodorder.view.WelComeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".WelComeActivity"
-            /> 
+            android:label="@string/title_activity_order_detail">
         </activity>
     </application>
 
