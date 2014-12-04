@@ -42,6 +42,7 @@ public class UserInfoActivity extends Activity {
 	private TextView error;
 	private Intent getUpdate;
 	
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -34,14 +34,12 @@ import com.foodorder.net.Parse;
 import com.google.gson.JsonSyntaxException;
 
 public class LoginActivity extends Activity {
-
-	private String name;
-	private String pwd;
+	private DialogActivity dialog;
 	private EditText txtPassword;
-	private Intent getRegister;
 	private Button btnLogin;
 	private Button Register1;
 	private EditText txtUsername;
+	private Context mCtx;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,51 +47,68 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		txtPassword = (EditText) findViewById(R.id.editPassword);
 		txtUsername = (EditText) findViewById(R.id.username);
-		// getRegister = getIntent();
-		// Bundle b = getRegister.getExtras();
-		// b.get("Viewregister");
 
-		pwd = txtPassword.getText().toString();
 		btnLogin = (Button) findViewById(R.id.btnLogin);
-		final Context mCtx = this;
+		mCtx = this;
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-
-				GetData getdata = new GetData(mCtx);
-				getdata.execute(pwd);
+				
 			}
 		});
 
 		Register1 = (Button) findViewById(R.id.btnSignup);
 		Register1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-
-				new AlertDialog.Builder(LoginActivity.this)
-				.setTitle("Sign Up")
-				.setMessage("Register?")
-				.setPositiveButton("yes",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								Intent intentR = new Intent(LoginActivity.this,
-										RegisterActivity.class);
-								intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-										| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-								startActivity(intentR);				
-								}
-						})
-				.setNegativeButton("no",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-							}
-						}).show();
-
-
+				doRegister();
 			}
 		});
 
+	}
+	
+	private void doLogin(){
+		new GetData(mCtx).execute("");
+	}
+	
+	private void doRegister(){
+		new AlertDialog.Builder(LoginActivity.this)
+		.setTitle("Sign Up")
+		.setMessage("Register?")
+		.setPositiveButton("yes",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,
+							int which) {
+						Intent intentR = new Intent(LoginActivity.this,
+								RegisterActivity.class);
+						intentR.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+								| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+						startActivity(intentR);				
+						}
+				})
+		.setNegativeButton("no",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,
+							int which) {
+
+					}
+				}).show();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.login, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_login) {
+			doLogin();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private class GetData extends AsyncTask<String, String, String> {
@@ -104,11 +119,15 @@ public class LoginActivity extends Activity {
 
 		private GetData(Context context) {
 			this.mContext = context;
+			dialog = new DialogActivity(context, 1);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			if (null != dialog && !dialog.isShowing()) {
+				dialog.show();
+			}
 		}
 
 		@Override
@@ -131,6 +150,9 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			boolean isFailed = false;
+			if (null != dialog) {
+				dialog.dismiss();
+			}
 			if (result == null || result.equals("")) {
 				alertDialog1 = new AlertDialog.Builder(mContext).create();
 				isFailed = true;
@@ -141,13 +163,13 @@ public class LoginActivity extends Activity {
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				} finally {
+					alertDialog1 = new AlertDialog.Builder(mContext).create();
 					if (user != null) {
 						ApplicationData.setUser(user);
 						// TODO do something when success login
 						
 					} else {
 						isFailed = true;
-						alertDialog1 = new AlertDialog.Builder(mContext).create();
 					}
 
 					if (isFailed && alertDialog1 != null) {
@@ -170,6 +192,25 @@ public class LoginActivity extends Activity {
 										// text field
 										if (txtPassword != null)
 											txtPassword.setText("");
+									}
+								});
+						// Showing Alert Message
+						alertDialog1.show();
+					}else if(!isFailed && alertDialog1 != null){
+						// Setting Dialog Title
+						alertDialog1.setTitle("Log in successful");
+						// Setting Dialog Message
+						alertDialog1.setMessage("Welcome " + user.getName());
+						// Setting Icon to Dialog
+						alertDialog1.setIcon(R.drawable.login);
+						// Setting OK Button
+						alertDialog1.setButton("OK",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(
+											final DialogInterface dialog,
+											final int which) {
+										finish();
 									}
 								});
 						// Showing Alert Message
