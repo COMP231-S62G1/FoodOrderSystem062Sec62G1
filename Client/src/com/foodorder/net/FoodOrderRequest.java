@@ -12,10 +12,6 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.foodorder.beans.*;
-import com.foodorder.view.OrderConfirmActivity;
 
 public class FoodOrderRequest {
 	
@@ -73,8 +69,7 @@ public class FoodOrderRequest {
 	
 	public String getRestList() throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
-		return baseRequest.postRequestByHttpClient(strParams,
-				getUrl("GetRestList.php", ""));
+		return baseRequest.postRequestByHttpClient(strParams,getUrl("GetRestList.php", ""));
 	}
 	
 	public String getMenuByRestId(String restid)

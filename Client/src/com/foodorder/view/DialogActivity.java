@@ -1,11 +1,11 @@
 package com.foodorder.view;
 
 import com.foodorder.client.R;
-import com.foodorder.beans.ApplicationData;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Point;
 import android.view.Display;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,7 +22,6 @@ public class DialogActivity extends Dialog {
 
 	public DialogActivity(Context context, int type) {
 		super(context, R.style.dialog_meijika);
-		// TODO Auto-generated constructor stub
 		this.mContext = context;
 		this.mType = type;
 		if (mType == 1) {
@@ -41,9 +40,11 @@ public class DialogActivity extends Dialog {
 		Window window = getWindow();
 		WindowManager.LayoutParams p = window.getAttributes();
 		Display d = getWindow().getWindowManager().getDefaultDisplay();
+		Point outSize = new Point();
+		d.getSize(outSize);
 
-		p.height = (int) (d.getHeight() * 1);
-		p.width = (int) (d.getWidth() * 1);
+		p.height = outSize.y;//   (int) (d.getHeight() * 1);
+		p.width = outSize.x;//(int) (d.getWidth() * 1);
 		window.setAttributes(p);
 	}
 
@@ -63,15 +64,14 @@ public class DialogActivity extends Dialog {
 		btnCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				ApplicationData.isCancel = false;
 				dis();
 			}
 		});
 	}
-	*/
+	
 	private void dis() {
-		// TODO Auto-generated method stub
 		this.dismiss();
 	}
+	*/
 }

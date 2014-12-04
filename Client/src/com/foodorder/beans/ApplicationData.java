@@ -2,27 +2,15 @@ package com.foodorder.beans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Application;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.os.Build;
 import android.os.Vibrator;
-import android.telephony.TelephonyManager;
 
-/**
- * HTTP Request Result
- * @author Alex.Liu
- * @email alexliubo@gmail.com
- *
- */
+
 public class ApplicationData extends Application{
 	
 	private static ArrayList<Object> listdata = new ArrayList<Object>();
@@ -133,7 +121,7 @@ public class ApplicationData extends Application{
 	public static String mDid;// 
 	public static String mDname;// 
 	public static final String mLanguage = "zh";// 
-	public static String mDeviceVersion;// 
+	public static int mDeviceVersion;// 
 	public static String mAppVersion;// 
 	public static String mModel;// 
 	public static String mDevicetoken = "fsjlkfs";// PUSH Token
@@ -158,7 +146,6 @@ public class ApplicationData extends Application{
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 		initHeader();
 
@@ -170,7 +157,7 @@ public class ApplicationData extends Application{
 		// mImei = getEncryptCode(getIMEI());
 		// mDid = getEncryptCode("011472001975695");
 		mDname = Build.BRAND;
-		mDeviceVersion = Build.VERSION.SDK;
+		mDeviceVersion = Build.VERSION.SDK_INT;
 		mModel = Build.MODEL;
 	}
 	private String getVersion() {
@@ -185,14 +172,17 @@ public class ApplicationData extends Application{
 	/**
 	 * IMEI
 	 * */
+	/*
 	private String getIMEI() {
 		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		return telephonyManager.getDeviceId();
 	}
+	*/
 
 	/**
 	 * exitAcivity
 	 */
+	/*
 	public static void exit(final Activity activity) {
 		Builder dialog = new AlertDialog.Builder(activity);
 		dialog.setTitle("Are you sure Exit?");
@@ -202,7 +192,7 @@ public class ApplicationData extends Application{
 				ActivityManager manager = (ActivityManager) activity
 						.getSystemService(ACTIVITY_SERVICE);
 				if (sdkVersion < 8) {
-					manager.restartPackage(activity.getPackageName());
+					manager.killBackgroundProcesses(activity.getPackageName());
 					System.exit(0);
 				} else {
 					Intent startMain = new Intent(Intent.ACTION_MAIN);
@@ -219,6 +209,7 @@ public class ApplicationData extends Application{
 		});
 		dialog.show();
 	}
+	*/
 
 
 	public static boolean isPicture(String pInput, String pImgeFlag) throws Exception {
@@ -235,12 +226,11 @@ public class ApplicationData extends Application{
 				{ "tiff", "9" }, { "ico", "10" } };
 		
 		for (int i = 0; i < imgeArray.length; i++) {
-			
-			if (pImgeFlag != null && imgeArray[i][0].equals(tmpName.toLowerCase())
+			if (pImgeFlag != null && imgeArray[i][0].equals(tmpName.toLowerCase(Locale.CANADA))
 					&& imgeArray[i][1].equals(pImgeFlag)) {
 				return true;
 			}
-			if (pImgeFlag == null && imgeArray[i][0].equals(tmpName.toLowerCase())) {
+			if (pImgeFlag == null && imgeArray[i][0].equals(tmpName.toLowerCase(Locale.CANADA))) {
 				return true;
 			}
 		}

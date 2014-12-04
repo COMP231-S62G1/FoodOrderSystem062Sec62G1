@@ -10,16 +10,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.util.Log;
 import android.view.View.OnClickListener;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.foodorder.beans.ApplicationData;
@@ -35,6 +30,21 @@ public class EditUserInfoActivity extends Activity {
 	private EditText email;
 	private UserInfo user;
 	private TextView error;
+	private GetData gd;
+	
+	@Override
+	protected void onStop(){
+		Log.e("EditUserInfoActivity", "onStop");
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy (){
+		Log.e("EditUserInfoActivity", "onDestroy");
+		if(null != gd)
+			gd.cancel(true);
+		super.onDestroy();
+	}
     
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +81,17 @@ public class EditUserInfoActivity extends Activity {
 	
 	
 	private class GetData extends AsyncTask<String, String, String> {
-		private Context mContext;
+		//private Context mContext;
 		private int mType;
 
 		private GetData(Context context, int type) {
-			this.mContext = context;
+			//this.mContext = context;
 			this.mType = type;
 			dialog = new DialogActivity(context, type);
 		}
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
@@ -93,7 +102,6 @@ public class EditUserInfoActivity extends Activity {
 
 		@Override
 		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
 			String result = null;
 			FoodOrderRequest request = new FoodOrderRequest(
 					EditUserInfoActivity.this);
@@ -110,10 +118,8 @@ public class EditUserInfoActivity extends Activity {
 				
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -122,7 +128,6 @@ public class EditUserInfoActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			if (null != dialog) {
 				dialog.dismiss();
 			}
@@ -144,11 +149,11 @@ public class EditUserInfoActivity extends Activity {
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0:
-				new GetData(EditUserInfoActivity.this, 1).execute("");
+				gd = new GetData(EditUserInfoActivity.this, 1);
+				gd.execute("");
 				break;
 			default:
 				break;

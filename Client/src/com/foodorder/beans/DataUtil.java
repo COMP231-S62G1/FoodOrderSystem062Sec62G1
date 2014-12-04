@@ -1,12 +1,6 @@
 package com.foodorder.beans;
 
-import android.location.Location;
 
-/**
- * Data collection
- * @author Alex.Liu
- * @email alexliubo@gmail.com
- */
 public class DataUtil {
 	
 	public static boolean ProgressBarDialogShowFlag = false;

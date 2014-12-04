@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
@@ -31,29 +30,28 @@ public class WelComeActivity extends Activity {
 	private DialogActivity dialog;
 	private GetData gd;
 
-	Handler handler = new Handler() {
+	@SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
-			case 1:
-				startActivity(new Intent(WelComeActivity.this, RestListActivity.class));
-				WelComeActivity.this.finish();
-				break;
-			case 2:
-			case 3:
-				Log.e("WelcomeActivity", "GetData start");
-				gd = new GetData(WelComeActivity.this, 1);
-				gd.execute("");
-				break;
-
-			default:
-				break;
+				case 1:
+					startActivity(new Intent(WelComeActivity.this, RestListActivity.class));
+					WelComeActivity.this.finish();
+					break;
+				case 2:
+				case 3:
+					Log.e("WelcomeActivity", "GetData start");
+					gd = new GetData(WelComeActivity.this, 1);
+					gd.execute("");
+					break;
+				default:
+					break;
 			}
 		};
 	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);
 		Message msg = new Message();
@@ -61,6 +59,20 @@ public class WelComeActivity extends Activity {
 		handler.sendMessageDelayed(msg, 500);
 	}
 
+	@Override
+	protected void onStop(){
+		Log.e("WelcomeActivity", "onStop");
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy (){
+		Log.e("WelcomeActivity", "onDestroy");
+		if(null != gd)
+			gd.cancel(true);
+		super.onDestroy();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -105,11 +117,11 @@ public class WelComeActivity extends Activity {
 	}
 
 	private class GetData extends AsyncTask<String, String, String> {
-		private Context mContext;
+		//private Context mContext;
 		private int mType;
 
 		private GetData(Context context, int type) {
-			this.mContext = context;
+			//this.mContext = context;
 			this.mType = type;
 			//myDialog = new LoadingDiagActivity(context);
 			dialog = new DialogActivity(context, type);
@@ -117,7 +129,6 @@ public class WelComeActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
@@ -129,7 +140,6 @@ public class WelComeActivity extends Activity {
 
 		@Override
 		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
 			String result = null;
 			FoodOrderRequest request = new FoodOrderRequest(WelComeActivity.this);
 
@@ -138,10 +148,8 @@ public class WelComeActivity extends Activity {
 				result = request.getRestList();
 				Log.e("Welcome Activity", "request done :" +result);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

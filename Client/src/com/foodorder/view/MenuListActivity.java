@@ -1,9 +1,9 @@
 package com.foodorder.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.Menu;
@@ -29,9 +29,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -44,15 +42,16 @@ public class MenuListActivity extends Activity {
 	private ArrayList<MenuList> itemList;
 	private MyBaseAdapter myBaseAdapter;
 	final static String path = AppConstants.path;
-	private int menuId;
+	//private int menuId;
 	private ListView listView;
 	private Button btnviewCart;
 	private Button btnAddCart;
 	private Intent intentViewCart;
-	private MenuModel aMenu;
+	//private MenuModel aMenu;
 	private Menu menu;
 	private AlertDialog.Builder adbCart;
 
+	/*
 	protected void generateOrderlineList() {
 		View v;
 		EditText et;
@@ -62,6 +61,7 @@ public class MenuListActivity extends Activity {
 			// if(et.getText().toString() )
 		}
 	}
+	*/
 
 	@Override
 	protected void onResume() {
@@ -103,6 +103,7 @@ public class MenuListActivity extends Activity {
 		listView = (ListView) findViewById(R.id.rest_listview);
 		myBaseAdapter = new MyBaseAdapter();
 		listView.setAdapter(myBaseAdapter);
+		/*
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -115,6 +116,7 @@ public class MenuListActivity extends Activity {
 
 			}
 		});
+		*/
 		
 		this.btnAddCart = (Button) findViewById(R.id.btnAddCart);
 		setAddCart();
@@ -253,7 +255,6 @@ public class MenuListActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			if(itemList == null)
 				return 0;
 			return itemList.size();
@@ -261,24 +262,23 @@ public class MenuListActivity extends Activity {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (itemList == null) {
 				return convertView;
 			}
 			//Log.e("getView", "pos: "+position);
-			final View view = convertView.inflate(MenuListActivity.this,
-					R.layout.subcate_listview, null);
+			@SuppressWarnings("static-access")
+			final View view = convertView.inflate(MenuListActivity.this, R.layout.subcate_listview, null);
 			final MenuList obj = itemList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);

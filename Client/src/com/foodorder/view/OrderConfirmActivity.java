@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
-import android.R.string;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,32 +18,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.CommonModel;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
-import com.foodorder.beans.OrderLine;
-import com.foodorder.beans.Rest;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.foodorder.services.UpdateOrderStatus;
 import com.foodorder.utils.AmountCalculator;
-import com.foodorder.view.MenuListActivity.MyBaseAdapter;
-import com.google.gson.JsonSyntaxException;
 
 public class OrderConfirmActivity extends Activity {
 
@@ -55,9 +45,8 @@ public class OrderConfirmActivity extends Activity {
 	static String pathString = AppConstants.path;
 	private ListView orderListView;
 	private Intent intentViewOrder;
-	private Button btnCancel;
-	private Button btnSubmit;
 	private Bundle b;
+	private SendData sd;
 	
 	@Override
 	protected void onResume(){
@@ -74,6 +63,8 @@ public class OrderConfirmActivity extends Activity {
 	@Override
 	protected void onDestroy (){
 		Log.e("OrderConfirm", "onDestroy");
+		if(null != sd)
+			sd.cancel(true);
 		super.onDestroy();
 	}
 
@@ -118,22 +109,20 @@ public class OrderConfirmActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return menuList.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (menuList == null) {
@@ -143,6 +132,7 @@ public class OrderConfirmActivity extends Activity {
 				return convertView;
 			}
 			
+			@SuppressWarnings("static-access")
 			final View view = convertView.inflate(OrderConfirmActivity.this, R.layout.sub_order_item, null);
 			Object menuObject = menuList.get(position);
 
@@ -164,7 +154,6 @@ public class OrderConfirmActivity extends Activity {
 						.loadingImage(menuList.get(position).getPic(),
 								order_item_image, R.drawable.computer, orderListView);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
@@ -204,19 +193,18 @@ public class OrderConfirmActivity extends Activity {
 
 	
 	private class SendData extends AsyncTask<String, String, String>{
-		private Context mContext;
+		//private Context mContext;
 		private int mType;
 		
 
 		private SendData(Context context, int type) {
-			this.mContext = context;
+			//this.mContext = context;
 			this.mType = type;
 			dialog = new DialogActivity(context, type);
 		}
 		
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
@@ -262,49 +250,37 @@ public class OrderConfirmActivity extends Activity {
 				myIntent.putExtra("NEW_MENU", orderId);
 				startService(myIntent);			
 				
+				AlertDialog.Builder adbSubmit = new AlertDialog.Builder( OrderConfirmActivity.this);
+				adbSubmit.setTitle("Order Submition");
+				adbSubmit.setMessage("Your order has been submitted.?");
 				
-				AlertDialog alertDialog1=new AlertDialog.Builder(OrderConfirmActivity.this).create();
+				adbSubmit.setPositiveButton("Ok",
+						new AlertDialog.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								Intent intent = new Intent(OrderConfirmActivity.this,RestListActivity.class);
+								intent.putExtra("restList", (Serializable)ApplicationData.getRestList());
+								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								ApplicationData.setOrderLineList(null);
+								ApplicationData.setCartList(null);
+								startActivity(intent);
+							}
+						});
+				adbSubmit.setIcon(R.drawable.ic_launcher);
+				adbSubmit.show();
 				
-				//Setting Dialog Title
-				alertDialog1.setTitle("Order Submition");
 				
-				//Setting Dialog Message
-				alertDialog1.setMessage("Your order has been submitted.");
-				
-				//Setting Icon to Dialog
-				alertDialog1.setIcon(R.drawable.ic_launcher);
-				
-				//Setting OK Button
-				alertDialog1.setButton("OK", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						
-						//Start service to check order status
-						
-						//Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(OrderConfirmActivity.this,RestListActivity.class);
-						intent.putExtra("restList", (Serializable)ApplicationData.getRestList());
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						ApplicationData.setOrderLineList(null);
-						ApplicationData.setCartList(null);
-						startActivity(intent);
-						
-					}
-				}); 
-				//Showing Alert Message
-				alertDialog1.show();
 			}
 		}
 		
+		@SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				// TODO Auto-generated method stub
 				super.handleMessage(msg);
 				switch (msg.what) {
 				case 0:
-					new SendData(OrderConfirmActivity.this, 1).execute("");
+					sd = new SendData(OrderConfirmActivity.this, 1);
+					sd.execute("");
 					break;
 				default:
 					break;

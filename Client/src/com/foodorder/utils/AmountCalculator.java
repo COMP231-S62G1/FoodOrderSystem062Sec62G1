@@ -2,6 +2,7 @@ package com.foodorder.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 
 import com.foodorder.beans.MenuModel;
@@ -44,6 +45,7 @@ public class AmountCalculator {
 	}
 	
 	public static String getAmountString(double amount){
-		return String.format("$%6.2f", amount);
+		double amt = amount;
+		return String.format(Locale.CANADA,"$%6.2f", amt);
 	}
 }

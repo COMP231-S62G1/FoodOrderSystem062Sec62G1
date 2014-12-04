@@ -1,7 +1,6 @@
 package com.foodorder.net;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -38,7 +36,6 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 public class BaseRequest {
 	private DefaultHttpClient client;

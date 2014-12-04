@@ -1,28 +1,21 @@
 package com.foodorder.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
-import com.foodorder.beans.CommonModel;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.OrderLine;
 import com.foodorder.client.R;
-import com.foodorder.client.R.id;
-import com.foodorder.client.R.layout;
-import com.foodorder.client.R.menu;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.foodorder.utils.LogInOut;
-import com.foodorder.view.OrderConfirmActivity.MyBaseAdapter;
 import com.google.gson.JsonSyntaxException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -37,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,12 +41,12 @@ public class OrderDetail extends Activity {
 	private MyBaseAdapter myBaseAdapter;
 	static String pathString = AppConstants.path;
 	private ListView orderListView;
-	private Button btnCancel;
+	//private Button btnCancel;
 	private int orderId;
 	private int orderStatus;
-	private int requestType =0;
+	//private int requestType =0;
 	private Menu menu;
-	private DialogActivity dialog;
+	//private DialogActivity dialog;
 	
 	private TextView txtTitle;
 	
@@ -91,7 +83,6 @@ public class OrderDetail extends Activity {
 				handler.sendEmptyMessage(2);
 			}
 		}else{
-			requestType = 10000;
 			new GetData(OrderDetail.this, 1).execute("");
 		}
 		
@@ -127,11 +118,12 @@ public class OrderDetail extends Activity {
 		}
 	}
 	
+	/*
 	private class GetReason extends AsyncTask<String, String, String> {
-		private Context mContext;
+		//private Context mContext;
 		
 		private GetReason(Context context) {
-			this.mContext = context;
+			//this.mContext = context;
 		}
 		@Override
 		protected void onPreExecute() {
@@ -162,14 +154,16 @@ public class OrderDetail extends Activity {
 			}
 		}
 	}
+	*/
 	
+	/*
 	private class GetStatus extends AsyncTask<String, String, String> {
 		private Context mContext;
-		private int mType;
+		//private int mType;
 
 		private GetStatus(Context context, int type) {
 			this.mContext = context;
-			this.mType = type;
+			//this.mType = type;
 			dialog = new DialogActivity(context, type);
 		}
 
@@ -213,14 +207,14 @@ public class OrderDetail extends Activity {
 			}
 		}
 	}
-	
+	*/
 	
 	private class GetData extends AsyncTask<String, String, String> {
-		private Context mContext;
+		//private Context mContext;
 		private int mType;
 
 		private GetData(Context context, int type) {
-			this.mContext = context;
+			//this.mContext = context;
 			this.mType = type;
 		}
 
@@ -291,6 +285,7 @@ public class OrderDetail extends Activity {
 		}
 	}
 	
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -340,6 +335,7 @@ public class OrderDetail extends Activity {
 			return Long.parseLong(orderLine.get(position).getMenuid()) ;
 		}
 
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (menuList == null) {
@@ -349,6 +345,7 @@ public class OrderDetail extends Activity {
 				return convertView;
 			}
 			
+			@SuppressWarnings("static-access")
 			final View view = convertView.inflate(OrderDetail.this, R.layout.sub_order_item, null);
 			
 			ImageView order_item_image = (ImageView) view.findViewById(R.id.itemimg);

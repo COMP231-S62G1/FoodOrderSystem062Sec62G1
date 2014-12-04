@@ -1,34 +1,19 @@
 package com.foodorder.view;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.foodorder.beans.ApplicationData;
-import com.foodorder.beans.OrderLine;
 import com.foodorder.beans.UserInfo;
 import com.foodorder.client.R;
-import com.foodorder.net.FoodOrderRequest;
-import com.foodorder.net.Parse;
-import com.google.gson.JsonSyntaxException;
 
 public class UserInfoActivity extends Activity {
 	
@@ -40,7 +25,7 @@ public class UserInfoActivity extends Activity {
 	private UserInfo user;
 	private double aBalance;
 	private TextView error;
-	private Intent getUpdate;
+	//private Intent getUpdate;
 	
 	
 	@Override

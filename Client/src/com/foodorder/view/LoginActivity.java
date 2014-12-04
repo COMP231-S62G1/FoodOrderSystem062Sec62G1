@@ -1,8 +1,6 @@
 package com.foodorder.view;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import android.app.Activity;
@@ -12,23 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 
 import com.foodorder.beans.ApplicationData;
-import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.UserInfo;
 import com.foodorder.client.R;
-import com.foodorder.client.R.id;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.google.gson.JsonSyntaxException;
@@ -40,6 +31,21 @@ public class LoginActivity extends Activity {
 	private Button Register1;
 	private EditText txtUsername;
 	private Context mCtx;
+	private GetData gd;
+	
+	@Override
+	protected void onStop(){
+		Log.e("LoginActivity", "onStop");
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy (){
+		Log.e("LoginActivity", "onDestroy");
+		if(null != gd)
+			gd.cancel(true);
+		super.onDestroy();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,8 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void doLogin(){
-		new GetData(mCtx).execute("");
+		gd = new GetData(mCtx);
+		gd.execute("");
 	}
 	
 	private void doRegister(){
@@ -112,13 +119,12 @@ public class LoginActivity extends Activity {
 	}
 
 	private class GetData extends AsyncTask<String, String, String> {
-		private Context mContext;
+		//private Context mContext;
 		private UserInfo user;
 
-		private AlertDialog alertDialog1;
 
 		private GetData(Context context) {
-			this.mContext = context;
+			//this.mContext = context;
 			dialog = new DialogActivity(context, 1);
 		}
 
@@ -154,7 +160,6 @@ public class LoginActivity extends Activity {
 				dialog.dismiss();
 			}
 			if (result == null || result.equals("")) {
-				alertDialog1 = new AlertDialog.Builder(mContext).create();
 				isFailed = true;
 			} else {
 				try {
@@ -163,58 +168,36 @@ public class LoginActivity extends Activity {
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				} finally {
-					alertDialog1 = new AlertDialog.Builder(mContext).create();
+					AlertDialog.Builder adbLogin = new AlertDialog.Builder( LoginActivity.this);
 					if (user != null) {
 						ApplicationData.setUser(user);
-						// TODO do something when success login
-						
 					} else {
 						isFailed = true;
 					}
 
-					if (isFailed && alertDialog1 != null) {
-						// Setting Dialog Title
-						alertDialog1.setTitle("Log in failed");
-						// Setting Dialog Message
-						alertDialog1.setMessage("User name and password are not matched");
-						// Setting Icon to Dialog
-						alertDialog1.setIcon(R.drawable.login);
-						// Setting OK Button
-						alertDialog1.setButton("OK",
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
-										// TODO do something when failed to
-										// log-in
-										// eg. remove user name or password edit
-										// text field
+					if (isFailed && adbLogin != null) {
+						adbLogin.setTitle("Log in Error");
+						adbLogin.setMessage("User name and password are not matched");
+						adbLogin.setPositiveButton("Ok",
+								new AlertDialog.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
 										if (txtPassword != null)
 											txtPassword.setText("");
 									}
 								});
-						// Showing Alert Message
-						alertDialog1.show();
-					}else if(!isFailed && alertDialog1 != null){
-						// Setting Dialog Title
-						alertDialog1.setTitle("Log in successful");
-						// Setting Dialog Message
-						alertDialog1.setMessage("Welcome " + user.getName());
-						// Setting Icon to Dialog
-						alertDialog1.setIcon(R.drawable.login);
-						// Setting OK Button
-						alertDialog1.setButton("OK",
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											final int which) {
+						adbLogin.setIcon(R.drawable.ic_launcher);
+						adbLogin.show();
+					}else if(!isFailed && adbLogin != null){
+						adbLogin.setTitle("Log in");
+						adbLogin.setMessage("Welcome " + user.getName());
+						adbLogin.setPositiveButton("Ok",
+								new AlertDialog.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
 										finish();
 									}
 								});
-						// Showing Alert Message
-						alertDialog1.show();
+						adbLogin.setIcon(R.drawable.ic_launcher);
+						adbLogin.show();
 					}
 
 				}

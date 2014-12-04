@@ -2,8 +2,9 @@ package com.foodorder.view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,13 +19,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.FoodListsViewImage;
@@ -38,9 +36,9 @@ public class ShoppingCartActivity extends Activity {
 	private ListView listView;
 	private MyBaseAdapter myBaseAdapter;
 	static String path = AppConstants.path;
-	private Intent intentViewCart;
+	//private Intent intentViewCart;
 	private Intent intentConfirmPage;
-	private Bundle b;
+	//private Bundle b;
 	private Button btnOrderConfirm;
 	private HashMap<String, String> currentOrderline;
 	private Menu menu;
@@ -186,7 +184,6 @@ public class ShoppingCartActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			if(menuList == null)
 				return 0;
 			return menuList.size();
@@ -194,13 +191,11 @@ public class ShoppingCartActivity extends Activity {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 		
@@ -216,12 +211,14 @@ public class ShoppingCartActivity extends Activity {
 		      }  
 		}
 
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (menuList == null) {
 				return convertView;
 			}
 			final int pos = position;
+			@SuppressWarnings("static-access")
 			final View view = convertView.inflate(ShoppingCartActivity.this,
 					R.layout.subcate_listview_cart, null);
 			Object obj = menuList.get(position);
@@ -332,7 +329,7 @@ public class ShoppingCartActivity extends Activity {
 							//Double.parseDouble(aMenuPrice.getPrice());
 				}
 				
-				String calcTotal = String.format("%.2f" , qty*price);
+				String calcTotal = String.format(Locale.CANADA, "%.2f" , qty*price);
 						//Float.toString(qty*price);
 						//String.valueOf(calcTotal);
 				total.setText("Total: $" + calcTotal);				
@@ -394,7 +391,6 @@ public class ShoppingCartActivity extends Activity {
 										menu_item_image, R.drawable.computer,
 										listView);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {

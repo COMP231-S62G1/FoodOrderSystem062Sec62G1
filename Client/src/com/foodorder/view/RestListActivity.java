@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -35,7 +36,6 @@ import com.foodorder.client.R;
 import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.Rest;
-import com.foodorder.client.R;
 import com.foodorder.net.Parse;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.net.FoodOrderRequest;
@@ -54,6 +54,22 @@ public class RestListActivity extends Activity {
 	private int restId;
 	private ListView listView;
 	private Menu menu;
+	
+	private GetData gd;
+	
+	@Override
+	protected void onStop(){
+		Log.e("RestListActivity", "onStop");
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy (){
+		Log.e("RestListActivity", "onDestroy");
+		if(gd !=null)
+			gd.cancel(true);
+		super.onDestroy();
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +90,8 @@ public class RestListActivity extends Activity {
 				Rest cateItem = restList.get(position);
 				restId = Integer.parseInt(cateItem.getIdrest());
 				Object obj=(Object)restList.get(position);
-				new GetData(RestListActivity.this,1).execute("");
+				gd = new GetData(RestListActivity.this,1);
+				gd.execute("");
 				if(obj instanceof String){
 					return;
 				}
@@ -176,18 +193,20 @@ public class RestListActivity extends Activity {
 			return position;
 		}
 
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if(restList==null){
 				return convertView;
 			}
+			@SuppressWarnings("static-access")
 			final View view=convertView.inflate(RestListActivity.this, R.layout.cate_item,null);
 			
 			Object obj=restList.get(position);
 			final ImageView rest_item_image=(ImageView)view.findViewById(R.id.rest_item_image);
 			TextView rest_item_title=(TextView)view.findViewById(R.id.rest_item_title);
 			TextView rest_item_content=(TextView)view.findViewById(R.id.rest_item_content);
-			ImageView right_flag=(ImageView)view.findViewById(R.id.right_flag);
+			//ImageView right_flag=(ImageView)view.findViewById(R.id.right_flag);
 			
 			if(obj instanceof Rest){
 				final Rest aRest=(Rest)obj;
@@ -211,7 +230,7 @@ public class RestListActivity extends Activity {
 				view.setEnabled(false);
 				rest_item_title.setText(obj.toString());
 				LayoutParams params = rest_item_title.getLayoutParams();
-				params.width=LayoutParams.FILL_PARENT;
+				params.width=LayoutParams.MATCH_PARENT;
 				params.height=25;
 				rest_item_title.setLayoutParams(params);
 				rest_item_title.setGravity(Gravity.CENTER_VERTICAL);
@@ -275,11 +294,11 @@ public class RestListActivity extends Activity {
 	}
 
 	private class GetData extends AsyncTask<String, String, String> {
-		private Context mContext;
+		//private Context mContext;
 		private int mType;
 
 		private GetData(Context context, int type) {
-			this.mContext = context;
+			//this.mContext = context;
 			this.mType = type;
 			dialog = new DialogActivity(context, type);
 		}
@@ -340,6 +359,7 @@ public class RestListActivity extends Activity {
 	}
 
 
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {

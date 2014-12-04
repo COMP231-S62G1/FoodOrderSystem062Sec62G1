@@ -1,9 +1,7 @@
 package com.foodorder.services;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeoutException;
 
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.CommonModel;
@@ -12,7 +10,6 @@ import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.foodorder.view.OrderDetail;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -141,10 +138,9 @@ public class UpdateOrderStatus extends Service {
 		
 		Thread thread = new Thread() {
 
-			@SuppressLint("NewApi")
+			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				super.run();
 				FoodOrderRequest request = new FoodOrderRequest(
 						getApplicationContext());
@@ -218,21 +214,12 @@ public class UpdateOrderStatus extends Service {
 							);
 					// start the activity when the user clicks the notification text
 					foodNotiBuilder.setContentIntent(resultPendingIntent);
-
-					if (android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.JELLY_BEAN) {
-						// call something for API Level 16+
-						notificationManager.notify(NOTIFICATION_ID,
-								foodNotiBuilder.build() );
-					} else if (android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.HONEYCOMB) {
-						// call something for API Level 11+
-						notificationManager.notify(NOTIFICATION_ID,
-								foodNotiBuilder.getNotification() );
-					}
+					notificationManager.notify(NOTIFICATION_ID,
+							foodNotiBuilder.build() );
+					
 				}/* catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (TimeoutException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}*/
 				catch(Exception e){

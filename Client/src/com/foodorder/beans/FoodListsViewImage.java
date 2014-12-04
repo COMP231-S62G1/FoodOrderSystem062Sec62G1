@@ -14,18 +14,18 @@ import com.foodorder.beans.AsyncImageLoader.ImageCallback;
  */
 public class FoodListsViewImage {
 	AsyncImageLoader asyncImageLoader;
-	private Context context;
-	private int mType;
+	//private Context context;
+	//private int mType;
 
 	public FoodListsViewImage(Context context) {
 		asyncImageLoader = new AsyncImageLoader(context);
-		this.context = context;
+		//this.context = context;
 	}
 
 	public FoodListsViewImage(Context context, int type) {
 		asyncImageLoader = new AsyncImageLoader(context);
-		this.context = context;
-		this.mType = type;
+		//this.context = context;
+		//this.mType = type;
 	}
 
 	public void loadingImage(String imageUrl, final ImageView imageView, final int defaultImageRid,
