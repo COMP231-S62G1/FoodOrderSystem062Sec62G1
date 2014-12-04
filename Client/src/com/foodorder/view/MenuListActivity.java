@@ -271,7 +271,7 @@ public class MenuListActivity extends Activity {
 			if (itemList == null) {
 				return convertView;
 			}
-			Log.e("getView", "pos: "+position);
+			//Log.e("getView", "pos: "+position);
 			final View view = convertView.inflate(MenuListActivity.this,
 					R.layout.subcate_listview, null);
 			final MenuList obj = itemList.get(position);

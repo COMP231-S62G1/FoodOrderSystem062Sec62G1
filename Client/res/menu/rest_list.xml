@@ -20,9 +20,14 @@
     
     <item android:id="@+id/action_logout"
         android:title="@string/logout"
+        android:visible="false"
         android:showAsAction="withText|ifRoom" />
     
-        <item
+    <item android:id="@+id/action_login"
+        android:title="@string/login"
+        android:showAsAction="withText|ifRoom" />
+    
+    <item
         android:id="@+id/action_register"
         android:orderInCategory="100"
         android:showAsAction="never"

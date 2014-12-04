@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import android.os.Handler;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,12 +66,13 @@ public class RegisterActivity extends Activity {
 		private GetData(Context context, int type) {
 			this.mContext = context;
 			this.mType = type;
+			dialog = new DialogActivity(context, type);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			if (mType == 0) {
+			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
 				}

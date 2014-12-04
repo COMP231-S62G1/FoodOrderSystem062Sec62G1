@@ -77,12 +77,13 @@ public class EditUserInfoActivity extends Activity {
 		private GetData(Context context, int type) {
 			this.mContext = context;
 			this.mType = type;
+			dialog = new DialogActivity(context, type);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			if (mType == 0) {
+			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
 				}
@@ -122,7 +123,7 @@ public class EditUserInfoActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
-			if (null != dialog && dialog.isShowing()) {
+			if (null != dialog) {
 				dialog.dismiss();
 			}
 

@@ -25,10 +25,11 @@ import android.telephony.TelephonyManager;
  */
 public class ApplicationData extends Application{
 	
-	static ArrayList<Object> listdata = new ArrayList<Object>();
-	static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
-	
-	static UserInfo userinfo;
+	private static ArrayList<Object> listdata = new ArrayList<Object>();
+	private static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
+	private static ArrayList<Rest> restList = new ArrayList<Rest>();
+	private static HashMap<String, String> orderLineList = new HashMap<String, String>();
+	private static UserInfo userinfo;
 	
 	public static UserInfo getUser(){
 		return userinfo;
@@ -41,6 +42,17 @@ public class ApplicationData extends Application{
 		return cartList;
 	}
 	
+	public static void setRestList(ArrayList<Rest> restList){
+		if(restList == null){
+			//ApplicationData.restList = null;
+			ApplicationData.restList = new ArrayList<Rest>();
+		}else
+			ApplicationData.restList = restList;
+	}
+	
+	public static ArrayList<Rest> getRestList(){
+		return ApplicationData.restList;
+	}
 	
 	public static void setBalance(double balance){
 		if(userinfo == null)
@@ -72,15 +84,23 @@ public class ApplicationData extends Application{
 	
 	public static void setCartList(ArrayList<MenuModel> listCart)
 	{
-		cartList = listCart;
+		if(listCart == null){
+			//cartList = null;
+			cartList = new ArrayList<MenuModel>();
+		}else
+			cartList = listCart;
 	}
 	
-	static HashMap<String, String> orderLineList = new HashMap<String, String>();
+	
 	
 
 	public static void setOrderLineList(HashMap<String, String> orderline)
 	{
-		orderLineList = orderline;
+		if (orderline == null) {
+			//orderLineList = null;
+			orderLineList = new HashMap<String, String>();
+		}else 
+			orderLineList = orderline;
 	}
 	
 	public static HashMap<String, String> getOrderLine()
@@ -94,7 +114,11 @@ public class ApplicationData extends Application{
 		return listdata;
 	}
 	public void setListdata(ArrayList<Object> listdata) {
-		this.listdata = listdata;
+		if(listdata == null){
+			//this.listdata = null;
+			ApplicationData.listdata = new ArrayList<Object>();
+		}else
+			ApplicationData.listdata = listdata;
 	}
 	
 	public static final String TAB_WOCHACHA = "TAB_WOCHACHA";

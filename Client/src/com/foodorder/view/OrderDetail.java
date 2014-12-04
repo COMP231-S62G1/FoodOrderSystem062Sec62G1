@@ -1,7 +1,6 @@
 package com.foodorder.view;
 
 import java.io.IOException;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ import android.widget.TextView;
 
 
 public class OrderDetail extends Activity {
-private ArrayList<MenuModel> menuList;
+	private ArrayList<MenuModel> menuList;
 	private ArrayList<OrderLine> orderLine;
 	private MyBaseAdapter myBaseAdapter;
 	static String pathString = AppConstants.path;
@@ -53,6 +52,8 @@ private ArrayList<MenuModel> menuList;
 	private int orderId;
 	private int orderStatus;
 	private int requestType =0;
+	private Menu menu;
+	private DialogActivity dialog;
 	
 	private TextView txtTitle;
 	
@@ -168,6 +169,7 @@ private ArrayList<MenuModel> menuList;
 		private GetStatus(Context context, int type) {
 			this.mContext = context;
 			this.mType = type;
+			dialog = new DialogActivity(context, type);
 		}
 
 		@Override
@@ -193,7 +195,9 @@ private ArrayList<MenuModel> menuList;
 
 		@Override
 		protected void onPostExecute(String result) {
-			
+			if (null != dialog ) {
+				dialog.dismiss();
+			}
 			if (result == null || result.equals("")) {
 				handler.sendEmptyMessage(3);
 			} else {
@@ -382,15 +386,30 @@ private ArrayList<MenuModel> menuList;
 	}
 	
 	
-	
+	private void setLogin(boolean isLogin){
+		if(menu != null){
+			MenuItem itemLogin = menu.findItem(R.id.action_login);
+			MenuItem itemLogout = menu.findItem(R.id.action_logout);
+			if(isLogin){
+				itemLogout.setVisible(true);
+				itemLogin.setVisible(false);
+			}else{
+				itemLogout.setVisible(false);
+				itemLogin.setVisible(true);
+			}
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		if(ApplicationData.getUser() != null)
-			getMenuInflater().inflate(R.menu.order_detail, menu);
-		else
-			getMenuInflater().inflate(R.menu.order_detail_login, menu);
+		this.menu = menu;
+		getMenuInflater().inflate(R.menu.rest_list, menu);
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
+		menu.findItem(R.id.action_order).setVisible(false);
 		return true;
 	}
 

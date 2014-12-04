@@ -9,20 +9,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,18 +33,16 @@ import com.foodorder.client.R;
 
 public class ShoppingCartActivity extends Activity {
 
-	private ListView cartView;
 	private ArrayList<MenuModel> menuList;
 	private ListView listView;
 	private MyBaseAdapter myBaseAdapter;
 	static String path = AppConstants.path;
 	private Intent intentViewCart;
 	private Intent intentConfirmPage;
-	private Intent intentBack;
 	private Bundle b;
 	private Button btnOrderConfirm;
-	private Button btnBack;
 	private HashMap<String, String> currentOrderline;
+	private Menu menu;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,14 +102,55 @@ public class ShoppingCartActivity extends Activity {
 			}
 		});
 	}
+	
+	private void setLogin(boolean isLogin){
+		if(menu != null){
+			MenuItem itemLogin = menu.findItem(R.id.action_login);
+			MenuItem itemLogout = menu.findItem(R.id.action_logout);
+			if(isLogin){
+				itemLogout.setVisible(true);
+				itemLogin.setVisible(false);
+			}else{
+				itemLogout.setVisible(false);
+				itemLogin.setVisible(true);
+			}
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e("ShoppingCartActivity", "onResume()");
+		menuList = ApplicationData.getCartList();
+		currentOrderline = ApplicationData.getOrderLine();
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
+		if(menuList == null){
+			btnOrderConfirm.setEnabled(false);
+		}else if(menuList.size() <= 0){
+			btnOrderConfirm.setEnabled(false);
+		}else{
+			btnOrderConfirm.setEnabled(true);
+		}
+		
+		// Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		if(ApplicationData.getUser() != null)
-			getMenuInflater().inflate(R.menu.shopping_cart, menu);
-		else
-			getMenuInflater().inflate(R.menu.shopping_cart_login, menu);
+		this.menu = menu;
+		getMenuInflater().inflate(R.menu.rest_list, menu);
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
+		MenuItem itemLogin = menu.findItem(R.id.action_cart);
+		itemLogin.setVisible(false);
 		return true;
 	}
 
@@ -145,14 +183,18 @@ public class ShoppingCartActivity extends Activity {
 					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intentRegister);
 		
-		}
-        else if (id == R.id.action_user_info) {
+		}else if (id == R.id.action_user_info) {
 			Intent intentUser = new Intent(ShoppingCartActivity.this,
 					UserInfoActivity.class);
 					intentUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intentUser);
 		
-		}
+		}else if (id == R.id.action_login) {
+			ApplicationData.setUser(null);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+            return true;
+        }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -161,6 +203,8 @@ public class ShoppingCartActivity extends Activity {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
+			if(menuList == null)
+				return 0;
 			return menuList.size();
 		}
 
@@ -199,14 +243,98 @@ public class ShoppingCartActivity extends Activity {
 			Object obj = menuList.get(position);
 			ImageView menu_item_image = (ImageView) view.findViewById(R.id.img);
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
-			TextView total = (TextView) view.findViewById(R.id.totalPrice);
+			final TextView total = (TextView) view.findViewById(R.id.totalPrice);
 			//TextView finalTotal = (TextView) view.findViewById(R.id.total);
-			ImageButton right_flag = (ImageButton) view
-					.findViewById(R.id.btnRemove);
-			ImageButton updateBtn = (ImageButton) view
-					.findViewById(R.id.btnUpdate);
+			ImageButton right_flag = (ImageButton) view.findViewById(R.id.btnRemove);
+			//ImageButton updateBtn = (ImageButton) view.findViewById(R.id.btnUpdate);
+			
+			ImageButton btnAdd = (ImageButton) view.findViewById(R.id.btnAdd);
+			ImageButton btnReduce = (ImageButton) view.findViewById(R.id.btnReduce);
 
-			final EditText txtQuantity = (EditText) view.findViewById(R.id.txtQty1);
+			final TextView txtQuantity = (TextView) view.findViewById(R.id.txtQty1);
+			
+			final AlertDialog.Builder adb = new AlertDialog.Builder( ShoppingCartActivity.this);
+			adb.setTitle("Delete?");
+			adb.setMessage("Are you sure you want to delete this item?");
+			final int positionToRemove = pos;
+			adb.setPositiveButton("Ok",
+					new AlertDialog.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int which) {
+							ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
+							MenuModel aMenu = menuList.get(positionToRemove);
+							listMenuApp.remove(aMenu);
+							ApplicationData.setCartList(listMenuApp);
+
+							//HashMap<String, String> currentOrderline = ApplicationData.getOrderLine();
+							currentOrderline.remove(aMenu.getMenuid());
+							ApplicationData.setOrderLineList(currentOrderline);
+
+							notifyDataSetChanged();
+							if(menuList == null){
+								btnOrderConfirm.setEnabled(false);
+							}else if(menuList.size() <= 0){
+								btnOrderConfirm.setEnabled(false);
+							}else{
+								btnOrderConfirm.setEnabled(true);
+							}
+						}
+					});
+			
+			btnAdd.setOnClickListener(new AdapterView.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Set<String> keys = currentOrderline.keySet();
+					String itemId = null;
+					MenuModel aMenu = menuList.get(positionToRemove);
+					for (String key : keys) {
+						if (aMenu.getMenuid() == key)
+							itemId = key;
+					}
+					int qty = Integer.parseInt(currentOrderline.get(itemId) );
+				
+					if (!currentOrderline.isEmpty()) {
+						if (currentOrderline.containsKey(aMenu.getMenuid())) {
+							currentOrderline.remove(aMenu.getMenuid());
+						}
+					}
+					txtQuantity.setText(Integer.toString(++qty));
+					currentOrderline.put(aMenu.getMenuid(), txtQuantity.getText().toString());
+					ApplicationData.setOrderLineList(currentOrderline);
+					notifyDataSetChanged();
+					
+				}
+			});
+			
+			btnReduce.setOnClickListener(new AdapterView.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Set<String> keys = currentOrderline.keySet();
+					String itemId = null;
+					MenuModel aMenu = menuList.get(positionToRemove);
+					for (String key : keys) {
+						if (aMenu.getMenuid() == key)
+							itemId = key;
+					}
+					int qty = Integer.parseInt(currentOrderline.get(itemId) );
+					
+					if(qty == 1){
+						adb.setNegativeButton("Cancel", null);
+						adb.show();
+					}else{
+						if (!currentOrderline.isEmpty()) {
+							if (currentOrderline.containsKey(aMenu.getMenuid())) {
+								currentOrderline.remove(aMenu.getMenuid());
+							}
+						}
+						txtQuantity.setText(Integer.toString(--qty));
+						currentOrderline.put(aMenu.getMenuid(), txtQuantity.getText().toString());
+						ApplicationData.setOrderLineList(currentOrderline);
+						notifyDataSetChanged();
+					}
+				}
+			});
+			
 			if (txtQuantity != null) {
 				Set<String> keys = currentOrderline.keySet();
 				String itemId = null;
@@ -215,84 +343,62 @@ public class ShoppingCartActivity extends Activity {
 				for (String key : keys) {
 					if (aModel.getMenuid() == key)
 						itemId = key;
-					
 				}
 				txtQuantity.setText(currentOrderline.get(itemId));
 				final MenuModel aMenuPrice = (MenuModel) obj;
-				double qty = Double.parseDouble(currentOrderline.get(itemId));
-				double price = 0.0f;
+				int qty = Integer.parseInt(currentOrderline.get(itemId));
+				float price = 0.0f;
 				if(aMenuPrice.getPrice()!=null)
 				{
-					price = Double.parseDouble(aMenuPrice.getPrice());
+					price = Float.parseFloat(aMenuPrice.getPrice());
+							//Double.parseDouble(aMenuPrice.getPrice());
 				}
 				
-				double calcTotal = qty*price;
-				String calcTotall = String.valueOf(calcTotal);
-				total.setText("Total: $" + calcTotall);				
+				String calcTotal = String.format("%.2f" , qty*price);
+						//Float.toString(qty*price);
+						//String.valueOf(calcTotal);
+				total.setText("Total: $" + calcTotal);				
 				
 			}
 			
 			
 			
 			// update a new quantity
+			/*
 			updateBtn.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {
 					// int position = (Integer)v.getTag();
 					MenuModel aMenu = menuList.get(pos);
-					HashMap<String, String> currentOrderline = ApplicationData
-							.getOrderLine();
+					HashMap<String, String> currentOrderline = ApplicationData.getOrderLine();
 					if (!currentOrderline.isEmpty()) {
 						if (currentOrderline.containsKey(aMenu.getMenuid())) {
 							currentOrderline.remove(aMenu.getMenuid());
 						}
 					}
-					currentOrderline.put(aMenu.getMenuid(), txtQuantity
-							.getText().toString());
-					ApplicationData.setOrderLineList(currentOrderline);
-					notifyDataSetChanged();
+					if(txtQuantity.getText().toString() == null 
+							|| txtQuantity.getText().toString().equals("")
+							|| Integer.parseInt(txtQuantity.getText().toString()) <= 0 ){
+						adb.setNegativeButton("Cancel", new AlertDialog.OnClickListener() {
+								public void onClick(DialogInterface dialog,int which) {
+									txtQuantity.setText("1");
+								}
+							});
+						adb.show();
+					}
+					else{
+						currentOrderline.put(aMenu.getMenuid(), txtQuantity.getText().toString());
+						ApplicationData.setOrderLineList(currentOrderline);
+						notifyDataSetChanged();
+					}
 				}
 			});
-
+			*/
 			right_flag.setTag(0);
 
 			right_flag.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {
-
-					// int position = (Integer)v.getTag();
-					Toast.makeText(getApplicationContext(),
-							"Array position number " + pos, Toast.LENGTH_LONG)
-							.show();
-
-					AlertDialog.Builder adb = new AlertDialog.Builder(
-							ShoppingCartActivity.this);
-					adb.setTitle("Delete?");
-					adb.setMessage("Are you sure you want to delete this item?");
-					final int positionToRemove = pos;
 					adb.setNegativeButton("Cancel", null);
-					adb.setPositiveButton("Ok",
-							new AlertDialog.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-
-									ArrayList<MenuModel> listMenuApp = ApplicationData
-											.getCartList();
-
-									MenuModel aMenu = menuList
-											.get(positionToRemove);
-									listMenuApp.remove(aMenu);
-									ApplicationData.setCartList(listMenuApp);
-
-									HashMap<String, String> currentOrderline = ApplicationData
-											.getOrderLine();
-									currentOrderline.remove(aMenu.getMenuid());
-									ApplicationData
-											.setOrderLineList(currentOrderline);
-
-									notifyDataSetChanged();
-								}
-							});
 					adb.show();
-
 				}
 
 			});
@@ -300,7 +406,7 @@ public class ShoppingCartActivity extends Activity {
 			if (obj instanceof MenuModel) {
 				final MenuModel aMenuItem = (MenuModel) obj;
 				menu_item_title.setText("Name: " + aMenuItem.getName() + "\n"
-						+ "Description: " + aMenuItem.getDes() + "\n" + "Price: $" + aMenuItem.getPrice());
+						+ "Unit Price: $" + aMenuItem.getPrice());
 
 				menu_item_image.setTag(aMenuItem.getPic());
 				if (menuList.get(position).getPic() != null

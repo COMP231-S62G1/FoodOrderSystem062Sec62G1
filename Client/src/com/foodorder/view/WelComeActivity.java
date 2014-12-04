@@ -38,6 +38,7 @@ public class WelComeActivity extends Activity {
 				WelComeActivity.this.finish();
 				break;
 			case 2:
+			case 3:
 				new GetData(WelComeActivity.this, 1).execute("");
 				break;
 
@@ -103,16 +104,19 @@ public class WelComeActivity extends Activity {
 		private GetData(Context context, int type) {
 			this.mContext = context;
 			this.mType = type;
+			//myDialog = new LoadingDiagActivity(context);
+			dialog = new DialogActivity(context, type);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			if (mType == 0) {
+			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
 				}
 			}
+			//myDialog.show();
 			super.onPreExecute();
 		}
 
@@ -139,7 +143,7 @@ public class WelComeActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
-			if (null != dialog && dialog.isShowing()) {
+			if (null != dialog ) {
 				dialog.dismiss();
 			}
 

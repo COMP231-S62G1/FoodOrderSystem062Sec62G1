@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,6 +37,7 @@ import com.foodorder.beans.CommonModel;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.beans.OrderLine;
+import com.foodorder.beans.Rest;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
@@ -193,16 +195,18 @@ public class OrderConfirmActivity extends Activity {
 	private class SendData extends AsyncTask<String, String, String>{
 		private Context mContext;
 		private int mType;
+		
 
 		private SendData(Context context, int type) {
 			this.mContext = context;
 			this.mType = type;
+			dialog = new DialogActivity(context, type);
 		}
 		
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			if (mType == 0) {
+			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
 				}
@@ -233,7 +237,7 @@ public class OrderConfirmActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
-			if (null != dialog && dialog.isShowing()) {
+			if (null != dialog) {
 				dialog.dismiss();
 			}
 			
@@ -272,11 +276,17 @@ public class OrderConfirmActivity extends Activity {
 						//Start service to check order status
 						
 						//Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(OrderConfirmActivity.this,MenuListActivity.class);
-						intent.putExtra("menuList", (Serializable)menuList);
-						startActivity(intent);			
+						Intent intent = new Intent(OrderConfirmActivity.this,RestListActivity.class);
+						intent.putExtra("restList", (Serializable)ApplicationData.getRestList());
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						ApplicationData.setOrderLineList(null);
+						ApplicationData.setCartList(null);
+						startActivity(intent);
+						
 					}
 				}); 
+				
+				
 					
 				//Showing Alert Message
 				alertDialog1.show();

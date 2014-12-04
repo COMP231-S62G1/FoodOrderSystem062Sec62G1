@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -51,6 +52,7 @@ public class RestListActivity extends Activity {
 	static String path=AppConstants.path;
 	private int restId;
 	private ListView listView;
+	private Menu menu;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class RestListActivity extends Activity {
 				Rest cateItem = restList.get(position);
 				restId = Integer.parseInt(cateItem.getIdrest());
 				Object obj=(Object)restList.get(position);
-				new GetData(RestListActivity.this,0).execute("");
+				new GetData(RestListActivity.this,1).execute("");
 				if(obj instanceof String){
 					return;
 				}
@@ -84,15 +86,44 @@ public class RestListActivity extends Activity {
 	private void getRestList()
 	{
 		restList = (ArrayList<Rest>)getIntent().getSerializableExtra("restList") ;
+		ApplicationData.setRestList(restList);
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
+	}
+	
+	private void setLogin(boolean isLogin){
+		if(menu != null){
+			MenuItem itemLogin = menu.findItem(R.id.action_login);
+			MenuItem itemLogout = menu.findItem(R.id.action_logout);
+			if(isLogin){
+				itemLogout.setVisible(true);
+				itemLogin.setVisible(false);
+			}else{
+				itemLogout.setVisible(false);
+				itemLogin.setVisible(true);
+			}
+		}
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		if(ApplicationData.getUser()!=null)
-			getMenuInflater().inflate(R.menu.rest_list, menu);
-		else
-			getMenuInflater().inflate(R.menu.rest_list_login, menu);
+		this.menu = menu;
+		getMenuInflater().inflate(R.menu.rest_list, menu);
+		if(ApplicationData.getUser()!=null){
+			setLogin(true);
+		}else{
+			setLogin(false);
+		}
+		
 		return true;
 	}
 
@@ -266,12 +297,13 @@ public class RestListActivity extends Activity {
 		private GetData(Context context, int type) {
 			this.mContext = context;
 			this.mType = type;
+			dialog = new DialogActivity(context, type);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			if (mType == 0) {
+			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
 				}
@@ -285,7 +317,9 @@ public class RestListActivity extends Activity {
 			FoodOrderRequest request = new FoodOrderRequest(RestListActivity.this);
 			
 			try {
+				Log.d("doInBackground", "start request");
 				result = request.getMenuByRestId(String.format("%d",restId));
+				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -300,17 +334,18 @@ public class RestListActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
-			if (null != dialog && dialog.isShowing()) {
+			if (null != dialog ) {
 				dialog.dismiss();
 			}
-			
+			Log.d("onPostExecute", "postExec state");
 			if (result == null || result.equals("")) {
-				handler.sendEmptyMessage(3);
+				handler.sendEmptyMessage(1);
 			} else {
-
+				//Log.d("get result is done", result);
 				menuList = new ArrayList<MenuModel>();
 				try {
 					menuList = new Parse().GetMenuByRestId(result);
+					//Log.d("Parse is done", Integer.toString(menuList.size()));
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
@@ -332,7 +367,7 @@ public class RestListActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
-			case 0:
+			case 1:
 				new GetData(RestListActivity.this, 1).execute("");
 				break;
 			default:

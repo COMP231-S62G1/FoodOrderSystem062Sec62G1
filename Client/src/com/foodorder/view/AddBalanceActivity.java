@@ -34,7 +34,7 @@ import com.foodorder.view.ShoppingCartActivity.MyBaseAdapter;
 import com.google.gson.JsonSyntaxException;
 
 public class AddBalanceActivity extends Activity {
-	
+	private DialogActivity dialog;
 	private TextView txtBalance;
 	private EditText txtCashcard;
 	private Button btnRefill, btnBack;
@@ -72,11 +72,15 @@ public class AddBalanceActivity extends Activity {
 		private GetData(Context context, String userid) {
 			this.mContext = context;
 			this.userid = userid;
+			dialog = new DialogActivity(context, 1);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			if (null != dialog && !dialog.isShowing()) {
+				dialog.show();
+			}
 		}
 
 		@Override
@@ -98,6 +102,9 @@ public class AddBalanceActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			boolean isFailed = false;
+			if (null != dialog) {
+				dialog.dismiss();
+			}
 			if (result == null || result.equals("")) {
 				alertDialog1=new AlertDialog.Builder(mContext).create();
 				isFailed = true;
