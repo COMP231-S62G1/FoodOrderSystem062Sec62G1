@@ -49,71 +49,52 @@ public class ShoppingCartActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shopping_cart);
-		setTitle("Shopping Cart");
-
-		intentViewCart = getIntent();
-		b = intentViewCart.getExtras();
-		b.get("ViewCart");
+		//setTitle("Shopping Cart");
 
 		listView = (ListView) findViewById(R.id.listView1);
 		menuList = ApplicationData.getCartList();
 		currentOrderline = ApplicationData.getOrderLine();
 		myBaseAdapter = new MyBaseAdapter();
 		listView.setAdapter(myBaseAdapter);
-
-		this.btnOrderConfirm = (Button) findViewById(R.id.btnOrderConfirm);
-		this.btnOrderConfirm.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-
-				if ((menuList == null) || (menuList.size() == 0)) {
-
-					AlertDialog.Builder adb = new AlertDialog.Builder(
-							ShoppingCartActivity.this);
-					adb.setTitle("ShoppingCart Empty");
-					adb.setMessage("Your shopping cart is emptey.");
-					// adb.setNegativeButton("Cancel", null);
-					adb.setPositiveButton("Ok",
-							new AlertDialog.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Intent intentMenu = new Intent(
-											ShoppingCartActivity.this,
-											MenuListActivity.class);
-									intentMenu
-											.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-													| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-									intentMenu
-											.putExtra("ViewMenu",
-													"View Menu Successful");
-									startActivity(intentMenu);
-
-								}
-							});
-					adb.show();
-				} else {
-					intentConfirmPage = new Intent(ShoppingCartActivity.this,
-							OrderConfirmActivity.class);
-					intentConfirmPage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-					intentConfirmPage.putExtra(
-							"OrderConfirm",
-							"Confirm order page loaded successfully");
-					startActivity(intentConfirmPage);
-				}
-			}
-		});
+		btnOrderConfirm = (Button) findViewById(R.id.btnOrderConfirm);
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		Log.e("ShoppingCartActivity", "onResume()");
-		menuList = ApplicationData.getCartList();
-		currentOrderline = ApplicationData.getOrderLine();
-		if(ApplicationData.getUser()!=null){
-			LogInOut.setLogin(true, menu);
+	private void setConfirmButton(){
+		setConfirmButton(ApplicationData.getUser()!=null);
+	}
+	
+	private void setConfirmButton(boolean isLogin){
+		if(isLogin){
+			//btnOrderConfirm.setText(getString(R.string.btnCheckout));
+			btnOrderConfirm.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					if ((menuList != null) && (menuList.size() > 0)) {
+						intentConfirmPage = new Intent(ShoppingCartActivity.this, OrderConfirmActivity.class);
+						intentConfirmPage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+						intentConfirmPage.putExtra("OrderConfirm", "Confirm order page loaded successfully");
+						startActivity(intentConfirmPage);
+					}
+				}
+			});
 		}else{
-			LogInOut.setLogin(false, menu);
+			//btnOrderConfirm.setText(getString(R.string.login));
+			btnOrderConfirm.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					AlertDialog.Builder adbLogin = new AlertDialog.Builder( ShoppingCartActivity.this);
+					adbLogin.setTitle("Login required");
+					adbLogin.setMessage("Login required to proceed.\nDo you want to login?");
+					adbLogin.setPositiveButton("Ok",
+							new AlertDialog.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									ApplicationData.setUser(null);
+						            Intent loginIntent = new Intent(ShoppingCartActivity.this, LoginActivity.class);
+						            startActivity(loginIntent);
+								}
+							});
+					adbLogin.setNegativeButton("Cancel", null);
+					adbLogin.show();
+				}
+			});
 		}
 		if(menuList == null){
 			btnOrderConfirm.setEnabled(false);
@@ -122,6 +103,27 @@ public class ShoppingCartActivity extends Activity {
 		}else{
 			btnOrderConfirm.setEnabled(true);
 		}
+			
+	}
+	
+	private void setLogInOutUI(){
+		if(ApplicationData.getUser()!=null){
+			LogInOut.setLogin(true, menu);
+			setConfirmButton(true);
+		}else{
+			LogInOut.setLogin(false, menu);
+			setConfirmButton(false);
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e("ShoppingCartActivity", "onResume()");
+		menuList = ApplicationData.getCartList();
+		currentOrderline = ApplicationData.getOrderLine();
+		setLogInOutUI();
+		
 		// Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
 	}
 
@@ -227,7 +229,7 @@ public class ShoppingCartActivity extends Activity {
 			TextView menu_item_title = (TextView) view.findViewById(R.id.info);
 			final TextView total = (TextView) view.findViewById(R.id.totalPrice);
 			//TextView finalTotal = (TextView) view.findViewById(R.id.total);
-			ImageButton right_flag = (ImageButton) view.findViewById(R.id.btnRemove);
+			ImageButton btnRemove = (ImageButton) view.findViewById(R.id.btnRemove);
 			//ImageButton updateBtn = (ImageButton) view.findViewById(R.id.btnUpdate);
 			
 			ImageButton btnAdd = (ImageButton) view.findViewById(R.id.btnAdd);
@@ -253,13 +255,7 @@ public class ShoppingCartActivity extends Activity {
 							ApplicationData.setOrderLineList(currentOrderline);
 
 							notifyDataSetChanged();
-							if(menuList == null){
-								btnOrderConfirm.setEnabled(false);
-							}else if(menuList.size() <= 0){
-								btnOrderConfirm.setEnabled(false);
-							}else{
-								btnOrderConfirm.setEnabled(true);
-							}
+							setConfirmButton();
 						}
 					});
 			
@@ -375,9 +371,8 @@ public class ShoppingCartActivity extends Activity {
 				}
 			});
 			*/
-			right_flag.setTag(0);
-
-			right_flag.setOnClickListener(new AdapterView.OnClickListener() {
+			btnRemove.setTag(0);
+			btnRemove.setOnClickListener(new AdapterView.OnClickListener() {
 				public void onClick(View v) {
 					adb.setNegativeButton("Cancel", null);
 					adb.show();

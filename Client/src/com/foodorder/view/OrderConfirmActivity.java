@@ -59,9 +59,27 @@ public class OrderConfirmActivity extends Activity {
 	private Button btnSubmit;
 	private Bundle b;
 	
+	@Override
+	protected void onResume(){
+		Log.e("OrderConfirm", "onResume");
+		super.onResume();
+	}
+	
+	@Override
+	protected void onStop(){
+		Log.e("OrderConfirm", "onStop");
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy (){
+		Log.e("OrderConfirm", "onDestroy");
+		super.onDestroy();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.e("OrderConfirm", "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm);
 		setTitle("Order Confirmation");
@@ -175,14 +193,7 @@ public class OrderConfirmActivity extends Activity {
 
 
 	public void cancelOrder(View view) {
-		//Intent returnMain = new Intent(this, ShoppingCartActivity.class);
-		//returnMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		//startActivity(returnMain);
-		
-		Intent returnMain = new Intent(OrderConfirmActivity.this,ShoppingCartActivity.class);
-		//intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		returnMain.putExtra("ViewCart","View Cart Successful");
-		startActivity(returnMain);	
+		finish();	
 	}
 
 	public void submitOrder(View view) {

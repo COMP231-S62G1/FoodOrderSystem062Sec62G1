@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
 		mCtx = this;
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-				
+				doLogin();
 			}
 		});
 

@@ -24,6 +24,7 @@ import com.foodorder.view.ShoppingCartActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,7 +43,7 @@ public class MenuListActivity extends Activity {
 	private ArrayList<MenuModel> menuList;
 	private ArrayList<MenuList> itemList;
 	private MyBaseAdapter myBaseAdapter;
-	static String path = AppConstants.path;
+	final static String path = AppConstants.path;
 	private int menuId;
 	private ListView listView;
 	private Button btnviewCart;
@@ -50,6 +51,7 @@ public class MenuListActivity extends Activity {
 	private Intent intentViewCart;
 	private MenuModel aMenu;
 	private Menu menu;
+	private AlertDialog.Builder adbCart;
 
 	protected void generateOrderlineList() {
 		View v;
@@ -91,11 +93,8 @@ public class MenuListActivity extends Activity {
 		this.btnviewCart = (Button) findViewById(R.id.btnViewCart1);
 		this.btnviewCart.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				intentViewCart = new Intent(MenuListActivity.this,
-						ShoppingCartActivity.class);
-				// intentViewCart.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-				// Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intentViewCart.putExtra("ViewCart", "View Cart Successful");
+				intentViewCart = new Intent(MenuListActivity.this, ShoppingCartActivity.class);
+				//intentViewCart.putExtra("ViewCart", "View Cart Successful");
 				startActivity(intentViewCart);
 			}
 
@@ -119,17 +118,30 @@ public class MenuListActivity extends Activity {
 		
 		this.btnAddCart = (Button) findViewById(R.id.btnAddCart);
 		setAddCart();
-
+		
+		adbCart = new AlertDialog.Builder( this);
+		adbCart.setTitle("Items were added to cart");
+		adbCart.setMessage("Are you want to go to your shopping cart?");
+		adbCart.setPositiveButton("Ok",
+				new AlertDialog.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						intentViewCart = new Intent(MenuListActivity.this, ShoppingCartActivity.class);
+						//intentViewCart.putExtra("ViewCart", "View Cart Successful");
+						startActivity(intentViewCart);
+					}
+				});
+		adbCart.setNegativeButton("Cancel", null);
 	}
 	
 	private void setAddCart(){
 		this.btnAddCart.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				ArrayList<MenuModel> listMenuApp = ApplicationData.getCartList();
-				
+				int nTotalQty = 0;
 				for(int nCnt=0 ; nCnt < itemList.size(); nCnt++){
 					if(itemList.get(nCnt).getQty() <= 0)
 						continue;
+					nTotalQty += itemList.get(nCnt).getQty();
 					MenuModel aMenu = itemList.get(nCnt).getMenu();
 					boolean isExistInList = false;
 					for (MenuModel m : listMenuApp) {
@@ -151,7 +163,16 @@ public class MenuListActivity extends Activity {
 					ApplicationData.setOrderLineList(currentOrderline);
 					itemList.get(nCnt).setQty(0);
 				}
-				listView.invalidateViews();
+				if(nTotalQty <= 0){
+					AlertDialog.Builder adbError = new AlertDialog.Builder(MenuListActivity.this);
+					adbError.setTitle("No selected items");
+					adbError.setMessage("Nothing selected on the list");
+					adbError.setPositiveButton("Ok", null);
+					adbError.show();
+				}else{
+					listView.invalidateViews();
+					adbCart.show();
+				}
 			}
 
 		});
@@ -192,7 +213,7 @@ public class MenuListActivity extends Activity {
 		}else if(id == R.id.action_cart){
 			Intent intentViewCart = new Intent(MenuListActivity.this,
 					ShoppingCartActivity.class);
-			intentViewCart.putExtra("ViewCart", "View Cart Successful");
+			//intentViewCart.putExtra("ViewCart", "View Cart Successful");
 			startActivity(intentViewCart);
 		}else if (id == R.id.action_order){
 			Intent intentViewOrder = new Intent(MenuListActivity.this,
@@ -307,10 +328,10 @@ public class MenuListActivity extends Activity {
 						int position = (Integer) v.getTag();
 						AlertDialog.Builder adb = new AlertDialog.Builder(
 								MenuListActivity.this);
-						adb.setTitle("Quantity Error");
-						adb.setMessage("Please enter a quantity.");
-						adb.setPositiveButton("Ok", null);
-						adb.show();
+						adbCart.setTitle("Quantity Error");
+						adbCart.setMessage("Please enter a quantity.");
+						adbCart.setPositiveButton("Ok", null);
+						adbCart.show();
 
 					}
 
