@@ -48,15 +48,17 @@ include './session.php';
 				<td style="width: 168px; height: 22px;">Restaurant Logo:</td>
 				<td style="height: 22px">
                 <img src="<?php echo $restPic;?>" width="120px"><br>
-				Chane above to new file: <input id="fileToUpload" name="fileToUpload" style="width: 300px" type="file" />
+				Change the above to a new file: <input id="fileToUpload" name="fileToUpload" style="width: 300px" type="file" />
                 </td>
             </tr>
 			<tr>
+			
 				<td style="width: 168px">&nbsp;</td>
-				<td class="auto-style2">
-                    <input type="submit" name="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-                    <input type="reset" value="Clear" />&nbsp;&nbsp;
+				<td class="auto-style2">				
+                    <input type="submit" value="Update" name="submit" />&nbsp;&nbsp;&nbsp;
+                    <input type="reset" value="Clear"/>&nbsp;&nbsp;
                 </td>
+				
 			</tr>
 			<tr>
 				<td style="width: 168px">&nbsp;</td>
