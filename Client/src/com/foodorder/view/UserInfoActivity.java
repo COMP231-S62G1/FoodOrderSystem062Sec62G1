@@ -1,6 +1,8 @@
 package com.foodorder.view;
 
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +26,7 @@ public class UserInfoActivity extends Activity {
 	private TextView email;
 	private TextView balance;
 	private UserInfo user;
-	private double aBalance;
+	private int aBalance;
 	private TextView error;
 	//private Intent getUpdate;
 	
@@ -48,7 +50,10 @@ public class UserInfoActivity extends Activity {
 	       username.setText(user.getName());
 	       phone.setText(user.getPhone());
 	       email.setText(user.getEmail());
-	       balance.setText("$ " + String.valueOf(aBalance));
+	       double fAmt = (double)aBalance / 100;
+	       balance.setText(
+	    		   String.format(Locale.CANADA, "%,d", aBalance)
+	    		    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
        }
        else
        {    	   
@@ -72,6 +77,12 @@ public class UserInfoActivity extends Activity {
 		*/
     }
 	
+	
+	public void runAddBal(View view){
+		Intent intentViewCart = new Intent(this, AddBalanceActivity.class);
+		startActivity(intentViewCart);
+		return;
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

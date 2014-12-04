@@ -105,5 +105,14 @@ public class Parse {
 		UserInfo user = gson.fromJson(jObj, UserInfo.class);
 		return user;
 	}
+	
+	public Giftcard GetGiftcard(String str) throws JsonSyntaxException{
+		Gson gson = new Gson();
+		Type type = new TypeToken<Giftcard>() {
+		}.getType();
+		Giftcard giftCard = new Giftcard();
+		giftCard = gson.fromJson(str, type);
+		return giftCard;
+	}
 
 }

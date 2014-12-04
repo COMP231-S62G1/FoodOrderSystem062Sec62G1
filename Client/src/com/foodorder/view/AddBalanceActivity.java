@@ -1,20 +1,27 @@
 package com.foodorder.view;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.TimeoutException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.CommonModel;
+import com.foodorder.beans.Giftcard;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
@@ -23,10 +30,27 @@ import com.google.gson.JsonSyntaxException;
 public class AddBalanceActivity extends Activity {
 	private DialogActivity dialog;
 	private TextView txtBalance;
-	private Intent intentViewBalance;
-	private Bundle b;
 	private GetData gd;
-	double currentBalance;
+	private CheckCard cc;
+	private Button btnRefill;
+	private Button btnCheck;
+	private boolean fChecked = false;
+	private TextView txtCardBalance;
+	private EditText editGiftcard;
+	int currentBalance;
+	
+	public void closeThisAct(View view){
+		finish();
+	}
+	
+	public void addBalance(View view){
+		
+	}
+	
+	public void checkCard(View view){
+		cc = new CheckCard(this, editGiftcard.getText().toString());
+		cc.execute("");
+	}
 	
 	@Override
 	protected void onStop(){
@@ -39,7 +63,31 @@ public class AddBalanceActivity extends Activity {
 		Log.e("AddBalanceActivity", "onDestroy");
 		if(null != gd)
 			gd.cancel(true);
+		if(null != cc)
+			cc.cancel(true);
 		super.onDestroy();
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		verifyUI();
+	}
+	
+	private void verifyUI(){
+		if(fChecked){
+			btnRefill.setEnabled(true);
+			btnCheck.setEnabled(false);
+			txtCardBalance.setTextColor(Color.BLUE);
+			btnRefill.invalidate();
+		}else{
+			txtCardBalance.setTextColor(Color.RED);
+			btnRefill.setEnabled(false);
+			btnCheck.setEnabled(true);
+		}
+		btnRefill.invalidate();
+		btnCheck.invalidate();
+		txtCardBalance.invalidate();
 	}
 	
 	@Override
@@ -48,19 +96,124 @@ public class AddBalanceActivity extends Activity {
         setContentView(R.layout.activity_add_balance);   
         
         setTitle("Review Account Balance");
-
-		intentViewBalance = getIntent();
-		b = intentViewBalance.getExtras();
-		b.get("ViewBalance");
-		
+        txtCardBalance=(TextView)findViewById(R.id.txtCardBalance);
 		txtBalance=(TextView) findViewById(R.id.txtBalance);
+		btnRefill=(Button)findViewById(R.id.btnRefill);
+		btnCheck=(Button)findViewById(R.id.btnCheck);
+		
+		editGiftcard=(EditText)findViewById(R.id.editGiftcard);
+		
+		editGiftcard.addTextChangedListener(new TextWatcher() {
+		    @Override
+		    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		    	
+		    }
+		    @Override
+		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		    	
+		    }
+		    @Override
+		    public void afterTextChanged(Editable s) {
+		    	fChecked = false;
+		    	txtCardBalance.setText("");
+		    	verifyUI();
+		    }
+		});
 		
 		currentBalance = ApplicationData.getBalance();
-		txtBalance.setText(String.valueOf(currentBalance));
-		
+		double fAmt = (double)currentBalance / 100;
+		txtBalance.setText(
+	    		   String.format(Locale.CANADA, "%,d", currentBalance)
+	    		    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
+
 		gd = new GetData(this, ApplicationData.getUser().getUserid());
 		gd.execute("");
     }
+	
+	private class CheckCard extends AsyncTask<String, String, String> {
+		//private Context mContext;
+		private String giftcode;
+		private String balance;
+		
+		private CheckCard(Context context, String giftcode) {
+			//this.mContext = context;
+			this.giftcode = giftcode;
+			dialog = new DialogActivity(context, 1);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (null != dialog && !dialog.isShowing()) {
+				dialog.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			FoodOrderRequest request = new FoodOrderRequest(AddBalanceActivity.this);
+
+			try {
+				result = request.checkGiftcard(giftcode);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			boolean isFailed = false;
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				isFailed = true;
+			} else {
+				Log.e("onPost", result);
+				try {
+					Giftcard giftCard = new Parse().GetGiftcard(result);
+					if(giftCard == null || giftCard.getGiftbalance() == null 
+							|| giftCard.getGiftbalance().length() <=0){
+						isFailed = true;
+						Log.e("onPost", "Failed");
+					}else if(!giftCard.canUse()){
+						isFailed = true;
+						Log.e("onPost", "Used card");
+					}else{
+						Log.e("onPost", "available card");
+						balance =giftCard.getGiftbalance();
+						fChecked = true;
+						verifyUI();
+						txtCardBalance.setText("Gift card amount is : "+
+								String.format(Locale.CANADA, "%,d", Integer.parseInt(balance))
+				    		    + " points");
+					}
+					
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+					Log.e("onPost", "exception, JsonSyntaxException");
+					isFailed = true;
+				} catch (Exception e) {
+					Log.e("onPost", "exception, Exception");
+					e.printStackTrace();
+					isFailed = true;
+				} 
+				finally{
+					
+					if(isFailed){
+						txtCardBalance.setText("Invalid gift card number");
+					}
+						
+				}
+			}
+		}
+
+	}	
 	
 	private class GetData extends AsyncTask<String, String, String> {
 		//private Context mContext;
@@ -123,8 +276,13 @@ public class AddBalanceActivity extends Activity {
 				} 
 				finally{
 					if (balance != null) {
-						ApplicationData.setBalance(Double.parseDouble(balance));
-						txtBalance.setText("$ " + balance);
+						ApplicationData.setBalance(Integer.parseInt(balance));
+						currentBalance = ApplicationData.getBalance();
+						double fAmt = (double)currentBalance / 100;
+						txtBalance.setText(
+					    		   String.format(Locale.CANADA, "%,d", currentBalance)
+					    		    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
+
 					} else {
 						isFailed = true;
 					}

@@ -168,4 +168,26 @@ public class FoodOrderRequest {
 		Log.e("getBalance", "param: " + strParams);
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("getBalance.php", ""));
 	}
+	
+	public String checkGiftcard(String giftcode) throws IOException, TimeoutException{
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if(!TextUtils.isEmpty(giftcode)){
+			strParams.add(new BasicNameValuePair("giftcode", giftcode));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("CheckGiftcard.php", ""));
+	}
+	
+	public String redeemCard(String giftcode, String userid) throws IOException, TimeoutException{
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if(!TextUtils.isEmpty(giftcode)){
+			strParams.add(new BasicNameValuePair("giftcode", giftcode));
+			strParams.add(new BasicNameValuePair("userid", userid));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("UseGiftCard.php", ""));
+	}
+	
 }

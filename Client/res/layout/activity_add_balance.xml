@@ -7,24 +7,25 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5sp"
         android:gravity="start"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/txtBallable"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ems = "30"
             android:text="Your current balance on your account: "
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold" />
         
          <TextView
             android:id="@+id/txtBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Here display current account balance. "
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:text="@string/hello_world"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txtLable"
@@ -35,24 +36,52 @@
             android:textSize="16dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText1"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16dp"
-            android:hint="4506123456"
-            android:inputType="numberDecimal" >
+            android:orientation="horizontal" >
 
-            <requestFocus />
-        </EditText>
+			<Button
+			    android:id="@+id/btnCheck"
+			    android:layout_width="wrap_content"
+			    android:layout_height="32dp"
+			    android:layout_alignParentEnd="true"
+			    android:layout_alignParentRight="true"
+			    android:layout_margin="10dp"
+			    android:gravity="bottom"
+			    android:onClick="checkCard"
+			    android:text="Validate it"
+			    android:textSize="12sp" />
+			
+            <EditText
+                android:id="@+id/editGiftcard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@id/btnCheck"
+			    android:layout_toStartOf="@id/btnCheck"
+                android:layout_margin="15dp"
+                android:hint="Gift Card serial number"
+                android:inputType="numberDecimal"
+                android:textSize="16sp" />
+            
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtCardBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_world"
+            android:layout_margin="10dp"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
+        android:layout_margin="10dp"
         android:gravity="bottom" >
 
         <Button
@@ -61,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:onClick="cancelOrder"
+            android:onClick="closeThisAct"
             android:text="Back" />
 
         <Button

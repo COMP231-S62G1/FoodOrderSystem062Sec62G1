@@ -12,6 +12,7 @@ public class Giftcard  implements Serializable {
 	private String giftcode;
 	private String giftbalance;
 	private String canuse;
+	
 	public String getIdgiftcard() {
 		return idgiftcard;
 	}
@@ -36,8 +37,12 @@ public class Giftcard  implements Serializable {
 	public void setCanuse(String canuse) {
 		this.canuse = canuse;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	
+	public boolean canUse(){
+		if(this.canuse.equals("1"))
+			return true;
+		else
+			return false;
 	}
 	
 }

@@ -164,5 +164,17 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/btnEditLink" />
+	
+	<Button
+		android:id="@+id/btnAddBal"
+		android:layout_below="@id/tableLayout1"
+		android:layout_toRightOf="@id/edit3"
+		android:layout_toEndOf="@id/edit3"
+		android:layout_marginLeft="20sp"
+		android:layout_marginStart="20sp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/title_activity_add_balance"
+		android:onClick="runAddBal" />
 
 </RelativeLayout>

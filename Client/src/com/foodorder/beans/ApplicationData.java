@@ -42,11 +42,11 @@ public class ApplicationData extends Application{
 		return ApplicationData.restList;
 	}
 	
-	public static void setBalance(double balance){
+	public static void setBalance(int balance){
 		if(userinfo == null)
 			return;
 		else{
-			userinfo.setBalance(Double.toString(balance));
+			userinfo.setBalance(Integer.toString(balance));
 		}
 	}
 	
@@ -58,16 +58,16 @@ public class ApplicationData extends Application{
 	 * if user does not logged in yet or some error occurred, return -1
 	 * otherwise return remaining balance amount
 	 * 
-	 * return type is double
+	 * return type is integer, 100 point is $1, 1 point is 1 cent
 	 */
-	public static double getBalance(){
+	public static int getBalance(){
 		if(userinfo == null){
 			return -1;
 		}else if (userinfo.getBalance() == null || userinfo.getBalance().length() == 0){
 			return -1;
 		}
-		double fBalance = Double.parseDouble(userinfo.getBalance());
-		return fBalance;
+		int nBalance = Integer.parseInt(userinfo.getBalance());
+		return nBalance;
 	}
 	
 	public static void setCartList(ArrayList<MenuModel> listCart)
