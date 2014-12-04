@@ -118,7 +118,7 @@
     if ($uploadOk == false) {
         mysql_query("ROLLBACK");
         echo "<script>
-                alert('Sorry error occured while uploading. Go back to previous page.');
+                alert('Sorry error occurred while uploading. Go back to previous page.');
                 window.history.back();
             </script>";
     // if everything is ok, try to upload file
@@ -133,7 +133,7 @@
             } else {
                 mysql_query("ROLLBACK");
                 echo "<script>
-                alert('Sorry error occured while uploading. Go back to previous page.');
+                alert('Sorry error occurred while uploading. Go back to previous page.');
                 window.history.back();
             </script>";
             }

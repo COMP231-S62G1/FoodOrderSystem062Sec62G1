@@ -78,7 +78,7 @@ header("location: ./manager/storeaccount.php"); // Redirecting To manage account
                 <input type="hidden" name="restid" value="<?php echo $idRest; ?>"/>
 			<table style="width: 100%">
                 <tr>
-					<td style="width: 146px; height: 18px">Employee number:</td>
+			      <td style="width: 146px; height: 18px">Employee number:</td>
 					<td style="height: 18px">
 					<input name="empnum" style="width: 207px" type="text" value="<?php echo $empnum; ?>"/></td>
 				</tr>
@@ -116,7 +116,7 @@ header("location: ./manager/storeaccount.php"); // Redirecting To manage account
 				<tr>
 					<td style="width: 146px">&nbsp;</td>
 					<td>
-                        <input type="submit" name="submit" value="Add new account" />&nbsp;&nbsp;&nbsp;
+                        <input type="submit" name="submit" value="Add New Account" />&nbsp;&nbsp;&nbsp;
                         <input type="reset" value="Clear form" />
 					</td>
 				</tr>

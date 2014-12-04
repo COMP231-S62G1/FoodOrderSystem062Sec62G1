@@ -18,12 +18,12 @@
 <div id="header">
   <div id="menu">
 		<ul>
-			<li><a href="#" title="" onclick="document.home.submit();">Home</a></li>
-            <li><a href="#" title="" onclick="document.storeinfo.submit();">Store Information</a></li>
-			<li><a href="#" title="" onclick="document.storemenu.submit();">Menus</a></li>
-			<li><a href="#" title="" onclick="document.storeaccount.submit();">Account</a></li>
-			<li><a href="#" title="" onclick="document.storereportmenu.submit();">Report</a></li>
-			<li><a href="#" title="" onclick="document.logout.submit();">Logout</a></li>
+			<li><a href="#" title="" onclick="document.home.submit();">Home </a></li>
+            <li><a href="#" title="" onclick="document.storeinfo.submit();">Store Information </a></li>
+			<li><a href="#" title="" onclick="document.storemenu.submit();">Menus </a></li>
+			<li><a href="#" title="" onclick="document.storeaccount.submit();">Account </a></li>
+			<li><a href="#" title="" onclick="document.storereportmenu.submit();">Report </a></li>
+			<li><a href="#" title="" onclick="document.logout.submit();">Logout </a></li>
 		</ul>
 	</div>
 	<div id="logo">
