@@ -19,6 +19,7 @@ import com.foodorder.client.R.layout;
 import com.foodorder.client.R.menu;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
+import com.foodorder.utils.LogInOut;
 import com.foodorder.view.OrderConfirmActivity.MyBaseAdapter;
 import com.google.gson.JsonSyntaxException;
 
@@ -385,18 +386,14 @@ public class OrderDetail extends Activity {
 		finish();
 	}
 	
-	
-	private void setLogin(boolean isLogin){
-		if(menu != null){
-			MenuItem itemLogin = menu.findItem(R.id.action_login);
-			MenuItem itemLogout = menu.findItem(R.id.action_logout);
-			if(isLogin){
-				itemLogout.setVisible(true);
-				itemLogin.setVisible(false);
-			}else{
-				itemLogout.setVisible(false);
-				itemLogin.setVisible(true);
-			}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e("OrderDetail", "onResume()");
+		if(ApplicationData.getUser()!=null){
+			LogInOut.setLogin(true, menu);
+		}else{
+			LogInOut.setLogin(false, menu);
 		}
 	}
 
@@ -405,9 +402,9 @@ public class OrderDetail extends Activity {
 		this.menu = menu;
 		getMenuInflater().inflate(R.menu.rest_list, menu);
 		if(ApplicationData.getUser()!=null){
-			setLogin(true);
+			LogInOut.setLogin(true, menu);
 		}else{
-			setLogin(false);
+			LogInOut.setLogin(false, menu);
 		}
 		menu.findItem(R.id.action_order).setVisible(false);
 		return true;
@@ -432,19 +429,16 @@ public class OrderDetail extends Activity {
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
             startActivity(loginIntent);
-            return true;
-        } else if (id == R.id.action_user_info) {
+        } else if (id == R.id.action_userinfo) {
 			Intent intentUser = new Intent(OrderDetail.this,
 					UserInfoActivity.class);
 					intentUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intentUser);
-		
 		}		
 		else if (id == R.id.action_login) {
 			ApplicationData.setUser(null);
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
-            return true;
         }else if (id == R.id.action_register) {
 			Intent intentRegister = new Intent(OrderDetail.this,
 					RegisterActivity.class);

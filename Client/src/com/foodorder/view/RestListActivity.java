@@ -40,6 +40,7 @@ import com.foodorder.net.Parse;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.net.FoodOrderRequest;
 import com.google.gson.JsonSyntaxException;
+import com.foodorder.utils.LogInOut;
 import com.foodorder.view.MenuListActivity;
 import com.foodorder.beans.FoodListsViewImage;
 
@@ -93,23 +94,9 @@ public class RestListActivity extends Activity {
 	public void onResume(){
 		super.onResume();
 		if(ApplicationData.getUser()!=null){
-			setLogin(true);
+			LogInOut.setLogin(true, menu);
 		}else{
-			setLogin(false);
-		}
-	}
-	
-	private void setLogin(boolean isLogin){
-		if(menu != null){
-			MenuItem itemLogin = menu.findItem(R.id.action_login);
-			MenuItem itemLogout = menu.findItem(R.id.action_logout);
-			if(isLogin){
-				itemLogout.setVisible(true);
-				itemLogin.setVisible(false);
-			}else{
-				itemLogout.setVisible(false);
-				itemLogin.setVisible(true);
-			}
+			LogInOut.setLogin(false, menu);
 		}
 	}
 	
@@ -119,9 +106,9 @@ public class RestListActivity extends Activity {
 		this.menu = menu;
 		getMenuInflater().inflate(R.menu.rest_list, menu);
 		if(ApplicationData.getUser()!=null){
-			setLogin(true);
+			LogInOut.setLogin(true, menu);
 		}else{
-			setLogin(false);
+			LogInOut.setLogin(false, menu);
 		}
 		
 		return true;
@@ -153,13 +140,15 @@ public class RestListActivity extends Activity {
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
             startActivity(loginIntent);
-            return true;
         }else if (id == R.id.action_login) {
 			ApplicationData.setUser(null);
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
-            return true;
-        }else if (id == R.id.action_register) {
+        }else if (id == R.id.action_userinfo) {
+			Intent intentUser = new Intent(this, UserInfoActivity.class);
+					intentUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intentUser);
+		}else if (id == R.id.action_register) {
 			Intent intentRegister = new Intent(RestListActivity.this,
 					RegisterActivity.class);
 					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -174,19 +163,16 @@ public class RestListActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return restList.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
@@ -213,7 +199,6 @@ public class RestListActivity extends Activity {
 						.loadingImage(restList.get(position).getPic(),
 								rest_item_image, R.drawable.computer, listView);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
@@ -246,7 +231,6 @@ public class RestListActivity extends Activity {
  	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
 			//Intent myIntent = new Intent();  
@@ -302,7 +286,6 @@ public class RestListActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			if (mType == 1) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
@@ -312,7 +295,6 @@ public class RestListActivity extends Activity {
 		}
 		@Override
 		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
 			String result = null;
 			FoodOrderRequest request = new FoodOrderRequest(RestListActivity.this);
 			
@@ -321,10 +303,8 @@ public class RestListActivity extends Activity {
 				result = request.getMenuByRestId(String.format("%d",restId));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -333,7 +313,6 @@ public class RestListActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			if (null != dialog ) {
 				dialog.dismiss();
 			}
@@ -364,7 +343,6 @@ public class RestListActivity extends Activity {
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 1:

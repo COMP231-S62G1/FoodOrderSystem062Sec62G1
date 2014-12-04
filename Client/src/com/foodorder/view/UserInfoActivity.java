@@ -70,30 +70,27 @@ public class UserInfoActivity extends Activity {
        }
         
         btnEdit = (Button) findViewById(R.id.edit3);
-		btnEdit.setOnClickListener(new OnClickListener() {			
-			
+		btnEdit.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intentEdit = new Intent(UserInfoActivity.this,
 						EditUserInfoActivity.class);
 //				intentEdit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //						| Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				startActivity(intentEdit);		
 			}
-		
-			
 		});
-
+		/*
 		getUpdate = getIntent();
 		Bundle b = getUpdate.getExtras();
 		b.get("ViewUpdate");
+		*/
     }
 	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.user_info, menu);
+		getMenuInflater().inflate(R.menu.rest_list, menu);
 		return true;
 	}
 

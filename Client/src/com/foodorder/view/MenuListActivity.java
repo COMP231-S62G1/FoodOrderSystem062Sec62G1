@@ -18,6 +18,7 @@ import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuList;
 import com.foodorder.beans.MenuModel;
 import com.foodorder.client.R;
+import com.foodorder.utils.LogInOut;
 import com.foodorder.view.ShoppingCartActivity;
 
 import java.util.ArrayList;
@@ -65,9 +66,9 @@ public class MenuListActivity extends Activity {
 		super.onResume();
 		Log.e("MenuList", "onResume()");
 		if(ApplicationData.getUser()!=null){
-			setLogin(true);
+			LogInOut.setLogin(true, menu);
 		}else{
-			setLogin(false);
+			LogInOut.setLogin(false, menu);
 		}
 		// Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
 	}
@@ -167,28 +168,15 @@ public class MenuListActivity extends Activity {
 		menuList = null;
 	}
 
-	private void setLogin(boolean isLogin){
-		if(menu != null){
-			MenuItem itemLogin = menu.findItem(R.id.action_login);
-			MenuItem itemLogout = menu.findItem(R.id.action_logout);
-			if(isLogin){
-				itemLogout.setVisible(true);
-				itemLogin.setVisible(false);
-			}else{
-				itemLogout.setVisible(false);
-				itemLogin.setVisible(true);
-			}
-		}
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		this.menu = menu;
 		getMenuInflater().inflate(R.menu.rest_list, menu);
 		if(ApplicationData.getUser()!=null){
-			setLogin(true);
+			LogInOut.setLogin(true, menu);
 		}else{
-			setLogin(false);
+			LogInOut.setLogin(false, menu);
 		}
 		return true;
 	}
@@ -219,26 +207,22 @@ public class MenuListActivity extends Activity {
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
             startActivity(loginIntent);
-            return true;
         }else if (id == R.id.action_register) {
 			Intent intentRegister = new Intent(MenuListActivity.this,
 					RegisterActivity.class);
-					intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intentRegister);
-		
+			intentRegister.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intentRegister);
 		}
-        else if (id == R.id.action_user_info) {
+        else if (id == R.id.action_userinfo) {
 			Intent intentUser = new Intent(MenuListActivity.this,
 					UserInfoActivity.class);
 					intentUser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intentUser);
-		
 		}
 		else if (id == R.id.action_login) {
 			ApplicationData.setUser(null);
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
-            return true;
         }
 		return super.onOptionsItemSelected(item);
 	}

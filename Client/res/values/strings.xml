@@ -22,15 +22,15 @@
     <string name="p">p</string>
     <string name="n">n</string>
     <string name="h">h</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_rest_list">RestListActivity</string>
-    <string name="title_activity_menu_list">MenuListActivity</string>
-    <string name="title_activity_shopping_cart">ShoppingCart</string>
-    <string name="title_activity_confirm">ConfirmActivity</string>
-    <string name="title_activity_user_info">UserInfoActivity</string>
-    <string name="title_activity_add_balance">AddBalanceActivity</string>
-    <string name="title_activity_edit_user">EditUserActivity</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_rest_list">Restaurant List</string>
+    <string name="title_activity_menu_list">Menu List</string>
+    <string name="title_activity_shopping_cart">Shopping Cart</string>
+    <string name="title_activity_confirm">Confirm Order</string>
+    <string name="title_activity_user_info">User Infoy</string>
+    <string name="title_activity_add_balance">Add Balance</string>
+    <string name="title_activity_edit_user">Edit User Info</string>
     <string name="btnCheckout">Checkout</string>
     <string name="txtCart">Your Cart</string>
     <string name="txtOrder">Your Order</string>
@@ -44,26 +44,26 @@
     <string name="gross">Total amount:</string>
     <string name="plzconfirm">Please confirm your order:</string>
 	<string name="username">Enter a username:</string>
-   <string name="password">Enter a password:</string>
-   <string name="Reg">Register</string>
-   <string name="RegisterT">Registration Page</string>
-   <string name="email">Email:</string>
-   <string name="emailV">Verify Email:</string>
-   <string name="passV">Verify Password:</string>
-   <string name="phone">Phone:</string>  
-   <string name="login">Log In</string>  
-   <string name="logout">Log Out</string>  
-   
-   <string name="balance_welcome">Balance Information</string>
-   <string name="balance">Balance:</string>
-   <string name="reload">Reload</string>
-   
-   <string name="info">User Information</string>
-   <string name="info1">Username:</string>
-   <string name="info2">Phone #:</string>
-   <string name="info3">Email:</string>
-    <string name="btnEditLink">Edit User Info</string>
-    <string name="balance1">Account Balance:</string>
-      <string name="txtUser">User Info</string>
+	<string name="password">Enter a password:</string>
+	<string name="Reg">Register</string>
+	<string name="RegisterT">Registration Page</string>
+	<string name="email">Email:</string>
+	<string name="emailV">Verify Email:</string>
+	<string name="passV">Verify Password:</string>
+	<string name="phone">Phone:</string>  
+	<string name="login">Log In</string>  
+	<string name="logout">Log Out</string>  
+	
+	<string name="balance_welcome">Balance Information</string>
+	<string name="balance">Balance:</string>
+	<string name="reload">Reload</string>
+	
+	<string name="info">User Information</string>
+	<string name="info1">Username:</string>
+	<string name="info2">Phone #:</string>
+	<string name="info3">Email:</string>
+	<string name="btnEditLink">Edit User Info</string>
+	<string name="balance1">Account Balance:</string>
+	<string name="txtUser">User Info</string>
    
 </resources>

@@ -12,7 +12,7 @@
     <TableLayout
         android:id="@+id/tableLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
         <TableRow
             android:id="@+id/tableRow0"
@@ -26,7 +26,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/info"
-                android:textSize="20dp" />
+                android:textSize="20sp" 
+                android:layout_span="2"
+                />
         </TableRow>
 
         <TableRow
@@ -39,7 +41,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" 
+                android:textSize="15sp" 
                 android:textColor="#ff0000"
                 />
         </TableRow>
@@ -55,14 +57,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/info1"
-                android:textSize="15dp" />
+                android:layout_gravity="end"
+                android:layout_marginRight="8sp"
+                android:layout_marginEnd="8sp"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/info1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="text"
-                android:textSize="15dp" />
+                android:text="@string/hello_world"
+                android:textSize="15sp" />
         </TableRow>
 
         <TableRow
@@ -75,15 +80,18 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="@string/info2"
-                android:textSize="15dp" />
+                android:layout_marginRight="8sp"
+                android:layout_marginEnd="8sp"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/info2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="text"
-                android:textSize="15dp" />
+                android:text="@string/hello_world"
+                android:textSize="15sp" />
         </TableRow>
 
         <TableRow
@@ -96,15 +104,18 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="@string/info3"
-                android:textSize="15dp" />
+                android:layout_marginRight="8sp"
+                android:layout_marginEnd="8sp"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/info3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="text"
-                android:textSize="15dp" />
+                android:text="@string/hello_world"
+                android:textSize="15sp" />
         </TableRow>
 
         <TableRow
@@ -118,14 +129,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/balance1"
-                android:textSize="15dp" />
+                android:layout_gravity="end"
+                android:layout_marginRight="8sp"
+                android:layout_marginEnd="8sp"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/info4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="text"
-                android:textSize="15dp" />
+                android:text="@string/hello_world"
+                android:textSize="15sp" />
         </TableRow>
 
         <TableRow
@@ -144,10 +158,11 @@
 
        
     </TableLayout>
-	 <Button
-            android:id="@+id/edit3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btnEditLink" />
+	<Button
+		android:id="@+id/edit3"
+		android:layout_below="@id/tableLayout1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/btnEditLink" />
 
 </RelativeLayout>
