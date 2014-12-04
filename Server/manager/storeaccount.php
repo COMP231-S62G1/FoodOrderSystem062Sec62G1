@@ -60,6 +60,9 @@ include './session.php';
             $result = mysql_query($query);
             if (!$result) {
    echo "<script> alert('Create account failed'); </script>";
+}else{
+header("location: ./manager/storeaccount.php"); // Redirecting To manage account page
+
 }
         }  
     }
