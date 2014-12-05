@@ -32,6 +32,7 @@ public class AddBalanceActivity extends Activity {
 	private TextView txtBalance;
 	private GetData gd;
 	private CheckCard cc;
+	private UseCard uc;
 	private Button btnRefill;
 	private Button btnCheck;
 	private boolean fChecked = false;
@@ -44,7 +45,8 @@ public class AddBalanceActivity extends Activity {
 	}
 	
 	public void addBalance(View view){
-		
+		uc = new UseCard(this, editGiftcard.getText().toString(), ApplicationData.getUser().getUserid());
+		uc.execute("");
 	}
 	
 	public void checkCard(View view){
@@ -65,6 +67,8 @@ public class AddBalanceActivity extends Activity {
 			gd.cancel(true);
 		if(null != cc)
 			cc.cancel(true);
+		if(null != uc)
+			uc.cancel(true);
 		super.onDestroy();
 	}
 	
@@ -129,6 +133,119 @@ public class AddBalanceActivity extends Activity {
 		gd = new GetData(this, ApplicationData.getUser().getUserid());
 		gd.execute("");
     }
+	
+	private class UseCard extends AsyncTask<String, String, String> {
+		//private Context mContext;
+		private String giftcode;
+		private String balance;
+		private String userid;
+		
+		private UseCard(Context context, String giftcode, String userid) {
+			//this.mContext = context;
+			this.giftcode = giftcode;
+			this.userid = userid;
+			dialog = new DialogActivity(context, 1);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (null != dialog && !dialog.isShowing()) {
+				dialog.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			FoodOrderRequest request = new FoodOrderRequest(AddBalanceActivity.this);
+
+			try {
+				Log.e("redeemCard", "request started");
+				result = request.redeemCard(giftcode, userid);
+				Log.e("redeemCard", "got resutl: " + result);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			boolean isFailed = false;
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				isFailed = true;
+			} else {
+				Log.e("onPost", result);
+				try {
+					CommonModel comm = new Parse().CommonPares(result);
+					if(comm == null || comm.getResult() == null || comm.getResult().length() <= 0){
+						isFailed = true;
+					}else{
+						balance =comm.getResult();
+					}
+					
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+					Log.e("onPost", "exception, JsonSyntaxException");
+					isFailed = true;
+				} catch (Exception e) {
+					Log.e("onPost", "exception, Exception");
+					e.printStackTrace();
+					isFailed = true;
+				} 
+				finally{
+					if (balance != null) {
+						ApplicationData.setBalance(Integer.parseInt(balance));
+						currentBalance = ApplicationData.getBalance();
+						double fAmt = (double)currentBalance / 100;
+						txtBalance.setText(
+					    		   String.format(Locale.CANADA, "%,d", currentBalance)
+					    		    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
+
+					} else {
+						isFailed = true;
+					}
+					if(isFailed){
+						AlertDialog.Builder adbLogin = new AlertDialog.Builder( AddBalanceActivity.this);
+						adbLogin.setTitle("Network Error");
+						adbLogin.setMessage("Error while access to server to retrieve balance amount");
+						adbLogin.setPositiveButton("Ok",
+								new AlertDialog.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
+										 // TODO do something when failed to retrieve new amount from server
+									}
+								});
+						adbLogin.setIcon(R.drawable.ic_launcher);
+						adbLogin.show();
+					}else{
+						AlertDialog.Builder adbLogin = new AlertDialog.Builder( AddBalanceActivity.this);
+						adbLogin.setTitle("Refill account balance");
+						adbLogin.setMessage("Successfully your balance was filled with gift card.\n"
+								+"Your balance became "
+								+ String.format(Locale.CANADA, "%,d", currentBalance)
+								+" points.");
+						adbLogin.setPositiveButton("Ok",
+								new AlertDialog.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
+										 // TODO do something when failed to retrieve new amount from server
+									}
+								});
+						adbLogin.setIcon(R.drawable.ic_launcher);
+						adbLogin.show();
+					}
+						
+				}
+			}
+		}
+
+	}
 	
 	private class CheckCard extends AsyncTask<String, String, String> {
 		//private Context mContext;
@@ -266,7 +383,6 @@ public class AddBalanceActivity extends Activity {
 					}else{
 						balance =comm.getResult();
 					}
-					
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 					isFailed = true;

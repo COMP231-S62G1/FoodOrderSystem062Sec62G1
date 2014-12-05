@@ -1,3 +1,4 @@
+
 <?php include '../dbConnector.php';?>
 <?php
 
@@ -6,6 +7,13 @@
     $name = $user_input['name'];
     $des = $user_input['des'];
     $price = $user_input['price'];
+
+    $name = stripslashes($name);
+    $name = mysql_real_escape_string($name);
+    $des = stripslashes($des);
+    $des = mysql_real_escape_string($des);
+    $price = stripslashes($price);
+    $price = mysql_real_escape_string($price);
     
     $url = "http://husion.ca/comp231/picture/";
     $pic = $url.basename($_FILES["fileToUpload"]["name"]);
@@ -118,11 +126,14 @@
     if ($uploadOk == false) {
         mysql_query("ROLLBACK");
         echo "<script>
-                alert('Sorry error occurred while uploading. Go back to previous page.');
+                alert('Sorry error occured while uploading. Go back to previous page.');
                 window.history.back();
             </script>";
     // if everything is ok, try to upload file
     } else {
+        echo "<script>alert('test temp name {$_FILES["fileToUpload"]["tmp_name"]}');</script>";
+        echo "<script>alert('test file name {$_FILES["fileToUpload"]["name"]}');</script>";
+        echo "<script>alert('test target {$target_file}');</script>";
         if(strlen($_FILES["fileToUpload"]["name"])>0){
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                 mysql_query("COMMIT");

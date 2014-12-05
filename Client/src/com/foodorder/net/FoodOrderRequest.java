@@ -31,7 +31,8 @@ public class FoodOrderRequest {
 		sb.append(url).append(u).append("/").append(a);
 		return sb.toString();
 	}
-//user registration
+	
+	//user registration
 	public String getRegistration(String username, String password, String phone, 
 			String email)
 			throws IOException, TimeoutException {
@@ -48,22 +49,21 @@ public class FoodOrderRequest {
 			return null;
 		}
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("Register.php", ""));
-
 	}
 	
-	public String updateUserInfo( String phone, 
-			String email,int userid)
-			throws IOException, TimeoutException {
+	public String updateUserInfo( int userid, String userName
+			,String phone, String email,String password) throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
-		if (
-				!TextUtils.isEmpty(phone) &&
-				!TextUtils.isEmpty(email)) {
-			strParams.add(new BasicNameValuePair("phone", phone));
+		if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+			strParams.add(new BasicNameValuePair("name", userName));
+			strParams.add(new BasicNameValuePair("pwd", password));
 			strParams.add(new BasicNameValuePair("email", email));
+			strParams.add(new BasicNameValuePair("phone", phone));
+			strParams.add(new BasicNameValuePair("userid", Integer.toString(userid)));
 		}else{
 			return null;
 		}
-		return baseRequest.postRequestByHttpClient(strParams, getUrl("Update.php", ""));
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("UpdateUserInfor.php", ""));
 
 	}
 	
@@ -188,6 +188,16 @@ public class FoodOrderRequest {
 			return null;
 		}
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("UseGiftCard.php", ""));
+	}
+	
+	public String checkUser(String username) throws IOException, TimeoutException{
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if(!TextUtils.isEmpty(username)){
+			strParams.add(new BasicNameValuePair("username", username));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("CheckUsername.php", ""));
 	}
 	
 }

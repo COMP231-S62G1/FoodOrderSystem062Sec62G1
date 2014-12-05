@@ -8,8 +8,9 @@ $phone = $user_input['phone'];
 $userid = $user_input['userid'];
 
 
-$result = mysql_query("update $table set name='$name',email='$email',phone='$phone',pwd='$pwd' where 
-    userid='$userid')");
+$query = "UPDATE $table SET name='$name',email='$email',phone='$phone',pwd=MD5('$pwd') WHERE userid='$userid'";
+
+$result = mysql_query($query);
 
 $arr_all = array(
   'result' => "succ",

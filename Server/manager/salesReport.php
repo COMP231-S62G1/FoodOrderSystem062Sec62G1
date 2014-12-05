@@ -1,6 +1,5 @@
 <?php
-    include '../dbConnector.php';
-    $restid = $user_input['restid'];
+    $restid = $idRest;
     $table = "orderline";
     $date = $user_input['dateon'];
     if($date == null)

@@ -28,7 +28,7 @@
     <string name="title_activity_menu_list">Menu List</string>
     <string name="title_activity_shopping_cart">Shopping Cart</string>
     <string name="title_activity_confirm">Confirm Order</string>
-    <string name="title_activity_user_info">User Infoy</string>
+    <string name="title_activity_user_info">My Information</string>
     <string name="title_activity_add_balance">Add Balance</string>
     <string name="title_activity_edit_user">Edit User Info</string>
     <string name="btnCheckout">Checkout</string>

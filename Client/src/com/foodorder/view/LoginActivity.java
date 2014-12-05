@@ -80,7 +80,7 @@ public class LoginActivity extends Activity {
 		new AlertDialog.Builder(LoginActivity.this)
 		.setTitle("Sign Up")
 		.setMessage("Register?")
-		.setPositiveButton("yes",
+		.setPositiveButton("Yes",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,
 							int which) {
@@ -91,7 +91,7 @@ public class LoginActivity extends Activity {
 						startActivity(intentR);				
 						}
 				})
-		.setNegativeButton("no",
+		.setNegativeButton("No",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,
 							int which) {

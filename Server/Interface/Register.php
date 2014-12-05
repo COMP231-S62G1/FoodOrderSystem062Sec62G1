@@ -10,8 +10,8 @@ $phone = $user_input['phone'];
 if($phone ==NULL)
 $phone='';
 
-$sql = "insert into user(name,email,pwd,balance,lastlogin,phone,roletype)
-values('$username','$email',md5('$pswd'),0,Now(),'$phone',2)";
+$sql = "insert into user(name,email,pwd,balance,lastlogin,phone)
+values('$username','$email',md5('$pswd'),0,Now(),'$phone')";
 $result = mysql_query($sql);
 $arr_all = array(
   'result' => "succ",

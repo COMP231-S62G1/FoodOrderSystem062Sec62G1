@@ -31,34 +31,20 @@ public class UserInfoActivity extends Activity {
 	//private Intent getUpdate;
 	
 	
+	
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);   
-        
-       user = ApplicationData.getUser();
-       aBalance = ApplicationData.getBalance();
-       
-       username = (TextView) findViewById(R.id.info1);
-       phone = (TextView) findViewById(R.id.info2);
-       email = (TextView) findViewById(R.id.info3);
-       balance = (TextView) findViewById(R.id.info4);
-       error = (TextView) findViewById(R.id.textView9);
-       
-       if (user != null)
-       {
-	       username.setText(user.getName());
-	       phone.setText(user.getPhone());
-	       email.setText(user.getEmail());
-	       double fAmt = (double)aBalance / 100;
-	       balance.setText(
-	    		   String.format(Locale.CANADA, "%,d", aBalance)
-	    		    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
-       }
-       else
-       {    	   
-    	   error.setText("Please login");
-       }
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_user_info);   
+               
+		username = (TextView) findViewById(R.id.info1);
+		phone = (TextView) findViewById(R.id.info2);
+		email = (TextView) findViewById(R.id.info3);
+		balance = (TextView) findViewById(R.id.info4);
+		error = (TextView) findViewById(R.id.textView9);
+		
+		
         
         btnEdit = (Button) findViewById(R.id.edit3);
 		btnEdit.setOnClickListener(new OnClickListener() {
@@ -77,6 +63,25 @@ public class UserInfoActivity extends Activity {
 		*/
     }
 	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		user = ApplicationData.getUser();
+		aBalance = ApplicationData.getBalance();
+		if (user != null)
+		{
+			username.setText(user.getName());
+			phone.setText(user.getPhone());
+			email.setText(user.getEmail());
+			double fAmt = (double)aBalance / 100;
+			balance.setText(
+					   String.format(Locale.CANADA, "%,d", aBalance)
+				    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
+		}else{    	   
+			error.setText("Please login");
+		}
+	}
+	
 	
 	public void runAddBal(View view){
 		Intent intentViewCart = new Intent(this, AddBalanceActivity.class);
@@ -88,6 +93,7 @@ public class UserInfoActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.rest_list, menu);
+		LogInOut.setLogin(true, menu);
 		return true;
 	}
 
