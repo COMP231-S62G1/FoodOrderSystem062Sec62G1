@@ -43,7 +43,7 @@ else{
     $ret = mysql_insert_id();
 
     foreach ($query_params as $k => $v) {
-        if($k!='userid'&&$k!='username')
+        if($k!='userid'&&$k!='username' && $k!='amount')
         {
             $sql1 = "INSERT INTO orderline (menuid,qty,orderid) VALUES ('$k','$v','$ret');";
             $result1 = mysql_query($sql1);
