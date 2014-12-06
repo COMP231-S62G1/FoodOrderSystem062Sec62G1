@@ -2,14 +2,13 @@ package com.foodorder.services;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.CommonModel;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
 import com.foodorder.view.OrderDetail;
-
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -126,7 +125,7 @@ public class UpdateOrderStatus extends Service {
 							refreshStatus();
 						}
 					}
-					, 1000, updateFreq*1000);
+					, 5000, updateFreq*1000);
 				
 			}
 		}
@@ -139,6 +138,7 @@ public class UpdateOrderStatus extends Service {
 		Thread thread = new Thread() {
 
 			
+			@SuppressLint("NewApi")
 			@Override
 			public void run() {
 				super.run();

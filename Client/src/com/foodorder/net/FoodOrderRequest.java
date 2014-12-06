@@ -84,7 +84,7 @@ public class FoodOrderRequest {
 	//HashMap<String, String>
 	//		itemId
 	//		item Quantity
-	public String createOrder(String username,String userid, HashMap<String, String> orderline)
+	public String createOrder(String username,String userid, HashMap<String, String> orderline, String amount)
 			throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
 		if (!TextUtils.isEmpty(username)) {
@@ -92,6 +92,9 @@ public class FoodOrderRequest {
 		}
 		if (!TextUtils.isEmpty(userid)) {
 			strParams.add(new BasicNameValuePair("userid", userid));
+		}
+		if (!TextUtils.isEmpty(amount)) {
+			strParams.add(new BasicNameValuePair("amount", amount));
 		}
 		
 		if(!orderline.isEmpty())

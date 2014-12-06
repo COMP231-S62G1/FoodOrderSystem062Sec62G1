@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
@@ -47,11 +48,28 @@ public class OrderConfirmActivity extends Activity {
 	private Intent intentViewOrder;
 	private Bundle b;
 	private SendData sd;
+	private double fGross;
 	
 	@Override
 	protected void onResume(){
 		Log.e("OrderConfirm", "onResume");
 		super.onResume();
+		TextView txtNet = (TextView) findViewById(R.id.txtNetAmt);
+		TextView txtHst = (TextView) findViewById(R.id.txtHstAmt);
+		TextView txtTotal = (TextView) findViewById(R.id.txtTotalAmt);
+		
+		double fNet=0;
+		double fHst=0;
+		fGross=0;
+		
+		fNet = AmountCalculator.getNetAmount(menuList, orderLineList);
+		fHst = AmountCalculator.getHstAmount(fNet);
+		fGross = AmountCalculator.getGrossAmount(fNet);
+		
+		
+		txtNet.setText( AmountCalculator.getAmountString(fNet));
+		txtHst.setText( AmountCalculator.getAmountString(fHst));
+		txtTotal.setText( AmountCalculator.getAmountString(fGross));
 	}
 	
 	@Override
@@ -85,22 +103,7 @@ public class OrderConfirmActivity extends Activity {
 		myBaseAdapter = new MyBaseAdapter();
 		orderListView.setAdapter(myBaseAdapter);
 		
-		TextView txtNet = (TextView) findViewById(R.id.txtNetAmt);
-		TextView txtHst = (TextView) findViewById(R.id.txtHstAmt);
-		TextView txtTotal = (TextView) findViewById(R.id.txtTotalAmt);
 		
-		double fNet=0;
-		double fHst=0;
-		double fGross=0;
-		
-		fNet = AmountCalculator.getNetAmount(menuList, orderLineList);
-		fHst = AmountCalculator.getHstAmount(fNet);
-		fGross = AmountCalculator.getGrossAmount(fNet);
-		
-		
-		txtNet.setText( AmountCalculator.getAmountString(fNet));
-		txtHst.setText( AmountCalculator.getAmountString(fHst));
-		txtTotal.setText( AmountCalculator.getAmountString(fGross));
 
 	}
 
@@ -219,7 +222,10 @@ public class OrderConfirmActivity extends Activity {
 			FoodOrderRequest request = new FoodOrderRequest(OrderConfirmActivity.this);
 			
 			try {
-				result = request.createOrder("Alex","0001",orderLineList);
+				result = request.createOrder(ApplicationData.getUser().getName()
+						,ApplicationData.getUser().getUserid()
+						,orderLineList
+						,  String.format(Locale.CANADA,"%6.2f", fGross) );
 				Log.e("OrderConfirmActivity", "request result is "+ result);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -243,30 +249,48 @@ public class OrderConfirmActivity extends Activity {
 				CommonModel commonResult = new Parse().CommonPares(result);
 				String orderId = commonResult.getResult();
 				
-				// Start service to check order status update
+				if(orderId.equals("Not Enough Balance")){
+					AlertDialog.Builder adbSubmit = new AlertDialog.Builder( OrderConfirmActivity.this);
+					adbSubmit.setTitle(orderId);
+					adbSubmit.setMessage("Your balance is not enough to buy this order.");
+					
+					adbSubmit.setPositiveButton("Ok",
+							new AlertDialog.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									finish();
+								}
+							});
+					adbSubmit.setIcon(R.drawable.ic_launcher);
+					adbSubmit.show();
+				}else{
+					// Start service to check order status update
+					
+					Intent myIntent = new Intent(OrderConfirmActivity.this,UpdateOrderStatus.class);
+					Log.e("OrderConfirmActivity", "order id is "+orderId);
+					myIntent.putExtra("NEW_MENU", orderId);
+					startService(myIntent);			
+					
+					AlertDialog.Builder adbSubmit = new AlertDialog.Builder( OrderConfirmActivity.this);
+					adbSubmit.setTitle("Order Submition");
+					adbSubmit.setMessage("Your order has been submitted.");
+					
+					adbSubmit.setPositiveButton("Ok",
+							new AlertDialog.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									Intent intent = new Intent(OrderConfirmActivity.this,RestListActivity.class);
+									intent.putExtra("restList", (Serializable)ApplicationData.getRestList());
+									intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									ApplicationData.setOrderLineList(null);
+									ApplicationData.setCartList(null);
+									startActivity(intent);
+								}
+							});
+					adbSubmit.setIcon(R.drawable.ic_launcher);
+					adbSubmit.show();
+				}
+					
 				
-				Intent myIntent = new Intent(OrderConfirmActivity.this,UpdateOrderStatus.class);
-				Log.e("OrderConfirmActivity", "order id is "+orderId);
-				myIntent.putExtra("NEW_MENU", orderId);
-				startService(myIntent);			
 				
-				AlertDialog.Builder adbSubmit = new AlertDialog.Builder( OrderConfirmActivity.this);
-				adbSubmit.setTitle("Order Submition");
-				adbSubmit.setMessage("Your order has been submitted.?");
-				
-				adbSubmit.setPositiveButton("Ok",
-						new AlertDialog.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								Intent intent = new Intent(OrderConfirmActivity.this,RestListActivity.class);
-								intent.putExtra("restList", (Serializable)ApplicationData.getRestList());
-								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								ApplicationData.setOrderLineList(null);
-								ApplicationData.setCartList(null);
-								startActivity(intent);
-							}
-						});
-				adbSubmit.setIcon(R.drawable.ic_launcher);
-				adbSubmit.show();
 				
 				
 			}
