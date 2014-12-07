@@ -108,7 +108,7 @@ include "orderReport.php";
                 echo "(&uarr; $ $gap)</font>";
             }
         }else if($tempRow["prevAmount"] < $tempRow["amount"] ){
-            $gap = $tempRow["amount"] - $tempRow["prevSales"];
+            $gap = $tempRow["amount"] - $tempRow["prevAmount"];
             $percent = round($gap / $tempRow["prevAmount"] * 10000);
             $percent = $percent /100;
             $gap = abs($gap);
