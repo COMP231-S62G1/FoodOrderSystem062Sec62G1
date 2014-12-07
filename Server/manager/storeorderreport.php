@@ -114,7 +114,7 @@ include "orderReport.php";
             $gap = abs($gap);
             $gap = round($gap*100);
             $gap /= 100;
-            echo "<font color='red'>$percent &#37; (&uarr; $ $gap)</font>";
+            echo "<font color='red'>$percent &#37;<br/>(&uarr; $ $gap)</font>";
         }else if($tempRow["prevAmount"] == $tempRow["amount"] ){
             echo "<font color='gray'>- &#37;<br/>(- $ 0)</font>";
         }else{
