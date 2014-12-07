@@ -14,6 +14,24 @@ include './session.php';
 	text-decoration: none;
 }
 </style>
+    
+<script type="text/javascript">
+    function ChangeColor(tableRow, highLight){
+        if (highLight){
+            tableRow.style.backgroundColor = '#dcfac9';
+        }else{
+            tableRow.style.backgroundColor = 'white';
+        }
+    }
+
+    function DoNav(setDate){
+        var url = "./storeorderreport.php?dateon=";
+        var finalUrl = url.concat(setDate);
+        window.location = finalUrl;
+    }
+
+</script> 
+    
 </head>
 
 
@@ -46,7 +64,9 @@ include "salesReport.php";
 <?php
         for($nCnt = 0; $nCnt < $nCount ; $nCnt++){
             $tempRow = $arrSales[$nCnt];
-			echo "<tr>";
+            echo "<tr align='center' onmouseover='ChangeColor(this, true);'\n
+                    onmouseout='ChangeColor(this, false);'\n
+                    onclick='DoNav(\"".$tempRow['date']."\");'>";
             echo "<td align='center'>";
             echo $tempRow['date'];
             echo "</td>";

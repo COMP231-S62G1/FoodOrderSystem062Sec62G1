@@ -131,9 +131,6 @@
             </script>";
     // if everything is ok, try to upload file
     } else {
-        echo "<script>alert('test temp name {$_FILES["fileToUpload"]["tmp_name"]}');</script>";
-        echo "<script>alert('test file name {$_FILES["fileToUpload"]["name"]}');</script>";
-        echo "<script>alert('test target {$target_file}');</script>";
         if(strlen($_FILES["fileToUpload"]["name"])>0){
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                 mysql_query("COMMIT");
