@@ -27,7 +27,9 @@ if($row = mysql_fetch_array($result)) {
     $myBalance = $row["balance"];
 }
 
-if( ($amount*100) > $myBalance ){
+$amount = round($amount*100);
+
+if( $amount > $myBalance ){
     $arr_all = array(
       'result' => "Not Enough Balance",
     );
@@ -35,7 +37,7 @@ if( ($amount*100) > $myBalance ){
     print_r($output);
 }
 else{
-    $myBalance = $myBalance - ($amount*100);
+    $myBalance = round($myBalance - $amount);
     $sql = "UPDATE user SET balance=$myBalance WHERE userid=$userid";
     $result = mysql_query($sql);
     $sql = "INSERT INTO orders(userid,ordertime,username,status) VALUES('$userid',Now(),'$username',0)";
