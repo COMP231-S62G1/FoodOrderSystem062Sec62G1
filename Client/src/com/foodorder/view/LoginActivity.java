@@ -170,6 +170,7 @@ public class LoginActivity extends Activity {
 				} finally {
 					AlertDialog.Builder adbLogin = new AlertDialog.Builder( LoginActivity.this);
 					if (user != null) {
+						user.setPwd(txtPassword.getText().toString());
 						ApplicationData.setUser(user);
 					} else {
 						isFailed = true;

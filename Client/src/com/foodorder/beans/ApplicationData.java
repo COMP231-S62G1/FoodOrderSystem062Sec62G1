@@ -15,6 +15,7 @@ public class ApplicationData extends Application{
 	
 	private static ArrayList<Object> listdata = new ArrayList<Object>();
 	private static ArrayList<MenuModel> cartList = new ArrayList<MenuModel>();
+	private static ArrayList<MenuModel> orderList = new ArrayList<MenuModel>();
 	private static ArrayList<Rest> restList = new ArrayList<Rest>();
 	private static HashMap<String, String> orderLineList = new HashMap<String, String>();
 	private static UserInfo userinfo;
@@ -28,6 +29,17 @@ public class ApplicationData extends Application{
 	public static ArrayList<MenuModel> getCartList()
 	{
 		return cartList;
+	}
+	public static ArrayList<MenuModel> getOrderList()
+	{
+		return orderList;
+	}
+	public static void setOrderList(ArrayList<MenuModel> orderList){
+		if(orderList == null){
+			//ApplicationData.restList = null;
+			ApplicationData.orderList = new ArrayList<MenuModel>();
+		}else
+			ApplicationData.orderList = orderList;
 	}
 	
 	public static void setRestList(ArrayList<Rest> restList){

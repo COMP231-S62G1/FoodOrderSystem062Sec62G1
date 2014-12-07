@@ -67,7 +67,7 @@
         $subQuery .= " FROM (orderline INNER JOIN orders ON orderline.orderid = orders.idorder)";
         $subQuery .= " INNER JOIN menu ON orderline.menuid=menu.menuid";
         $subQuery .= " WHERE menu.restid=$restid ";
-        //$subQuery .= " AND (status=2) ";
+        $subQuery .= " AND (status=2) ";
         $subQuery .= " AND menu.menuid=$menuid";
         $subQuery .= " AND (DATE(orders.orderTime)>=DATE(DATE_ADD(DATE('$date'), INTERVAL -7 day))";
         $subQuery .= " AND (DATE(orders.orderTime)<DATE('$date')) )";

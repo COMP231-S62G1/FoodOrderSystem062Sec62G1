@@ -124,7 +124,7 @@ public class FoodOrderRequest {
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrderStatus.php", ""));
 	}
 	
-	public String getOrderDetail(String orderid) throws IOException, TimeoutException {
+	public String getOrders(String orderid) throws IOException, TimeoutException {
 		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
 		if (!TextUtils.isEmpty(orderid)) {
 			strParams.add(new BasicNameValuePair("orderid", orderid));
@@ -132,8 +132,8 @@ public class FoodOrderRequest {
 			return null;
 		}
 		Log.e("getOrderDetial", "param: " + strParams);
-		Log.e("getOrderDetial", "url: " + getUrl("GetOrderDetail.php", ""));
-		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrderDetail.php", ""));
+		Log.e("getOrderDetial", "url: " + getUrl("GetOrders.php", ""));
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetOrders.php", ""));
 	}
 	
 	public String getReason(String orderid) throws IOException, TimeoutException{
@@ -156,9 +156,19 @@ public class FoodOrderRequest {
 		}else{
 			return null;
 		}
-		Log.e("getReason", "param: " + strParams);
-		Log.e("getReason", "url: " + getUrl("login.php", ""));
+		Log.e("login", "param: " + strParams);
+		Log.e("login", "url: " + getUrl("login.php", ""));
 		return baseRequest.postRequestByHttpClient(strParams, getUrl("login.php", ""));
+	}
+	
+	public String getUser(String userid) throws IOException, TimeoutException{
+		ArrayList<NameValuePair> strParams = new ArrayList<NameValuePair>();
+		if(!TextUtils.isEmpty(userid)){
+			strParams.add(new BasicNameValuePair("userid", userid));
+		}else{
+			return null;
+		}
+		return baseRequest.postRequestByHttpClient(strParams, getUrl("GetUser.php", ""));
 	}
 	
 	public String getBalance(String userid) throws IOException, TimeoutException{

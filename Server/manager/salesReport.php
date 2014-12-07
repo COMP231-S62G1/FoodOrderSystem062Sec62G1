@@ -39,7 +39,7 @@ GROUP BY DATE(orders.orderTime)
     $query .= " GROUP BY orderline.idorderline ";
     $query .= " ) AS OL ON OL.orderid=orders.idorder ";
     $query .= " WHERE DATE(orders.orderTime)>DATE(DATE_ADD(DATE(NOW()), INTERVAL -7 day)) ";
-//    $query .= " AND status=2";
+    $query .= " AND status=2";
     $query .= " GROUP BY DATE(orders.orderTime) ";
     $query .= " ORDER BY DATE(orders.orderTime) DESC";
 

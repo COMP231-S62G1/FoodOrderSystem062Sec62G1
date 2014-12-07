@@ -97,6 +97,32 @@ public class Parse {
 		}
 		return lcs;
 	}
+	
+	public ArrayList<OrderLine> GetOrderLineDetail(String str) throws JsonSyntaxException {
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		JsonArray Jarray = parser.parse(str).getAsJsonArray();
+		ArrayList<OrderLine> lcs = new ArrayList<OrderLine>();
+		for (JsonElement obj : Jarray) {
+			OrderLine cse = gson.fromJson(obj, OrderLine.class);
+			Log.w("GetOrderLine Parse:", cse.toString());
+			lcs.add(cse);
+		}
+		return lcs;
+	}
+	
+	public ArrayList<OrderLineDetail> GetOrderLines(String str) throws JsonSyntaxException {
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		JsonArray Jarray = parser.parse(str).getAsJsonArray();
+		ArrayList<OrderLineDetail> lcs = new ArrayList<OrderLineDetail>();
+		for (JsonElement obj : Jarray) {
+			OrderLineDetail cse = gson.fromJson(obj, OrderLineDetail.class);
+			Log.w("GetOrderLines Parse:", cse.toString());
+			lcs.add(cse);
+		}
+		return lcs;
+	}
 
 	public UserInfo GetUserInfo(String str) throws JsonSyntaxException {
 		Gson gson = new Gson();

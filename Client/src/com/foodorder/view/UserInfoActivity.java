@@ -1,10 +1,16 @@
 package com.foodorder.view;
 
 
+import java.io.IOException;
 import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.view.Menu;
@@ -16,7 +22,10 @@ import android.widget.TextView;
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.UserInfo;
 import com.foodorder.client.R;
+import com.foodorder.net.FoodOrderRequest;
+import com.foodorder.net.Parse;
 import com.foodorder.utils.LogInOut;
+import com.google.gson.JsonSyntaxException;
 
 public class UserInfoActivity extends Activity {
 	
@@ -29,6 +38,8 @@ public class UserInfoActivity extends Activity {
 	private int aBalance;
 	private TextView error;
 	//private Intent getUpdate;
+	
+	private DialogActivity dialog;
 	
 	
 	
@@ -80,6 +91,8 @@ public class UserInfoActivity extends Activity {
 		}else{    	   
 			error.setText("Please login");
 		}
+		
+		
 	}
 	
 	
@@ -101,5 +114,81 @@ public class UserInfoActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		LogInOut.handleOptionItem(this, item);
 		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	private class GetData extends AsyncTask<String, String, String> {
+		//private Context mContext;
+		private UserInfo user;
+
+
+		private GetData(Context context) {
+			//this.mContext = context;
+			dialog = new DialogActivity(context, 1);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (null != dialog && !dialog.isShowing()) {
+				dialog.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			user = ApplicationData.getUser();
+			
+			FoodOrderRequest request = new FoodOrderRequest(UserInfoActivity.this);
+
+			try {
+				result = request.getUser(user.getUserid() );
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			boolean isFailed = false;
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				isFailed = true;
+			} else {
+				try {
+					user = new Parse().GetLoginInfo(result);
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				} finally {
+					ApplicationData.setUser(user);
+					user = ApplicationData.getUser();
+					aBalance = ApplicationData.getBalance();
+					if (user != null)
+					{
+						username.setText(user.getName());
+						phone.setText(user.getPhone());
+						email.setText(user.getEmail());
+						double fAmt = (double)aBalance / 100;
+						balance.setText(
+								   String.format(Locale.CANADA, "%,d", aBalance)
+							    + " points\n"+" - equivalant to $ "+String.format(Locale.CANADA, "%,.2f", fAmt));
+						username.invalidate();
+						phone.invalidate();
+						email.invalidate();
+						balance.invalidate();
+					}else{    	   
+						error.setText("Please login");
+					}
+				}
+			}
+		}
+
 	}
 }

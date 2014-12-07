@@ -8,7 +8,7 @@ import com.foodorder.beans.AppConstants;
 import com.foodorder.beans.ApplicationData;
 import com.foodorder.beans.FoodListsViewImage;
 import com.foodorder.beans.MenuModel;
-import com.foodorder.beans.OrderLine;
+import com.foodorder.beans.OrderLineDetail;
 import com.foodorder.client.R;
 import com.foodorder.net.FoodOrderRequest;
 import com.foodorder.net.Parse;
@@ -35,8 +35,7 @@ import android.widget.TextView;
 
 
 public class OrderDetail extends Activity {
-	private ArrayList<MenuModel> menuList;
-	private ArrayList<OrderLine> orderLine;
+	private ArrayList<OrderLineDetail> orderLine;
 	private MyBaseAdapter myBaseAdapter;
 	static String pathString = AppConstants.path;
 	private ListView orderListView;
@@ -48,6 +47,8 @@ public class OrderDetail extends Activity {
 	//private DialogActivity dialog;
 	
 	private TextView txtTitle;
+	
+	private DialogActivity dialog;
 	
 
 	@Override
@@ -92,8 +93,8 @@ public class OrderDetail extends Activity {
 		myNotificationManager.cancel(id);
 		
 		orderListView = (ListView) findViewById(R.id.orderlist);
-		menuList = ApplicationData.getCartList();
-		//orderLine = 
+		//menuList = ApplicationData.getOrderList();
+		// orderLine = ApplicationData.getOrderLine();
 		
 		myBaseAdapter = new MyBaseAdapter();
 		orderListView.setAdapter(myBaseAdapter);
@@ -215,11 +216,15 @@ public class OrderDetail extends Activity {
 		private GetData(Context context, int type) {
 			//this.mContext = context;
 			this.mType = type;
+			dialog = new DialogActivity(context, 1);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			if (null != dialog && !dialog.isShowing()) {
+				dialog.show();
+			}
 		}
 		@Override
 		protected String doInBackground(String... params) {
@@ -229,7 +234,7 @@ public class OrderDetail extends Activity {
 			try {
 				if(this.mType==1)
 				{
-				result = request.getOrderDetail(String.format("%d",orderId));
+					result = request.getOrders(String.format("%d",orderId));
 				}
 				else if(this.mType == 2)
 				{
@@ -253,7 +258,9 @@ public class OrderDetail extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			
+			if (null != dialog) {
+				dialog.dismiss();
+			}
 			if (result == null || result.equals("")) {
 				handler.sendEmptyMessage(3);
 			} else {
@@ -263,11 +270,13 @@ public class OrderDetail extends Activity {
 					
 				}
 				else if(this.mType == 1)
-				{}
+				{
+					
+				}
 				//orderLine = new ArrayList<OrderLine>();
 				try {
-					orderLine = new Parse().GetOrderLine(result);
-					for(OrderLine aLine : orderLine){
+					orderLine = new Parse().GetOrderLines(result);
+					for(OrderLineDetail aLine : orderLine){
 						Log.e("onPost", "Menu ID " + aLine.getMenuid());
 						Log.e("onPost", "Qty " + aLine.getQty());
 					}
@@ -337,9 +346,6 @@ public class OrderDetail extends Activity {
 		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if (menuList == null) {
-				return convertView;
-			}
 			if (orderLine == null) {
 				return convertView;
 			}
@@ -351,16 +357,15 @@ public class OrderDetail extends Activity {
 			TextView order_item_title = (TextView) view.findViewById(R.id.itemname);
 			TextView order_item_qty = (TextView) view.findViewById(R.id.itemqty);
 			
-			for(MenuModel aMenuItem : menuList){
+			for(OrderLineDetail aMenuItem : orderLine){
 				if(Integer.parseInt(aMenuItem.getMenuid()) == getItemId(position)){
-					order_item_title.setText("Name: " + aMenuItem.getName() + "\n"
-							+ "Description: " + aMenuItem.getDes());
+					order_item_title.setText("Name: " + aMenuItem.getName()  );
 					order_item_image.setTag(aMenuItem.getPic());
-					if (menuList.get(position).getPic() != null
-							&& !menuList.get(position).getPic().equals("")) {
+					if (orderLine.get(position).getPic() != null
+							&& !orderLine.get(position).getPic().equals("")) {
 						try {
 							new FoodListsViewImage(OrderDetail.this)
-							.loadingImage(menuList.get(position).getPic(),
+							.loadingImage(orderLine.get(position).getPic(),
 									order_item_image, R.drawable.computer, orderListView);
 						} catch (Exception e) {
 							e.printStackTrace();

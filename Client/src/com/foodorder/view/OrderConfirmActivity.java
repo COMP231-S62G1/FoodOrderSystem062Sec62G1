@@ -281,7 +281,9 @@ public class OrderConfirmActivity extends Activity {
 									intent.putExtra("restList", (Serializable)ApplicationData.getRestList());
 									intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 									ApplicationData.setOrderLineList(null);
+									ApplicationData.setOrderList(ApplicationData.getCartList());
 									ApplicationData.setCartList(null);
+									
 									startActivity(intent);
 								}
 							});

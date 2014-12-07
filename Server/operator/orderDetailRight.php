@@ -14,7 +14,11 @@
     echo "<form action='./orderoperate.php' method='post' id='returnBack'>";
     echo "<input type='hidden' name='orderId' value='$orderId'>";
     echo "</form>";
+    echo "<form action='../Interface/DataLogic/CompleteOrder.php' method='post' id='completeForm'>";
+    echo "<input type='hidden' name='orderId' value='$orderId'>";
+    echo "</form>";
 
+            
     include './getStatus.php';
     $strStatus = getStatus($status);
     echo "<table style='width: 100%'>";
@@ -75,6 +79,10 @@
     if($status == 0){        
         echo "<button type='submit' form='rejectForm' value='Reject the order' style='font-size:10px; margin:15px; padding: 10px;'>";
         echo "<H2>Reject the order</H2>";
+        echo "</button>";
+    }else if ($status == 1){
+        echo "<button type='submit' form='completeForm' value='Complete the order' style='font-size:10px; margin:15px; padding: 10px;'>";
+        echo "<H2>Complete the order</H2>";
         echo "</button>";
     }
     echo "</td><td colspan='3' align='center'>";
